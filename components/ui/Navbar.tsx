@@ -15,7 +15,7 @@ export const Navbar = () => {
                     </span>
                 </Link>
                 <div className="flex space-x-2">
-                    <Link href='/user'>
+                    <Link href='/login'>
                         <li>
                             <ButtonIcon>
                                 <User />
@@ -23,10 +23,17 @@ export const Navbar = () => {
                         </li>
                     </Link>
                     <Link href='/cart'>
-                        <li>
+                        <li className="relative">
                             <ButtonIcon>
                                 <ShoppingCart />
+                                <div className="absolute -top-2 -right-2 
+                                bg-primary rounded-full h-6 w-6
+                                text-white flex justify-center items-center
+                                text-xs font-semibold">
+                                    1
+                                </div>
                             </ButtonIcon>
+
                         </li>
                     </Link>
                 </div>

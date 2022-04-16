@@ -13,9 +13,11 @@ interface Props {
 
 export const CartListTile: FC<Props> = ({ title, description, src, price }) => {
 
+
+
     return (
         // <Link href={`/menu/${title}`} passHref>
-        <div className="w-full h-28 flex rounded-2xl shadow-lg bg-white shadow-gray-100 
+        <div className="w-full h-28 flex rounded-2xl border bg-white shadow-gray-100 
         overflow-hidden space-x-4 transition-all">
             <div id="image" className="w-24 bg-slate-50 rounded-r-2xl relative overflow-hidden aspect-square">
                 <Image src={src}
@@ -38,8 +40,8 @@ export const CartListTile: FC<Props> = ({ title, description, src, price }) => {
                 </div>
             </div>
             <div className="flex flex-col items-center p-2 justify-between">
-                <ButtonIcon>
-                    <Plus />
+                <ButtonIcon style="bg-primary hover:bg-primary">
+                    <Plus color="white" />
                 </ButtonIcon>
                 <span className="font-bold text-sm">
                     {1}
