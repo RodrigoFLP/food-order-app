@@ -37,7 +37,7 @@ const LoginPage: NextPage = () => {
 
             </div>
             <section className="flex flex-col items-center pt-8">
-                <Link href="/signup">
+                <Link href="/signup" passHref>
                     <button className="flex items-center flex-col p-4 
                 rounded-xl bg-slate-100 cursor-pointer peer group active:scale-95">
                         <h1 className="font-extrabold peer">¿Aún no tienes cuenta?</h1>

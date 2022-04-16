@@ -15,7 +15,7 @@ export const SliderButton: FC<Props> = ({ title, selected = false, onSelect }) =
     return (
 
         <button className={`whitespace-nowrap 
-         font-semibold text-sm 
+         font-semibold text-sm active:scale-95
          px-4 py-2 rounded-3xl transition-all
         hover:bg-primary hover:text-white
          ${selected ? 'bg-primary text-white' : 'bg-shade text-black'}`}

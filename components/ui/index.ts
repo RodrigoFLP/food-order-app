@@ -12,4 +12,5 @@ export * from './UserHeader';
 export * from './BarButton';
 export * from './Input';
 export * from './SelectInput';
-export * from './Modal';
+export * from './ModalContainer';
+export * from './LocationModal';

@@ -1,11 +1,17 @@
 import { NextPage } from "next";
-import { FormEvent } from "react";
-import { Gift, Lock, Mail, Map, MapPin, Smartphone, User } from "react-feather";
+import { FormEvent, useState } from "react";
+import { Lock, Mail, Map, MapPin, Smartphone, User } from "react-feather";
 import { Layout } from "../../components/layouts";
-import { BarButton, Input, Modal, SelectInput } from "../../components/ui";
+import { BarButton, Input, LocationModal, SelectInput } from "../../components/ui";
 
 
 const SignupPage: NextPage = () => {
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => {
+        setShowModal(false);
+    }
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -13,19 +19,17 @@ const SignupPage: NextPage = () => {
 
     }
 
+    const handleClick = () => {
+        setShowModal(true);
+    }
+
+
     return (
         <Layout title="Registro">
-            <Modal el="body" show={true}>
-                <div className="z-30 bg-black w-full h-full absolute top-0 left-0 bg-opacity-25
-                flex justify-center items-center">
-                    <div className="bg-white z-40 w-11/12 h-5/6 md:w-1/2 md:h-1/2 rounded-xl">
-                        Hola
-                    </div>
-                </div>
-            </Modal>
+            <LocationModal show={showModal} handleClose={handleClose} />
             <div className="flex flex-col items-center space-y-4">
                 <p className=" sm:w-3/4 md:1/2 bg-shade m-4 p-4 rounded-lg text-sm">
-                    Si tienes una cuenta en Pancho's Villa, podrás revisar tus pedidos
+                    Si tienes una cuenta en Panchos Villa, podrás revisar tus pedidos
                     , direcciones de entrega. ¡Así agilizarás el proceso de compra y
                     estarás comiendo tus tacos antes de lo esperado!
                 </p>
@@ -81,7 +85,7 @@ const SignupPage: NextPage = () => {
                             setValue={() => { }} />
                         <Input label="Dirección" error={false} Icon={Map} />
                         <Input label="No. de casa o apto." error={false} Icon={MapPin} />
-                        <BarButton title="Seleccionar ubicación" type='submit' />
+                        <BarButton title="Seleccionar ubicación" type='button' handleClick={handleClick} />
                     </section>
                     <div className="pt-8">
                         <BarButton title="Registrarse" type='submit' />

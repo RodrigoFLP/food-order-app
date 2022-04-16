@@ -139,6 +139,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-leaflet/core@^2.0.0-beta.0":
+  version "2.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.0.0-beta.0.tgz#983510b2009640c7824ea86c5787921de602cfca"
+  integrity sha512-hDk+9Y5vQ9rxkAR8hyvEymqOuPpQvOXTWanh1lW0YQVbsZnx+XMz2sBF0ExrWZm3l0LEKlpMD4VzbCrbDAIpBQ==
+
 "@rushstack/eslint-patch@1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.0.8.tgz#be3e914e84eacf16dbebd311c0d0b44aa1174c64"
@@ -1243,6 +1248,11 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
+leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.4.1.tgz#ae4562c007473b932a6200d403268dd2fffc6ade"
@@ -1617,6 +1627,13 @@ react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-leaflet@4.0.0-beta.0:
+  version "4.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.0.0-beta.0.tgz#c42c6dcbfe50493555565bb245a5f764d59cd14a"
+  integrity sha512-LCPSfqBOCvDcpXGAPhe5KrnO/rAmtWJ10SQG7FOLIErI+DU3rhhDfbao2/YPe+a1JJfvL4vODkp6Cf4jel0TBg==
+  dependencies:
+    "@react-leaflet/core" "^2.0.0-beta.0"
 
 react@18.0.0:
   version "18.0.0"

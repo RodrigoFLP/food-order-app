@@ -15,14 +15,14 @@ export const Navbar = () => {
                     </span>
                 </Link>
                 <div className="flex space-x-2">
-                    <Link href='/login'>
+                    <Link href='/login' passHref>
                         <li>
                             <ButtonIcon>
                                 <User />
                             </ButtonIcon>
                         </li>
                     </Link>
-                    <Link href='/cart'>
+                    <Link href='/cart' passHref>
                         <li className="relative">
                             <ButtonIcon>
                                 <ShoppingCart />
