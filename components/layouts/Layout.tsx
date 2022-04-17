@@ -19,7 +19,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
                 <meta name="description" content="This is a shop" />
             </Head>
             <Navbar />
-            <main className="p-6 pt-2">
+            <main className="p-6 pt-2 md:px-28">
                 {children}
             </main>
             <Footer />

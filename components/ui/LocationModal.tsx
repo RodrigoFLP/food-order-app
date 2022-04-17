@@ -6,9 +6,6 @@ import BarButton from "./BarButton";
 
 
 
-
-
-
 const MapContainer = dynamic<any>(() => import('react-leaflet').then((module) => module.MapContainer),
     { ssr: false });
 const Marker = dynamic<any>(() => import('react-leaflet').then((module) => module.Marker),
@@ -16,6 +13,8 @@ const Marker = dynamic<any>(() => import('react-leaflet').then((module) => modul
 const Popup = dynamic<any>(() => import('react-leaflet').then((module) => module.Popup),
     { ssr: false });
 const TileLayer = dynamic<any>(() => import('react-leaflet').then((module) => module.TileLayer),
+    { ssr: false });
+const Polygon = dynamic<any>(() => import('react-leaflet').then((module) => module.Polygon),
     { ssr: false });
 
 
@@ -28,7 +27,21 @@ interface Props {
 }
 
 export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
-    const position = [13.68935, -89.18718]
+
+    const position = [13.702342669306118, -89.21357999951415]
+
+    const purpleOptions = { color: 'blue' }
+
+
+    const polygon = [
+        [13.697854464210797, -89.22316924646987],
+        [13.714531770243466, -89.219306865748],
+        [13.716366201612633, -89.19381515298369],
+        [13.70084168236646, -89.20130621188689],
+        [13.695087810300349, -89.21121965573968]
+    ]
+
+
 
 
     return show ? (
@@ -51,6 +64,8 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
                                 A pretty CSS3 popup. <br /> Easily customizable.
                             </Popup>
                         </Marker>
+
+                        <Polygon pathOptions={purpleOptions} positions={polygon} />
                     </MapContainer>
                     <div className="p-6">
                         <BarButton title="Seleccionar" />
@@ -58,7 +73,7 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
 
                 </div>
                 <div className="z-30 bg-black w-full h-screen fixed 
-                top-0 left-0 bg-opacity-25 cursor-pointer"
+                top-0 left-0 bg-opacity-50 backdrop-blur-sm cursor-pointer"
                     onClick={handleClose}>
                 </div>
             </div>

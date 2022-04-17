@@ -14,3 +14,4 @@ export * from './Input';
 export * from './SelectInput';
 export * from './ModalContainer';
 export * from './LocationModal';
+export * from './DateInput';

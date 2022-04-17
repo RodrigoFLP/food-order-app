@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
+import { Search } from 'react-feather'
 import { Layout } from '../components/layouts'
-import { Card, CardsSlider, AdHeader, SliderButton, UserHeader } from '../components/ui'
+import { Card, CardsSlider, AdHeader, SliderButton, UserHeader, Input } from '../components/ui'
 import { SectionContainer } from '../components/ui'
 import { categories } from '../data'
 
@@ -12,9 +13,13 @@ const Home: NextPage = () => {
         <AdHeader />
         <UserHeader />
       </header>
+      <div className='pt-4'>
+        <Input error={false} label='Buscar' Icon={Search} />
+      </div>
       <SectionContainer title='Categoría'>
         <CardsSlider>
-          {categories.map((category) => <SliderButton onSelect={() => { }} key={category} title={category} selected={false} />)}
+          {categories.map((category) =>
+            <SliderButton onSelect={() => { }} key={category} title={category} selected={false} />)}
         </CardsSlider>
       </SectionContainer>
       <SectionContainer title='Destacados'>

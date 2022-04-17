@@ -27,7 +27,7 @@ export const Navbar = () => {
                             <ButtonIcon>
                                 <ShoppingCart />
                                 <div className="absolute -top-2 -right-2 
-                                bg-primary rounded-full h-6 w-6
+                                bg-primary rounded-full h-5 w-5
                                 text-white flex justify-center items-center
                                 text-xs font-semibold">
                                     1
