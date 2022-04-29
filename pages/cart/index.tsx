@@ -5,6 +5,12 @@ import CartListTile from "../../components/ui/CartListTile";
 
 
 const CartPage: NextPage = () => {
+
+
+    const handleClick = () => {
+        console.log('click');
+    }
+
     return (
         <Layout title="Carrito">
             <h1 className="text-xl font-bold">
@@ -13,6 +19,7 @@ const CartPage: NextPage = () => {
             <div className="flex flex-col md:flex-row pt-4 space-y-8 md:space-y-0 md:space-x-4">
                 <section className="w-full md:flex-1">
                     <CartListTile
+                        onClick={handleClick}
                         title="Tacos"
                         price={10.99}
                         description="Este es un producto"

@@ -5,10 +5,11 @@ import { Footer, Navbar } from "../ui";
 interface Props {
     children: ReactNode;
     title?: string;
+    margin?: boolean;
 }
 
 
-export const Layout: FC<Props> = ({ children, title }) => {
+export const Layout: FC<Props> = ({ children, title, margin = true }) => {
 
     return (
         <>
@@ -19,7 +20,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
                 <meta name="description" content="This is a shop" />
             </Head>
             <Navbar />
-            <main className="p-6 pt-2 md:px-28">
+            <main className={`${margin ? "p-6 pt-2" : ""}`}>
                 {children}
             </main>
             <Footer />

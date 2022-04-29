@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         </CardsSlider>
       </SectionContainer>
       <SectionContainer title='Destacados'>
-        <div className='grid grid-cols-2 md:grid-cols-6 gap-x-4 top-0 gap-y-6'>
+        <div className='grid grid-cols-2 md:grid-cols-6 2xl:grid-cols-8 gap-x-4 top-0 gap-y-6'>
           {categories.map((category) => <Card key={category} title={category} />)}
         </div>
       </SectionContainer>

@@ -79,7 +79,11 @@ const LoginPage: NextPage = () => {
                         Icon={Lock} />
                     <div className="text-xs text-right underline 
                     decoration-2 decoration-primary pb-2">
-                        ¿Has olvidado tu contraseña?
+                        <Link href="/login/forgot">
+                            <a className="hover:text-primary">
+                                ¿Has olvidado tu contraseña?
+                            </a>
+                        </Link>
                     </div>
 
                     <BarButton title="Ingresar" type='submit' />

@@ -2,23 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import ButtonIcon from "./ButtonIcon";
-import { Plus, Minus } from 'react-feather';
+import { Plus, Minus, Trash } from 'react-feather';
 
 interface Props {
     title: string;
     description: string;
     src: string;
     price: number;
+    onClick: () => void;
 }
 
-export const CartListTile: FC<Props> = ({ title, description, src, price }) => {
+export const CartListTile: FC<Props> = ({ title, description, src, price, onClick }) => {
 
 
 
     return (
         // <Link href={`/menu/${title}`} passHref>
-        <div className="w-full h-28 flex rounded-2xl border bg-white shadow-gray-100 
-        overflow-hidden space-x-4 transition-all">
+        <div className="w-full h-28 flex rounded-2xl border bg-white 
+        shadow-gray-100 overflow-hidden space-x-4 transition-all cursor-pointer"
+            onClick={onClick}>
             <div id="image" className="w-24 bg-slate-50 rounded-r-2xl relative overflow-hidden aspect-square">
                 <Image src={src}
                     layout='fill'
@@ -30,7 +32,9 @@ export const CartListTile: FC<Props> = ({ title, description, src, price }) => {
                     {title}
                 </div>
                 <p className="text-gray-600 text-sm line-clamp-2 flex-1">
-                    {description}
+                    <div>
+                        Medium
+                    </div>
                 </p>
                 <div className="font-extrabold flex-1">
                     <span className="text-sm text-primary">
@@ -47,6 +51,7 @@ export const CartListTile: FC<Props> = ({ title, description, src, price }) => {
                     {1}
                 </span>
                 <ButtonIcon>
+
                     <Minus />
                 </ButtonIcon>
             </div>
