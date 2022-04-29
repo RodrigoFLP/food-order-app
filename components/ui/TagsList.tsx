@@ -16,95 +16,17 @@ interface TagGroup {
     tags: Tag[],
 }
 
+
 interface Props {
     tagGroup: TagGroup;
+    handleChange: (tags: any, name: string, max: number, min: number) => void;
+    tagsState: any;
+
 }
 
 
-export const TagsList: FC<Props> = ({ tagGroup }) => {
+export const TagsList: FC<Props> = ({ tagGroup, handleChange, tagsState }) => {
 
-    const [selectedTags, setSelectedTags] = useState(
-        {
-            quantity: 0,
-            tags: [
-                {
-                    name: '',
-                    quantity: 0,
-                }
-            ]
-        }
-    );
-
-    const handleClick = (tag: Tag) => {
-        console.log('hola');
-
-        switch (selectedTags.quantity) {
-            case 0:
-                setSelectedTags((prevState) => (
-                    {
-                        quantity: 1,
-                        tags: [
-                            {
-                                name: tag.name,
-                                quantity: 1,
-                            }
-                        ]
-                    }
-                ));
-                break;
-            case tagGroup.max:
-                console.log('maximo')
-                setSelectedTags((prevState) => {
-                    const prevTagIndex = prevState.tags.findIndex(t => {
-                        return t.name === tag.name
-                    });
-                    console.log(prevTagIndex)
-                    return prevTagIndex !== -1 ?
-                        {
-                            quantity: prevState.quantity - prevState.tags[prevTagIndex].quantity,
-                            tags: [
-                                ...prevState.tags.map((prevTag) => prevTag.name === tag.name ?
-                                    {
-                                        ...prevTag,
-                                        quantity: 0
-                                    } : prevTag
-                                )
-                            ]
-                        } : prevState
-                });
-                break;
-            default:
-                setSelectedTags((prevState) => {
-                    const prevTagIndex = prevState.tags.findIndex(t => {
-                        return t.name === tag.name
-                    });
-                    return prevTagIndex !== -1 ? {
-                        quantity: prevState.quantity + 1,
-                        tags: [
-                            ...prevState.tags.map((prevTag) => prevTag.name === tag.name ?
-                                {
-                                    ...prevTag,
-                                    quantity: prevTag.quantity + 1
-                                } : prevTag
-                            )
-                        ]
-                    } :
-                        {
-                            quantity: prevState.quantity + 1,
-                            tags: [
-                                ...prevState.tags,
-                                {
-                                    name: tag.name,
-                                    quantity: 1,
-                                }
-                            ]
-                        }
-
-                }
-                );
-
-        }
-    }
 
     return (
         <section className="space-y-4">
@@ -114,7 +36,7 @@ export const TagsList: FC<Props> = ({ tagGroup }) => {
                     {tagGroup.name}
                 </h2>
                 <div className="bg-secondary text-white rounded-lg text-sm font-bold px-2 py-1 ">
-                    {selectedTags.quantity}/{tagGroup.max}
+                    {tagsState.quantity}/{tagGroup.max}
                 </div>
             </div>
             <div className="text-sm">
@@ -124,17 +46,17 @@ export const TagsList: FC<Props> = ({ tagGroup }) => {
                 {tagGroup.tags.map((tag) => {
 
 
-                    const tagIndex = selectedTags.tags.findIndex(t => t.name === tag.name)
+                    const tagIndex = tagsState.tags.findIndex(t => t.name === tag.name)
                     const tagExists = tagIndex !== -1;
-                    const tagQty = tagExists ? selectedTags.tags[tagIndex].quantity : 0;
+                    const tagQty = tagExists ? tagsState.tags[tagIndex].quantity : 0;
 
                     return <button key={tag.name} className={`${tagExists && tagQty !== 0 ?
                         "bg-primary text-white" :
                         "bg-shade text-black"} 
                     p-2 px-4 rounded-3xl border border-dashed border-gray-300 hover:bg-secondary 
                     hover:text-white active:scale-95 active:bg-secondary shadow-md cursor-pointer`}
-                        onClick={() => handleClick(tag)}>
-                        <div className="font-semibold">{tagExists && selectedTags.tags.find(t => t.name === tag.name)?.quantity}</div> {tag.name}
+                        onClick={() => handleChange(tag, tagGroup.name, tagGroup.max, tagGroup.min)}>
+                        <div className="font-semibold">{tagExists ? tagsState.tags.find(t => t.name === tag.name)?.quantity : 0} x ${tag.price?.toFixed(2)} </div> {tag.name}
                     </button>
                 }
                 )

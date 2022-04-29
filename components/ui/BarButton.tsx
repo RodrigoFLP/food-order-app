@@ -1,10 +1,10 @@
 import { type } from "os";
-import { FC, FormEvent, FormEventHandler, MouseEventHandler } from "react";
+import { FC, FormEvent, FormEventHandler, MouseEventHandler, ReactNode } from "react";
 import { ArrowRight, Icon } from 'react-feather';
 
 
 interface Props {
-    title: string;
+    children: ReactNode;
     type?: "button" | "submit" | "reset" | undefined;
     handleClick?: MouseEventHandler<HTMLButtonElement>;
     Icon?: Icon;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 
-export const BarButton: FC<Props> = ({ title, type, handleClick, Icon }) => {
+export const BarButton: FC<Props> = ({ children, type, handleClick, Icon }) => {
 
 
 
@@ -22,10 +22,10 @@ export const BarButton: FC<Props> = ({ title, type, handleClick, Icon }) => {
         active:scale-95 transition-all active:bg-secondary"
             onClick={handleClick}
         >
-            <span>
-                {title}
-            </span>
-            {Icon ? <Icon /> : <ArrowRight />}
+
+            {children}
+
+            {Icon && <Icon />}
         </button>
     );
 }

@@ -85,8 +85,9 @@ const LoginPage: NextPage = () => {
                             </a>
                         </Link>
                     </div>
-
-                    <BarButton title="Ingresar" type='submit' />
+                    <BarButton type="submit">
+                        Ingresar
+                    </BarButton>
 
                 </form>
 

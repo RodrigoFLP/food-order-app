@@ -173,13 +173,18 @@ const SignupPage: NextPage = () => {
                             register={register('addressDetail', { required: true })}
                             errorMessage={errors.addressDetail?.message}
                             error={errors.addressDetail ? true : false} />
-                        <BarButton title="Seleccionar ubicación"
-                            type='button'
+                        <BarButton type='button'
                             handleClick={handleClick}
-                            Icon={MapPin} />
+                            Icon={MapPin} >
+                            Seleccionar ubicación
+                        </BarButton>
+
+
                     </section>
                     <div className="pt-8">
-                        <BarButton title="Registrarse" type='submit' />
+                        <BarButton>
+                            Registrarse
+                        </BarButton>
                     </div>
 
                 </form>

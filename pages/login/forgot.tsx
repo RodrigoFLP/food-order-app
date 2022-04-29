@@ -34,7 +34,9 @@ const ForgotPage: NextPage = () => {
                         error={errors.email ? true : false}
                         errorMessage={errors.email?.message}
                         Icon={Mail} />
-                    <BarButton title="Enviar" type='submit' />
+                    <BarButton type="submit">
+                        Enviar
+                    </BarButton>
 
 
                 </form>

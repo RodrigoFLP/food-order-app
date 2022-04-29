@@ -7,15 +7,12 @@ interface Portion {
 
 interface Props {
     portions: Portion[];
+    selectedPortion: string;
+    handleChange: (portion: Portion) => void;
+
 }
 
-export const PortionsList: FC<Props> = ({ portions }) => {
-
-    const [selectedPortion, setSelectedPortion] = useState(portions[0].name);
-
-    const handleClick = (name: string) => {
-        return () => setSelectedPortion(name);
-    }
+export const PortionsList: FC<Props> = ({ portions, handleChange, selectedPortion }) => {
 
     return (
         <section className="space-y-4">
@@ -32,7 +29,7 @@ export const PortionsList: FC<Props> = ({ portions }) => {
                         "bg-shade text-black"} 
                     p-2 px-4 rounded-3xl border border-dashed border-gray-300 hover:bg-primary 
                     hover:text-white active:scale-95 active:bg-secondary shadow-md cursor-pointer`}
-                        onClick={handleClick(portion.name)}>
+                        onClick={() => handleChange(portion)}>
                         {portion.name}
                     </button>
                 )
