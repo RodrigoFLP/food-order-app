@@ -3,25 +3,25 @@ import { FC } from "react";
 
 
 interface Props {
-    title: string;
+    category: any;
     selected: boolean;
     onSelect: Function;
 }
 
-export const SliderButton: FC<Props> = ({ title, selected = false, onSelect }) => {
+export const SliderButton: FC<Props> = ({ category, selected = false, onSelect }) => {
 
     const router = useRouter();
 
     return (
 
-        <button className={`whitespace-nowrap 
-         font-semibold text-sm active:scale-95
-         px-4 py-2 rounded-3xl transition-all
+        <button className={`animate-opacityin whitespace-nowrap 
+         font-semibold text-sm active:scale-95 shadow-sm
+         h-10 px-4 py-2 rounded-3xl transition-all
         hover:bg-primary hover:text-white 
         active:bg-secondary
-         ${selected ? 'bg-primary text-white' : 'bg-shade text-black'}`}
-            onClick={() => onSelect(title)}>
-            {title}
+         ${selected ? 'bg-primary text-white' : 'bg-white text-black'}`}
+            onClick={() => onSelect(category)}>
+            {category.name}
         </button>
     );
 }

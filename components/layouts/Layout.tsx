@@ -9,7 +9,7 @@ interface Props {
 }
 
 
-export const Layout: FC<Props> = ({ children, title, margin = true }) => {
+export const Layout: FC<Props> = ({ children, title, margin = false }) => {
 
     return (
         <>
@@ -20,10 +20,10 @@ export const Layout: FC<Props> = ({ children, title, margin = true }) => {
                 <meta name="description" content="This is a shop" />
             </Head>
             <Navbar />
-            <main className={`${margin ? "p-6 pt-2" : ""}`}>
+            <main className={`p-6 pt-2 px-6 ${margin && 'px-0'}`}>
                 {children}
             </main>
-            <Footer />
+            <Footer margin={margin} />
         </>
 
     );

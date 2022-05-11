@@ -2,7 +2,8 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { Layout } from "../../components/layouts";
 import { CardsSlider, SliderButton, ListTile } from "../../components/ui";
-import { categories, products } from "../../data";
+import { products } from "../../data";
+import { useCategories } from "../../hooks";
 
 const productsList = products.products;
 
@@ -18,32 +19,36 @@ interface Product {
 }
 
 
-
-
 const MenuPage: NextPage = () => {
 
-    const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const { categories, isLoading, error } = useCategories('http://192.168.0.12:5000', 'categories')
+
+
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        const filteredProds = productsList.filter((product) => product.category === selectedCategory);
+
+        const filteredProds = productsList.filter((product) => product.category === selectedCategory.name);
         setCurrentProducts(filteredProds);
 
     }, [selectedCategory]);
 
 
-    const onSelect = (category: string) => {
+    const onSelect = (category: any) => {
         setSelectedCategory(category);
     }
+
+    console.log('category.id')
 
 
     return (
         <Layout title="Menú">
             <CardsSlider >
                 {categories.map((category) =>
-                    <SliderButton key={category}
-                        selected={selectedCategory === category}
-                        title={category}
+                    <SliderButton key={category.id}
+                        selected={selectedCategory.id === category.id}
+                        category={category}
                         onSelect={onSelect} />
                 )
                 }

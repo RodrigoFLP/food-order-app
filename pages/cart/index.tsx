@@ -34,7 +34,9 @@ const CartPage: NextPage = () => {
                             $10.99
                         </div>
                     </div>
-                    <BarButton title='Continuar' />
+                    <BarButton>
+                        Continuar
+                    </BarButton>
                 </section>
 
             </div>

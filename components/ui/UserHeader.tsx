@@ -4,11 +4,11 @@ import { FC } from "react";
 export const UserHeader: FC = () => {
 
     return (
-        <div className="rounded-2xl bg-shade flex flex-col justify-center p-4 md:space-y-2 md:w-2/5">
+        <div className="rounded-2xl bg-white shadow-sm flex flex-col justify-start p-6 md:space-y-2 h-full">
             <div className="font-semibold">
-                Bievenido usuario
+                ¡<span className="text-primary underline decoration-wavy">Inicia sesión</span> para rastrear todas tus ordenes!
             </div>
-            <div>
+            <div className="text-sm">
                 No tienes ninguna orden activa
             </div>
         </div>

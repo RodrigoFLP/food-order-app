@@ -8,7 +8,7 @@ export const Navbar = () => {
     return (
         <nav>
             <ul className="flex justify-between items-center
-            px-6 h-16">
+            px-8 h-16">
                 <Link href="/" passHref>
                     <span className="font-bold text-lg cursor-pointer">
                         Panchos Villa

@@ -1,0 +1,29 @@
+{
+    "categories": [
+        {
+            "name": "Entradas",
+            "description": "Esta es la descripción de las entradas",
+            "image": "http://dummyimage.com/464x550.png/cc0000/ffffff"
+        },
+        {
+            "name": "Tacos",
+            "description": "Esta es la descripción de los tacos",
+            "image": "http://dummyimage.com/742x587.png/cc0000/ffffff"
+        },
+        {
+            "name": "Tortas",
+            "description": "Esta es la descripción de las tortas",
+            "image": "http://dummyimage.com/660x231.png/cc0000/ffffff"
+        },
+        {
+            "name": "Platos fuertes",
+            "description": "Esta es la descripción de los platos fuertes",
+            "image": "http://dummyimage.com/962x415.png/cc0000/ffffff"
+        },
+        {
+            "name": "Bebidas",
+            "description": "Esta es la descripción de las bebidas",
+            "image": "http://dummyimage.com/239x184.png/cc0000/ffffff"
+        }
+    ]
+}
