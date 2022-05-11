@@ -1,14 +1,17 @@
 import { ButtonIcon } from "../ui";
 import { User, ShoppingCart } from 'react-feather';
 import Link from "next/link";
+import { useOnScroll } from "../../hooks";
 
 
 export const Navbar = () => {
 
+    const { showFixed } = useOnScroll();
+
     return (
-        <nav>
+        <nav className={`sticky z-30 w-full ${showFixed && 'bg-slate-50 shadow-sm '} top-0`}>
             <ul className="flex justify-between items-center
-            px-8 h-16">
+            px-8 h-16 ">
                 <Link href="/" passHref>
                     <span className="font-bold text-lg cursor-pointer">
                         Panchos Villa

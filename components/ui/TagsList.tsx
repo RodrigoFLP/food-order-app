@@ -1,36 +1,5 @@
-import { rawListeners } from "process";
-import { FC, useCallback, useEffect, useState } from "react";
-
-interface Tag {
-    name: string,
-    price?: number,
-    maxQuantity?: number,
-    rate?: number,
-    quantity?: number,
-    value: string,
-}
-
-
-interface TagGroup {
-    name: string,
-    max: number,
-    min: number,
-    description: string;
-    tags: Tag[],
-}
-
-interface TagGroupState {
-    name: string,
-    quantity: number,
-    tags: TagState[],
-}
-
-interface TagState {
-    name: string,
-    value: string,
-    quantity: number,
-    price: number;
-}
+import { FC } from "react";
+import { Tag, TagGroup, TagGroupState } from "../../interfaces";
 
 
 interface Props {
@@ -39,7 +8,6 @@ interface Props {
     handleChange: (tags: any, name: string) => void;
 
 }
-
 
 
 export const TagsList: FC<Props> = ({ tagGroup, handleChange, tagsInitialState }) => {

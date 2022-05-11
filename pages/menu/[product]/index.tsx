@@ -1,107 +1,15 @@
 import { NextPage } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Minus, Plus } from "react-feather";
 import { ButtonIcon } from "../../../components/hoc";
 import { Layout } from "../../../components/layouts";
 import { BarButton, PortionsList, TagsList } from "../../../components/ui";
-import { IProduct } from "../../../interfaces";
+import { IProduct, OrderState, PortionState, TagGroupState } from "../../../interfaces";
 
 import { GetServerSideProps } from 'next'
 
-
-interface TagGroupState {
-    name: string,
-    quantity: number,
-    tags: TagState[],
-}
-
-interface TagState {
-    name: string,
-    quantity: number,
-    price: number;
-}
-
-interface PortionState {
-    name: string;
-    price: number;
-}
-
-interface OrderState {
-    productId: string,
-    quantity: number,
-    portion: PortionState,
-    tagsGroups: TagGroupState[],
-    price: number
-}
-
-
-const mockProduct = {
-    "id": 125,
-    "name": "Gloves - Goldtouch Disposable",
-    "description": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
-    "portions": [
-        {
-            name: 'small',
-            price: 2.99
-        },
-        {
-            name: 'medium',
-            price: 3.99
-        },
-        {
-            name: 'big',
-            price: 4.99
-        },
-    ],
-    "tagsGroups": [
-        {
-            name: 'toppings',
-            max: 2,
-            min: 0,
-            description: '',
-            tags: [
-                {
-                    name: 'cheese',
-                    price: 0.50,
-                    maxQuantity: 2,
-                    rate: 0,
-                },
-                {
-                    name: 'beans',
-                    price: 0.50,
-                    maxQuantity: 2,
-                    rate: 0,
-                },
-            ]
-        },
-        {
-            name: 'complements',
-            max: 4,
-            min: 0,
-            description: '',
-            tags: [
-                {
-                    name: 'tortilla',
-                    price: 0.20,
-                    maxQuantity: 2,
-                    rate: 0,
-                },
-                {
-                    name: 'spicy sauce',
-                    price: 0.40,
-                    maxQuantity: 2,
-                    rate: 0,
-                }
-            ]
-        }
-    ],
-    "category": "Salidas",
-    "image": "http://dummyimage.com/175x100.png/cc0000/ffffff"
-}
-
-interface Props {
+export interface Props {
     product: IProduct;
 }
 
@@ -215,17 +123,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                                 />
                             </section>
                         ))}
-
-                        {/* {mockProduct.tagsGroups.map((tagGroup, index) => (
-                            <section key={tagGroup.name} className="md:w-4/5 space-y-4 p-6" >
-                                <TagsList
-                                    tagGroup={tagGroup}
-                                    tagsInitialState={order.tagsGroups[index]}
-                                    handleChange={handleTagChange}
-                                />
-                            </section>
-                        ))} */}
-
                     </div>
 
                 </div>
@@ -272,20 +169,10 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 }
 
 
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     const { product } = params as { product: string }
-    // console.log(JSON.stringify(params));
-
-    // console.log(product)
-    // fetch(`http://192.168.0.12:5000/products/${product}`).then(response => response.json())
-    //     .then(data => { console.log(data); })
-
-
-
     const response = await fetch(`http://192.168.0.12:5000/products/${product}`);
 
     const data = await response.json()

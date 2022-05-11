@@ -19,6 +19,7 @@ export interface Portion {
 
 export interface TagGroup {
   id: number;
+  description: string;
   max: number;
   min: number;
   name: string;
@@ -29,7 +30,9 @@ export interface TagGroup {
 export interface Tag {
   id: number;
   name: string;
+  rate?: number;
   price: number;
+  maxQuantity?: number;
   ratio: number;
   value: string;
 }

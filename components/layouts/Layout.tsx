@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { FC, ReactNode } from "react";
+import { useOnScroll } from "../../hooks";
 import { Footer, Navbar } from "../ui";
 
 interface Props {
@@ -10,6 +11,9 @@ interface Props {
 
 
 export const Layout: FC<Props> = ({ children, title, margin = false }) => {
+
+    const { showFixed } = useOnScroll();
+
 
     return (
         <>
