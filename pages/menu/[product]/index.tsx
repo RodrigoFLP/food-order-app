@@ -1,19 +1,28 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import { GetServerSideProps } from 'next'
 import { useState } from "react";
-import { Minus, Plus } from "react-feather";
+
 import { ButtonIcon } from "../../../components/hoc";
 import { Layout } from "../../../components/layouts";
 import { BarButton, PortionsList, TagsList } from "../../../components/ui";
 import { IProduct, OrderState, PortionState, TagGroupState } from "../../../interfaces";
 
-import { GetServerSideProps } from 'next'
+import { useAppDispatch } from "../../../store/hooks";
+import { add } from "../../../features";
+
+import { nanoid } from "@reduxjs/toolkit";
+import { Minus, Plus } from "react-feather";
+
 
 export interface Props {
     product: IProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+
+    const dispatch = useAppDispatch();
+
 
 
     const defaultTags = product.portions[0].tagGroups.map(tagGroup => ({
@@ -29,13 +38,19 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
     const [order, setOrder] = useState<OrderState>(
         {
-            productId: '',
+            orderId: nanoid(),
+            productId: product.id,
+            productName: product.name,
             quantity: 1,
             portion: product.portions[0],
             tagsGroups: defaultTags,
             price: product.portions[0].price
         }
     );
+
+    const handleAddClick = () => {
+        dispatch(add({ ...order, orderId: nanoid() }));
+    }
 
     const calculateTotal = (portion: PortionState, tagsGroups: TagGroupState[], qty: number) => {
         const totalAmount = (portion.price +
@@ -150,7 +165,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                         </ButtonIcon>
 
                     </div>
-                    <BarButton>
+                    <BarButton handleClick={handleAddClick}>
                         <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base">
                             <div>
                                 Añadir

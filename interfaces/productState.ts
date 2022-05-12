@@ -17,7 +17,9 @@ export interface PortionState {
 }
 
 export interface OrderState {
-  productId: string;
+  orderId: string;
+  productId: number;
+  productName: string;
   quantity: number;
   portion: PortionState;
   tagsGroups: TagGroupState[];

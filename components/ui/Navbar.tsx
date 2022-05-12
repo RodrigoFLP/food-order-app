@@ -2,11 +2,15 @@ import { ButtonIcon } from "../ui";
 import { User, ShoppingCart } from 'react-feather';
 import Link from "next/link";
 import { useOnScroll } from "../../hooks";
+import { useAppSelector } from "../../store/hooks";
+import { selectItemsCount } from "../../features";
 
 
 export const Navbar = () => {
 
     const { showFixed } = useOnScroll();
+
+    const itemsCount = useAppSelector(selectItemsCount)
 
     return (
         <nav className={`sticky z-30 w-full ${showFixed && 'bg-slate-50 shadow-sm '} top-0`}>
@@ -33,7 +37,7 @@ export const Navbar = () => {
                                 bg-primary rounded-full h-5 w-5
                                 text-white flex justify-center items-center
                                 text-xs font-semibold">
-                                    1
+                                    {itemsCount}
                                 </div>
                             </ButtonIcon>
 
