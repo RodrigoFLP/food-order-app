@@ -4,7 +4,7 @@ import { FC } from "react";
 import ButtonIcon from "./ButtonIcon";
 import { Plus, Minus, Trash } from 'react-feather';
 import { OrderState } from "../../interfaces";
-import { remove } from "../../features";
+import { incrementItemQuantity, remove } from "../../features";
 import { useAppDispatch } from "../../store/hooks";
 
 interface Props {
@@ -20,6 +20,11 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
     const handleMinusClick = () => {
         dispatch(remove(order.orderId));
     }
+
+    const handlePlusClick = () => {
+        dispatch(incrementItemQuantity(order.orderId));
+    }
+
 
 
 
@@ -45,11 +50,11 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
                     <span className="text-sm text-primary">
                         $
                     </span>
-                    {order.price.toFixed(2)}
+                    {order.unitPrice.toFixed(2)} x {order.quantity}
                 </div>
             </div>
             <div className="flex flex-col items-center p-2 justify-between">
-                <ButtonIcon style="bg-primary hover:bg-primary">
+                <ButtonIcon style="bg-primary hover:bg-primary" handleClick={handlePlusClick}>
                     <Plus color="white" />
                 </ButtonIcon>
                 <span className="font-bold text-sm">

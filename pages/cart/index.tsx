@@ -2,13 +2,16 @@ import { NextPage } from "next";
 import { Layout } from "../../components/layouts";
 import { BarButton } from "../../components/ui";
 import CartListTile from "../../components/ui/CartListTile";
-import { remove, selectItems } from "../../features";
+import { remove, selectItems, selectTotal } from "../../features";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 
 const CartPage: NextPage = () => {
 
     const items = useAppSelector(selectItems);
+    const total = useAppSelector(selectTotal);
+
+
 
     return (
         <Layout title="Carrito">
@@ -17,12 +20,17 @@ const CartPage: NextPage = () => {
             </h1>
             <div className="flex flex-col md:flex-row pt-4 space-y-8 md:space-y-0 md:space-x-4">
                 <section className="w-full md:flex-1 space-y-2">
-                    {items.map((item) => {
-                        return <CartListTile
-                            key={item.orderId}
-                            order={item}
-                            src="http://dummyimage.com/175x100.png/cc0000/ffffff" />
-                    })}
+                    {
+                        items.length > 0 ? items.map((item) => {
+                            return <CartListTile
+                                key={item.orderId}
+                                order={item}
+                                src="http://dummyimage.com/175x100.png/cc0000/ffffff" />
+                        }) :
+                            <h1 className="text-center text-lg">
+                                El carrito está vacío
+                            </h1>
+                    }
                 </section>
                 <section className="md:w-1/3 md:px-8 space-y-4">
                     <div className="flex justify-between">
@@ -30,7 +38,7 @@ const CartPage: NextPage = () => {
                             Subtotal
                         </div>
                         <div className="font-semibold">
-                            $10.99
+                            ${Math.abs(total).toFixed(2)}
                         </div>
                     </div>
                     <BarButton>

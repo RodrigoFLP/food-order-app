@@ -44,7 +44,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             quantity: 1,
             portion: product.portions[0],
             tagsGroups: defaultTags,
-            price: product.portions[0].price
+            price: product.portions[0].price,
+            unitPrice: product.portions[0].price
         }
     );
 
@@ -61,6 +62,15 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         return totalAmount;
     }
 
+    const calculateUnitTotal = (portion: PortionState, tagsGroups: TagGroupState[]) => {
+        const totalAmount = (portion.price +
+            tagsGroups.reduce((previousGroup, currentGroup) =>
+                previousGroup + currentGroup.tags.reduce((previousTag, currentTag) =>
+                    (previousTag + (currentTag.quantity * currentTag.price)), 0), 0));
+
+        return totalAmount;
+    }
+
 
     const handlePortionChange = (portion: any) => {
 
@@ -69,6 +79,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                 ...prevOrder,
                 portion: portion,
                 price: calculateTotal(portion, prevOrder.tagsGroups, prevOrder.quantity),
+                unitPrice: calculateUnitTotal(portion, prevOrder.tagsGroups)
             }
         ));
 
@@ -91,7 +102,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             return {
                 ...prevOrder,
                 tagsGroups: newTagsGroups,
-                price: calculateTotal(prevOrder.portion, newTagsGroups, prevOrder.quantity)
+                price: calculateTotal(prevOrder.portion, newTagsGroups, prevOrder.quantity),
+                unitPrice: calculateUnitTotal(prevOrder.portion, newTagsGroups)
             }
         });
 
@@ -147,7 +159,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                 <div className="w-full lg:w-3/5 xl:1/2 flex px-4 space-x-8">
                     <div className="flex flex-row space-x-4 items-center p-2 justify-between">
                         <ButtonIcon handleClick={() => order.quantity <= 1 ? '' : setOrder((prevOrder) => (
-                            { ...prevOrder, quantity: prevOrder.quantity - 1, price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity - 1) }
+                            {
+                                ...prevOrder,
+                                quantity: prevOrder.quantity - 1,
+                                price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity - 1),
+                                unitPrice: calculateUnitTotal(prevOrder.portion, prevOrder.tagsGroups),
+                            }
                         ))}>
                             <Minus />
                         </ButtonIcon>
@@ -158,7 +175,13 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
                         <ButtonIcon
                             handleClick={() => setOrder((prevOrder) => (
-                                { ...prevOrder, quantity: prevOrder.quantity + 1, price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity + 1) }
+                                {
+                                    ...prevOrder,
+                                    quantity: prevOrder.quantity + 1,
+                                    price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity + 1),
+                                    unitPrice: calculateUnitTotal(prevOrder.portion, prevOrder.tagsGroups),
+
+                                }
                             ))}
                             style="bg-primary hover:bg-primary">
                             <Plus color="white" />

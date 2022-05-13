@@ -23,5 +23,6 @@ export interface OrderState {
   quantity: number;
   portion: PortionState;
   tagsGroups: TagGroupState[];
+  unitPrice: number;
   price: number;
 }

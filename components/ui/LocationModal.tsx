@@ -69,7 +69,9 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
                         <Polygon pathOptions={purpleOptions} positions={polygon} />
                     </MapContainer>
                     <div className="p-6">
-                        <BarButton title="Seleccionar" />
+                        <BarButton>
+                            Seleccionar
+                        </BarButton>
                     </div>
 
                 </div>

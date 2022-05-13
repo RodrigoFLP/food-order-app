@@ -18,13 +18,18 @@ interface Product {
     image: string;
 }
 
+interface Category {
+    id: number;
+    name: string;
+}
+
 
 const MenuPage: NextPage = () => {
 
     const { categories, isLoading, error } = useCategories('http://192.168.0.12:5000', 'categories')
 
 
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<Category>({ id: 0, name: '' });
     const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
     useEffect(() => {

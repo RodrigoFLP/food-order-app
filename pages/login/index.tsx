@@ -4,9 +4,15 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { User, Lock } from "react-feather";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import techposApi from "../../api/techposApi";
 import { Layout } from "../../components/layouts";
 import { BarButton, Input } from "../../components/ui";
 import { validationLogin } from '../../utils/schemas';
+
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface IFormInput {
     email: string;
@@ -26,7 +32,7 @@ const useYupValidationResolver = (validationSchema: typeof validationLogin) =>
                     errors: {}
                 };
             } catch (errors: any) {
-                console.log(data, errors);
+                // console.log(data, errors);
                 return {
                     values: {},
                     errors: errors.inner.reduce(
@@ -47,14 +53,30 @@ const useYupValidationResolver = (validationSchema: typeof validationLogin) =>
 
 const LoginPage: NextPage = () => {
 
+
     const resolver = useYupValidationResolver(validationLogin);
 
     const { register, formState: { errors }, handleSubmit } = useForm<IFormInput>({ resolver });
 
     const router = useRouter();
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
+
+        try {
+
+            const res = await toast.promise(techposApi.post('/auth/login', {
+                username: data.email.toLowerCase(),
+                password: data.password
+            }), {
+                success: 'Usuario logueado',
+                pending: 'Iniciando sesión',
+                error: 'Datos incorrectos',
+            }, { autoClose: 1000, position: 'bottom-right' }).then(() => router.replace('/'))
+
+        } catch (err) {
+
+        }
+
     }
 
 
@@ -106,6 +128,8 @@ const LoginPage: NextPage = () => {
                     </button>
                 </Link>
             </section>
+            <ToastContainer />
+
         </Layout>
     )
 }
