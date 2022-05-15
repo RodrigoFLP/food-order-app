@@ -2,20 +2,25 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
+
 import { User, Lock } from "react-feather";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import techposApi from "../../api/techposApi";
+import { ToastContainer, toast } from 'react-toastify';
+
 import { Layout } from "../../components/layouts";
 import { BarButton, Input } from "../../components/ui";
 import { validationLogin } from '../../utils/schemas';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { useAppDispatch } from "../../store/hooks";
+import { setCredentials } from "../../store/auth/authSlice";
+
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useLoginMutation } from "../../services/auth";
 
 
 interface IFormInput {
-    email: string;
+    username: string;
     password: string;
 }
 
@@ -60,22 +65,17 @@ const LoginPage: NextPage = () => {
 
     const router = useRouter();
 
+    const dispatch = useAppDispatch();
+
+    const [login] = useLoginMutation();
+
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
+        console.log('sdf')
 
-        try {
-
-            const res = await toast.promise(techposApi.post('/auth/login', {
-                username: data.email.toLowerCase(),
-                password: data.password
-            }), {
-                success: 'Usuario logueado',
-                pending: 'Iniciando sesión',
-                error: 'Datos incorrectos',
-            }, { autoClose: 1000, position: 'bottom-right' }).then(() => router.replace('/'))
-
-        } catch (err) {
-
-        }
+        const payload = await login(data).unwrap();
+        console.log(payload)
+        dispatch(setCredentials(payload));
+        router.replace('/');
 
     }
 
@@ -88,10 +88,10 @@ const LoginPage: NextPage = () => {
                 </h1>
                 <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
 
-                    <Input register={register("email", { required: true })}
+                    <Input register={register("username", { required: true })}
                         label="Correo electrónico"
-                        error={errors.email ? true : false}
-                        errorMessage={errors.email?.message}
+                        error={errors.username ? true : false}
+                        errorMessage={errors.username?.message}
                         Icon={User} />
                     <Input register={register("password", { required: true })}
                         label="Contraseña"

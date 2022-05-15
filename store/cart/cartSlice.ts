@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OrderState } from "../../interfaces";
-import { RootState } from "../../store/store";
+import { RootState } from "../store";
 
 interface cartState {
   items: OrderState[];

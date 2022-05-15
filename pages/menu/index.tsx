@@ -26,7 +26,7 @@ interface Category {
 
 const MenuPage: NextPage = () => {
 
-    const { categories, isLoading, error } = useCategories('http://192.168.0.12:5000', 'categories')
+    const { categories, isLoadingCategories, errorCategories } = useCategories('http://192.168.0.12:5000', 'categories')
 
 
     const [selectedCategory, setSelectedCategory] = useState<Category>({ id: 0, name: '' });

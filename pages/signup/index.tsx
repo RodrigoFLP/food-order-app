@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { Lock, Mail, Map, MapPin, Smartphone, User } from "react-feather";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import techposApi from "../../api/techposApi";
 import { Layout } from "../../components/layouts";
 import { BarButton, DateInput, Input, LocationModal, SelectInput } from "../../components/ui";
-
 import { validationSignup } from '../../utils/schemas'
 
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IFormInput {
     firstName: string;
@@ -69,10 +71,38 @@ const SignupPage: NextPage = () => {
     const [showModal, setShowModal] = useState(false);
 
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        router.push('/');
-        console.log(data);
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 
+        try {
+
+            const res = await toast.promise(techposApi.post('/users', {
+                email: data.email,
+                password: data.password,
+                customer: {
+                    firstName: data.firstName,
+                    lastName: data.lastname,
+                    phoneNumber: data.phoneNumber,
+                    birthDate: data.birthDate,
+                    receiveAds: false,
+                    address: {
+                        state: data.state,
+                        city: data.city,
+                        addressLine1: data.address,
+                        addressReference: data.addressDetail,
+                        coordinates: '0,0'
+                    }
+                }
+            }), {
+                success: 'Usuario registrado',
+                pending: 'Registrando',
+                error: 'No se ha podido crear el usuario',
+            }, { autoClose: 1000, position: 'bottom-right' }).then(() => router.replace('/'))
+
+            router.push('/');
+
+        } catch (err) {
+
+        }
 
     }
 
@@ -189,8 +219,8 @@ const SignupPage: NextPage = () => {
 
                 </form>
 
-
             </div>
+            <ToastContainer />
         </Layout>
     );
 }

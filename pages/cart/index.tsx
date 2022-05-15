@@ -2,8 +2,8 @@ import { NextPage } from "next";
 import { Layout } from "../../components/layouts";
 import { BarButton } from "../../components/ui";
 import CartListTile from "../../components/ui/CartListTile";
-import { remove, selectItems, selectTotal } from "../../features";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectItems, selectTotal } from "../../store";
+import { useAppSelector } from "../../store/hooks";
 
 
 const CartPage: NextPage = () => {
@@ -15,7 +15,7 @@ const CartPage: NextPage = () => {
 
     return (
         <Layout title="Carrito">
-            <h1 className="text-xl font-bold">
+            <h1 className="text-lg font-bold">
                 Carrito
             </h1>
             <div className="flex flex-col md:flex-row pt-4 space-y-8 md:space-y-0 md:space-x-4">
@@ -27,7 +27,7 @@ const CartPage: NextPage = () => {
                                 order={item}
                                 src="http://dummyimage.com/175x100.png/cc0000/ffffff" />
                         }) :
-                            <h1 className="text-center text-lg">
+                            <h1 className="text-center text-md">
                                 El carrito está vacío
                             </h1>
                     }

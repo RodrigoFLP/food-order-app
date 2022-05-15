@@ -19,7 +19,7 @@ export const useCategories = (
 
   return {
     categories: data || [],
-    isLoading: !error && !data,
-    error: error,
+    isLoadingCategories: !error && !data,
+    errorCategories: error,
   };
 };

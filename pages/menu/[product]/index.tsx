@@ -9,7 +9,7 @@ import { BarButton, PortionsList, TagsList } from "../../../components/ui";
 import { IProduct, OrderState, PortionState, TagGroupState } from "../../../interfaces";
 
 import { useAppDispatch } from "../../../store/hooks";
-import { add } from "../../../features";
+import { add } from "../../../store";
 
 import { nanoid } from "@reduxjs/toolkit";
 import { Minus, Plus } from "react-feather";

@@ -4,7 +4,7 @@ import { FC } from "react";
 import ButtonIcon from "./ButtonIcon";
 import { Plus, Minus, Trash } from 'react-feather';
 import { OrderState } from "../../interfaces";
-import { incrementItemQuantity, remove } from "../../features";
+import { incrementItemQuantity, remove } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 
 interface Props {

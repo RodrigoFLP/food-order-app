@@ -4,14 +4,13 @@ import { Layout } from '../components/layouts'
 import { Card, CardsSlider, AdHeader, SliderButton, UserHeader, SearchInput } from '../components/ui'
 import { SectionContainer } from '../components/ui'
 import ListButtonsPlaceholder from '../components/ui/ListButtonsPlaceholder'
-import { CategoryProducts, useCategories, useProducts } from '../hooks'
+import { CategoryProducts, useCategories, useCheckAuth, useProducts } from '../hooks'
 
 
 const Home: NextPage = () => {
 
-  const { categories, isLoading, error } = useCategories('http://192.168.0.12:5000', 'categories')
+  const { categories, isLoadingCategories, errorCategories } = useCategories('http://192.168.0.12:5000', 'categories')
   const { products, isLoadingProducts, errorProducts } = useProducts('http://192.168.0.12:5000', 'categories/1')
-
 
   return (
     <Layout title="Pancho's Villa">
@@ -23,7 +22,7 @@ const Home: NextPage = () => {
           </div>
           <SectionContainer title='🔥 Categorías'>
             <CardsSlider>
-              {isLoading || error ?
+              {isLoadingCategories || errorCategories ?
                 <ListButtonsPlaceholder /> :
                 categories.map((category) =>
                   <SliderButton onSelect={() => { }} key={category.id} category={category} selected={false} />)}

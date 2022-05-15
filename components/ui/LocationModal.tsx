@@ -4,8 +4,6 @@ import dynamic from "next/dynamic";
 import 'leaflet/dist/leaflet.css';
 import BarButton from "./BarButton";
 
-
-
 const MapContainer = dynamic<any>(() => import('react-leaflet').then((module) => module.MapContainer),
     { ssr: false });
 const Marker = dynamic<any>(() => import('react-leaflet').then((module) => module.Marker),
@@ -16,9 +14,6 @@ const TileLayer = dynamic<any>(() => import('react-leaflet').then((module) => mo
     { ssr: false });
 const Polygon = dynamic<any>(() => import('react-leaflet').then((module) => module.Polygon),
     { ssr: false });
-
-
-
 
 
 interface Props {

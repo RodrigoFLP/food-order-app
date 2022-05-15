@@ -3,7 +3,7 @@ import { User, ShoppingCart } from 'react-feather';
 import Link from "next/link";
 import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
-import { selectItemsCount } from "../../features";
+import { selectItemsCount } from "../../store";
 
 
 export const Navbar = () => {
