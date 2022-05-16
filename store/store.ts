@@ -1,8 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, isAnyOf } from "@reduxjs/toolkit";
+
 import authSlice from "./auth/authSlice";
-import cartSlice from "./cart/cartSlice";
-import { api } from "../services/auth";
 import { fetchAuth } from "./auth/authSlice";
+import cartSlice, {
+  add,
+  incrementItemQuantity,
+  loadCart,
+  remove,
+} from "./cart/cartSlice";
+
+import { api } from "../services/auth";
+
+import { startAppListening, listenerMiddleware } from "./listenerMiddleware";
 
 export const store = configureStore({
   reducer: {
@@ -11,11 +20,29 @@ export const store = configureStore({
     auth: authSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware()
+      .concat(api.middleware)
+      .prepend(listenerMiddleware.middleware),
 });
 
+// listernerMiddleware to persist cart to localStorage
+startAppListening({
+  matcher: isAnyOf(incrementItemQuantity, add, remove),
+  effect: async (action, listenerApi) => {
+    try {
+      const cart = JSON.stringify(listenerApi.getState().cart);
+      localStorage.setItem("cart", cart);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+});
+
+//dispatch async thunk to fetch user data
 store.dispatch(fetchAuth());
 
-export type RootState = ReturnType<typeof store.getState>;
+//dispatch async thunk to load cart data
+store.dispatch(loadCart());
 
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

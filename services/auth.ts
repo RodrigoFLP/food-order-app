@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IUser } from "../interfaces";
+import { IUser, Profile } from "../interfaces";
 
 export interface LoginRequest {
   username: string;
@@ -27,10 +27,30 @@ export const api = createApi({
         credentials: "include",
       }),
     }),
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: "auth/logout",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    getProfile: builder.mutation<Profile, void>({
+      query: () => ({
+        url: "/profile",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     protected: builder.mutation<{ message: string }, void>({
       query: () => "protected",
     }),
   }),
 });
 
-export const { useLoginMutation, useProtectedMutation, useCheckMutation } = api;
+export const {
+  useLoginMutation,
+  useProtectedMutation,
+  useCheckMutation,
+  useGetProfileMutation,
+  useLogoutMutation,
+} = api;

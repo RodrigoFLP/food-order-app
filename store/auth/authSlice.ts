@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import techposApi from "../../api/techposApi";
 import { IUser } from "../../interfaces";
-import { api, useCheckMutation } from "../../services/auth";
 import { RootState } from "../store";
 
 interface authState {
@@ -26,8 +25,9 @@ const initialState: authState = {
   errorMessage: "",
 };
 
+//async thunk to fetch user data
 export const fetchAuth = createAsyncThunk(
-  "users/fetchAuth",
+  "auth/fetchAuth",
   async (thunkAPI) => {
     const response = await techposApi.get("/auth/check");
     console.log(response.data);
@@ -51,7 +51,7 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuth.pending, (state, action) => {
+      .addCase(fetchAuth.pending, (state) => {
         state.isLoading = true;
         state.isIdle = false;
       })
@@ -60,7 +60,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isLoggedIn = true;
       })
-      .addCase(fetchAuth.rejected, (state, action) => {
+      .addCase(fetchAuth.rejected, (state) => {
         state.isLoading = false;
         state.isLoggedIn = false;
       });

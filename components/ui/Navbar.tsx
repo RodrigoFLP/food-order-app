@@ -4,13 +4,19 @@ import Link from "next/link";
 import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
 import { selectItemsCount } from "../../store";
+import { useEffect, useState } from "react";
 
 
 export const Navbar = () => {
 
     const { showFixed } = useOnScroll();
-
     const itemsCount = useAppSelector(selectItemsCount)
+
+    const [showCartCount, setShowCartCount] = useState(false)
+
+    useEffect(() => {
+        setShowCartCount(true);
+    }, [])
 
     return (
         <nav className={`sticky z-30 w-full ${showFixed && 'bg-slate-50 shadow-sm '} top-0`}>
@@ -37,7 +43,7 @@ export const Navbar = () => {
                                 bg-primary rounded-full h-5 w-5
                                 text-white flex justify-center items-center
                                 text-xs font-semibold">
-                                    {itemsCount}
+                                    {showCartCount && itemsCount}
                                 </div>
                             </ButtonIcon>
 

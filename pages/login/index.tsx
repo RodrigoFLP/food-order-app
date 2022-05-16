@@ -61,7 +61,7 @@ const LoginPage: NextPage = () => {
 
     const resolver = useYupValidationResolver(validationLogin);
 
-    const { register, formState: { errors }, handleSubmit } = useForm<IFormInput>({ resolver });
+    const { register, formState: { errors }, handleSubmit, reset, setError } = useForm<IFormInput>({ resolver });
 
     const router = useRouter();
 
@@ -70,12 +70,15 @@ const LoginPage: NextPage = () => {
     const [login] = useLoginMutation();
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-        console.log('sdf')
 
-        const payload = await login(data).unwrap();
-        console.log(payload)
-        dispatch(setCredentials(payload));
-        router.replace('/');
+        try {
+            const payload = await login(data).unwrap();
+            dispatch(setCredentials(payload));
+            router.replace('/');
+        } catch (err) {
+            reset({ password: '' });
+            toast('Revisa tus datos', { type: 'error', autoClose: 1000, position: 'bottom-right' })
+        }
 
     }
 

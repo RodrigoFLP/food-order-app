@@ -30,23 +30,25 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
 
     return (
         // <Link href={`/menu/${title}`} passHref>
-        <div className="w-full h-28 flex rounded-2xl border bg-white 
-        shadow-gray-100 overflow-hidden space-x-4 transition-all"
+        <div className="w-full h-28 flex rounded-2xl bg-white 
+        shadow-sm overflow-hidden space-x-4 transition-all"
         >
-            <div id="image" className="w-24 bg-slate-50 rounded-r-2xl relative overflow-hidden aspect-square">
+            <div id="image" className="bg-slate-50 rounded-r-2xl relative overflow-hidden aspect-square w-28 h-28 flex-shrink hidden sm:block">
                 <Image src={src}
                     layout='fill'
                     alt={order.productName}
                     className="object-cover" />
             </div>
-            <div className="flex flex-col justify-center pr-4 py-2 flex-1">
-                <div className="font-semibold flex-1">
+            <div className="flex flex-col pr-4 py-2 justify-between flex-1">
+                <div className="font-semibold flex-shrink">
                     {order.productName}
                 </div>
-                <p className="text-gray-600 text-sm line-clamp-2 flex-1">
-                    {order.portion.name}
-                </p>
-                <div className="font-extrabold flex-1">
+                <span className="text-gray-600 text-xs">{order.portion.name}</span>
+                <div className="flex whitespace-nowrap overflow-clip w-full scroll flex-wrap">
+                    {order.tagsGroups.map((tagGroup) => tagGroup.tags.map((tag) =>
+                        <div key={tag.value} className='mr-1 text-xs font-semibold bg-primary px-1 sm:p-1 sm:px-2 text-white rounded-xl'>{tag.value}</div>))}
+                </div>
+                <div className="font-extrabold">
                     <span className="text-sm text-primary">
                         $
                     </span>

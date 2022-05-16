@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OrderState } from "../../interfaces";
 import { RootState } from "../store";
 
@@ -13,6 +13,15 @@ const initialState: cartState = {
   itemsCount: 0,
   total: 0,
 };
+
+export const loadCart = createAsyncThunk("cart/loadCard", async (thunkApi) => {
+  const serializedCart = localStorage.getItem("cart");
+  if (serializedCart === null) {
+    return undefined;
+  }
+  console.log(serializedCart);
+  return JSON.parse(serializedCart);
+});
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -51,6 +60,13 @@ export const cartSlice = createSlice({
         state.total -= orderItem!.unitPrice;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadCart.fulfilled, (state, action) => {
+      state.items = action.payload.items;
+      state.itemsCount = action.payload.itemsCount;
+      state.total = action.payload.total;
+    });
   },
 });
 

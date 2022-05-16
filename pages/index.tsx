@@ -15,10 +15,11 @@ const Home: NextPage = () => {
   return (
     <Layout title="Pancho's Villa">
       <div className='flex w-full flex-col-reverse md:space-y-0 md:flex-row md:space-x-6'>
-        <div className='pt-4 md:pt-0 md:w-8/12 lg:w-9/12 flex-none'>
+        <div className='pt-4 md:pt-0 md:w-8/12 lg:w-9/12 flex-none transition-all'>
           <AdHeader />
           <div className='pt-4'>
             <SearchInput error={false} label='Buscar' Icon={Search} />
+
           </div>
           <SectionContainer title='🔥 Categorías'>
             <CardsSlider>
