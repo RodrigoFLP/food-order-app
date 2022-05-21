@@ -43,6 +43,7 @@ export const SearchInput: FC<Props> = ({
                         } w-full peer`}
                     aria-label=".form-select-lg example"
                     defaultValue=''
+                    placeholder="Buscar"
                 />
                 <Icon
                     size={16}

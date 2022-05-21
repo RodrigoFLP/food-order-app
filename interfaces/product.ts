@@ -6,8 +6,9 @@ export interface IProduct {
   portions: Portion[];
   tags: Tag[];
   image: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  src: string;
 }
 
 export interface Portion {

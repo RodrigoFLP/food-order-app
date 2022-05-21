@@ -10,8 +10,6 @@ interface Props {
 
 export const SliderButton: FC<Props> = ({ category, selected = false, onSelect }) => {
 
-    const router = useRouter();
-
     return (
 
         <button className={`animate-opacityin whitespace-nowrap 
@@ -20,7 +18,7 @@ export const SliderButton: FC<Props> = ({ category, selected = false, onSelect }
         hover:bg-primary hover:text-white 
         active:bg-secondary
          ${selected ? 'bg-primary text-white' : 'bg-white text-black'}`}
-            onClick={() => onSelect(category)}>
+            onClick={() => onSelect(category.id)}>
             {category.name}
         </button>
     );

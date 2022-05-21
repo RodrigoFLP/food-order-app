@@ -3,12 +3,12 @@ import Link from "next/link";
 import { FC } from "react";
 import ButtonIcon from "./ButtonIcon";
 import { Plus, Minus, Trash } from 'react-feather';
-import { OrderState } from "../../interfaces";
+import { OrderItemState } from "../../interfaces";
 import { incrementItemQuantity, remove } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 
 interface Props {
-    order: OrderState,
+    order: OrderItemState,
     src: string;
 }
 
@@ -18,11 +18,11 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
 
 
     const handleMinusClick = () => {
-        dispatch(remove(order.orderId));
+        dispatch(remove(order.orderItemId));
     }
 
     const handlePlusClick = () => {
-        dispatch(incrementItemQuantity(order.orderId));
+        dispatch(incrementItemQuantity(order.orderItemId));
     }
 
 

@@ -20,3 +20,4 @@ export * from "./PortionsList";
 export * from "./TagsList";
 export * from "./SearchInput";
 export * from "./OrderCard";
+export * from "./ProfileButton";

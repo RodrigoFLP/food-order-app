@@ -12,12 +12,13 @@ export interface TagState {
 }
 
 export interface PortionState {
+  id: number;
   name: string;
   price: number;
 }
 
-export interface OrderState {
-  orderId: string;
+export interface OrderItemState {
+  orderItemId: string;
   productId: number;
   productName: string;
   quantity: number;

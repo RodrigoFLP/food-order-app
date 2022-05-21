@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTagList } from "../../hooks";
 import { Tag, TagGroup, TagGroupState } from "../../interfaces";
 
 
@@ -12,85 +13,7 @@ interface Props {
 
 export const TagsList: FC<Props> = ({ tagGroup, handleChange, tagsInitialState }) => {
 
-
-    const handleClick = (tag: Tag) => {
-
-        let tagPayload = {};
-        const prevTagIndex = tagsInitialState.tags.findIndex(t => {
-            return t.value === tag.value
-        });
-        const tagExists = prevTagIndex !== -1;
-
-        switch (tagsInitialState.quantity) {
-            case 0:
-                tagPayload =
-                {
-                    ...tagsInitialState,
-                    quantity: 1,
-                    tags: [
-                        {
-                            name: tag.name,
-                            value: tag.value,
-                            quantity: 1,
-                            price: tag.price,
-                            rate: tag.rate
-                        }
-                    ]
-                }
-                break;
-            case tagGroup.max:
-                console.log('maximo')
-
-                tagPayload = tagExists ?
-                    {
-                        ...tagsInitialState,
-                        quantity: tagsInitialState.quantity - tagsInitialState.tags[prevTagIndex].quantity,
-                        tags: [
-                            ...tagsInitialState.tags.map((prevTag) => prevTag.value === tag.value ?
-                                {
-                                    ...prevTag,
-                                    quantity: 0
-                                } : prevTag
-                            )
-                        ]
-                    } : tagsInitialState
-
-                break;
-            default:
-                tagPayload = tagExists ? {
-                    ...tagsInitialState,
-                    quantity: tagsInitialState.quantity + 1,
-                    tags: [
-                        ...tagsInitialState.tags.map((prevTag) => prevTag.value === tag.value ?
-                            {
-                                ...prevTag,
-                                quantity: prevTag.quantity + 1
-                            } : prevTag
-                        )
-                    ]
-                } :
-                    {
-                        ...tagsInitialState,
-                        quantity: tagsInitialState.quantity + 1,
-                        tags: [
-                            ...tagsInitialState.tags,
-                            {
-                                name: tag.name,
-                                value: tag.value,
-                                price: tag.price,
-                                rate: tag.rate,
-                                quantity: 1,
-                            }
-                        ]
-                    }
-
-
-
-
-        }
-
-        handleChange(tagPayload, tagGroup.name);
-    }
+    const [handleClick] = useTagList(tagGroup, handleChange, tagsInitialState);
 
     return (
         <section className="space-y-4">
@@ -108,7 +31,6 @@ export const TagsList: FC<Props> = ({ tagGroup, handleChange, tagsInitialState }
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 justify-between text-sm">
                 {tagGroup.tags.map((tag) => {
-
 
                     const tagIndex = tagsInitialState.tags.findIndex(t => t.value === tag.value)
                     const tagExists = tagIndex !== -1;

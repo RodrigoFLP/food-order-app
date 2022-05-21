@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ButtonIcon } from "../../../components/hoc";
 import { Layout } from "../../../components/layouts";
 import { BarButton, PortionsList, TagsList } from "../../../components/ui";
-import { IProduct, OrderState, PortionState, TagGroupState } from "../../../interfaces";
+import { IProduct, OrderItemState, PortionState, TagGroupState } from "../../../interfaces";
 
 import { useAppDispatch } from "../../../store/hooks";
 import { add } from "../../../store";
@@ -23,12 +23,11 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
     const dispatch = useAppDispatch();
 
-
-
     const defaultTags = product.portions[0].tagGroups.map(tagGroup => ({
         name: tagGroup.name,
         quantity: 0,
         tags: [{
+            id: null,
             name: '',
             value: '',
             quantity: 0,
@@ -36,13 +35,13 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         }],
     }))
 
-    const [order, setOrder] = useState<OrderState>(
+    const [order, setOrder] = useState<OrderItemState>(
         {
-            orderId: nanoid(),
+            orderItemId: nanoid(),
             productId: product.id,
             productName: product.name,
             quantity: 1,
-            portion: product.portions[0],
+            portion: { id: product.portions[0].id, name: product.portions[0].name, price: product.portions[0].price },
             tagsGroups: defaultTags,
             price: product.portions[0].price,
             unitPrice: product.portions[0].price
@@ -50,7 +49,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     );
 
     const handleAddClick = () => {
-        dispatch(add({ ...order, orderId: nanoid() }));
+        dispatch(add({ ...order, orderItemId: nanoid() }));
     }
 
     const calculateTotal = (portion: PortionState, tagsGroups: TagGroupState[], qty: number) => {
@@ -77,7 +76,18 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         return setOrder((prevOrder) => (
             {
                 ...prevOrder,
-                portion: portion,
+                tagsGroups: product.portions.find((p) => p.id === portion.id)!.tagGroups.map(tagGroup => ({
+                    name: tagGroup.name,
+                    quantity: 0,
+                    tags: [{
+                        id: null,
+                        name: '',
+                        value: '',
+                        quantity: 0,
+                        price: 0,
+                    }],
+                })),
+                portion: { id: portion.id, name: portion.name, price: portion.price },
                 price: calculateTotal(portion, prevOrder.tagsGroups, prevOrder.quantity),
                 unitPrice: calculateUnitTotal(portion, prevOrder.tagsGroups)
             }
@@ -141,7 +151,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                                 portions={product.portions} handleChange={handlePortionChange} />
                         </section>
 
-                        {product.portions[0].tagGroups.map((tagGroup, index) => (
+                        {product.portions.find((portion) => portion.id === order.portion.id)!.tagGroups.map((tagGroup, index) => (
                             <section key={tagGroup.name} className="md:w-4/5 space-y-4 p-6" >
                                 <TagsList
                                     tagGroup={tagGroup}
@@ -211,10 +221,19 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     const { product } = params as { product: string }
-    const response = await fetch(`http://192.168.0.12:5000/products/${product}`);
 
-    const data = await response.json()
-    console.log(data);
+
+    const data = await (await fetch(`http://192.168.0.11:5000/products/${product}`)).json();
+
+
+    if (!data || data === undefined) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        }
+    }
 
     return {
         props: {

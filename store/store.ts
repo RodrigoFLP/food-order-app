@@ -38,6 +38,18 @@ startAppListening({
   },
 });
 
+startAppListening({
+  matcher: isAnyOf(incrementItemQuantity, add, remove),
+  effect: async (action, listenerApi) => {
+    try {
+      const cart = JSON.stringify(listenerApi.getState().cart);
+      localStorage.setItem("cart", cart);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+});
+
 //dispatch async thunk to fetch user data
 store.dispatch(fetchAuth());
 

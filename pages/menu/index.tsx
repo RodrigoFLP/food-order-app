@@ -1,9 +1,12 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Layout } from "../../components/layouts";
 import { CardsSlider, SliderButton, ListTile } from "../../components/ui";
 import { products } from "../../data";
 import { useCategories } from "../../hooks";
+import { Category } from "../../interfaces";
+import { useGetCategoriesListQuery, useGetCategoryProductsQuery } from "../../services/auth";
 
 const productsList = products.products;
 
@@ -18,49 +21,39 @@ interface Product {
     image: string;
 }
 
-interface Category {
-    id: number;
-    name: string;
-}
-
 
 const MenuPage: NextPage = () => {
 
-    const { categories, isLoadingCategories, errorCategories } = useCategories('http://192.168.0.12:5000', 'categories')
+    const router = useRouter()
+    const [selectedCategory, setSelectedCategory] = useState<number>(parseInt(router.query.category! as string) || 0);
+    // const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
 
-    const [selectedCategory, setSelectedCategory] = useState<Category>({ id: 0, name: '' });
-    const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-
-        const filteredProds = productsList.filter((product) => product.category === selectedCategory.name);
-        setCurrentProducts(filteredProds);
-
-    }, [selectedCategory]);
+    const { data: categories, isError: errorCategories, isLoading: isLoadingCategories } = useGetCategoriesListQuery();
+    const { data: products, isError: errorProducts, isLoading: isLoadingProducts } = useGetCategoryProductsQuery(selectedCategory);
 
 
     const onSelect = (category: any) => {
         setSelectedCategory(category);
     }
 
-    console.log('category.id')
+    console.log(selectedCategory, 'holaa')
 
 
     return (
         <Layout title="Menú">
             <CardsSlider >
-                {categories.map((category) =>
+                {!isLoadingCategories && categories!.map((category) =>
                     <SliderButton key={category.id}
-                        selected={selectedCategory.id === category.id}
+                        selected={selectedCategory === category.id}
                         category={category}
                         onSelect={onSelect} />
                 )
                 }
             </CardsSlider>
-
             <div className="xs:flex md:grid md:grid-cols-3 flex-col pt-8 space-y-4 md:space-y-0 md:gap-4">
-                {currentProducts.map((product) => <ListTile {...product} src={product.image} key={product.id} />)}
+                {!isLoadingProducts && products !== undefined && (products! as Category).productsList.map((product) =>
+                    <ListTile {...product} src={product.image} key={product.id} />)}
             </div>
 
         </Layout>

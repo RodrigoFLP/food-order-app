@@ -1,17 +1,19 @@
 import { FC, useEffect, useState } from "react";
 import { useAppSelector } from "../../store/hooks";
-import { selectIsIdle, selectIsLoggedIn, selectIsLoading } from '../../store'
+import { selectIsIdle, selectIsLoggedIn, selectIsLoading, clearCart } from '../../store'
 
 import styles from '../Placeholder.module.css'
-import BarButton from "./BarButton";
 
 import { useGetProfileMutation, useLogoutMutation } from "../../services/auth";
 import { useRouter } from "next/router";
 import { OrderCard } from ".";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 
 
 export const UserHeader: FC = () => {
+
 
     const [show, setShow] = useState(false);
 
@@ -19,16 +21,16 @@ export const UserHeader: FC = () => {
         setShow(true)
     }, [])
 
+
+    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+    const [logout] = useLogoutMutation()
+
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const isLoading = useAppSelector(selectIsLoading);
     const isIdle = useAppSelector(selectIsIdle);
 
-
     const [getProfile, result] = useGetProfileMutation()
-    const [logout] = useLogoutMutation()
-
-    const router = useRouter();
-
 
 
     useEffect(() => {
@@ -42,13 +44,12 @@ export const UserHeader: FC = () => {
     const handleLogOut = async () => {
         try {
             await logout();
+            dispatch(clearCart());
             router.reload();
         } catch (err) {
 
         }
     }
-
-
 
     return (
         <div className="rounded-2xl bg-white shadow-sm flex flex-col 
@@ -70,11 +71,6 @@ export const UserHeader: FC = () => {
 
                             <OrderCard key={ticket.id} {...ticket} />
                         ) : 'No tienes ordenes'
-                        }
-                        {isLoggedIn &&
-                            <BarButton handleClick={handleLogOut}>
-                                Cerrar sesión
-                            </BarButton>
                         }
 
                     </section>

@@ -5,6 +5,7 @@ import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
 import { selectItemsCount } from "../../store";
 import { useEffect, useState } from "react";
+import ProfileButton from "./ProfileButton";
 
 
 export const Navbar = () => {
@@ -28,13 +29,10 @@ export const Navbar = () => {
                     </span>
                 </Link>
                 <div className="flex space-x-2">
-                    <Link href='/login' passHref>
-                        <li>
-                            <ButtonIcon>
-                                <User />
-                            </ButtonIcon>
-                        </li>
-                    </Link>
+                    <li>
+                        <ProfileButton />
+                    </li>
+
                     <Link href='/cart' passHref>
                         <li className="relative">
                             <ButtonIcon>

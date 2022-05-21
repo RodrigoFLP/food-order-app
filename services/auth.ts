@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IUser, Profile } from "../interfaces";
+import { Category, IUser, Profile, OrderItemState } from "../interfaces";
 
 export interface LoginRequest {
   username: string;
@@ -8,7 +8,7 @@ export interface LoginRequest {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.0.12:5000/",
+    baseUrl: "http://192.168.0.11:5000/",
     credentials: "include",
   }),
   endpoints: (builder) => ({
@@ -41,6 +41,37 @@ export const api = createApi({
         credentials: "include",
       }),
     }),
+    getCategoriesList: builder.query<Category[], void>({
+      query: () => ({
+        url: "categories",
+        method: "GET",
+      }),
+    }),
+    getCategoryProducts: builder.query<Category, number>({
+      query: (categoryId) => ({
+        url: `categories/${categoryId}`,
+        method: "GET",
+      }),
+    }),
+    calculateTotal: builder.query<any, OrderItemState[]>({
+      query: (order) => ({
+        url: "tickets/calculate",
+        method: "POST",
+        body: {
+          orderType: "", //TODO: modify hardcoded properties
+          customerAddressId: 1,
+          storeId: 1,
+          ticketItems: [
+            ...order.map((item) => ({
+              productId: item.productId,
+              portion: item.portion,
+              quantity: item.quantity,
+              tagsGroups: item.tagsGroups,
+            })),
+          ],
+        },
+      }),
+    }),
     protected: builder.mutation<{ message: string }, void>({
       query: () => "protected",
     }),
@@ -53,4 +84,7 @@ export const {
   useCheckMutation,
   useGetProfileMutation,
   useLogoutMutation,
+  useGetCategoriesListQuery,
+  useGetCategoryProductsQuery,
+  useCalculateTotalQuery,
 } = api;

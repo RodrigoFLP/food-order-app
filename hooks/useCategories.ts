@@ -1,14 +1,9 @@
 import useSWR, { SWRConfiguration } from "swr";
 
+import { Category } from "../interfaces";
+
 // const fetcher = (...args: [key: string]) =>
 //   fetch(...args).then((res) => res.json());
-
-interface Category {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-}
 
 export const useCategories = (
   baseUrl: string,

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OrderState } from "../../interfaces";
+import { OrderItemState } from "../../interfaces";
 import { RootState } from "../store";
 
 interface cartState {
-  items: OrderState[];
+  items: OrderItemState[];
   itemsCount: number;
   total: number;
 }
@@ -14,7 +14,7 @@ const initialState: cartState = {
   total: 0,
 };
 
-export const loadCart = createAsyncThunk("cart/loadCard", async (thunkApi) => {
+export const loadCart = createAsyncThunk("cart/loadCart", async (thunkApi) => {
   const serializedCart = localStorage.getItem("cart");
   if (serializedCart === null) {
     return undefined;
@@ -23,18 +23,25 @@ export const loadCart = createAsyncThunk("cart/loadCard", async (thunkApi) => {
   return JSON.parse(serializedCart);
 });
 
+export const clearCart = createAsyncThunk(
+  "cart/clearCart",
+  async (thunkapi) => {
+    localStorage.removeItem("cart");
+  }
+);
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<OrderState>) => {
+    add: (state, action: PayloadAction<OrderItemState>) => {
       state.items.push(action.payload);
       state.itemsCount += action.payload.quantity;
       state.total += action.payload.price;
     },
     incrementItemQuantity: (state, action: PayloadAction<string>) => {
       const orderIndex = state.items.findIndex(
-        (item) => item.orderId == action.payload
+        (item) => item.orderItemId == action.payload
       );
       state.items[orderIndex].quantity += 1;
       state.itemsCount += 1;
@@ -42,19 +49,20 @@ export const cartSlice = createSlice({
     },
     remove: (state, action: PayloadAction<string>) => {
       const orderItem = state.items.find(
-        (item) => item.orderId == action.payload
+        (item) => item.orderItemId == action.payload
       );
       if (orderItem && orderItem.quantity == 1) {
         const newItems = state.items.filter(
-          (item) => item.orderId !== action.payload
+          (item) => item.orderItemId !== action.payload
         );
         state.items = newItems;
         state.itemsCount -= 1;
         state.total -= orderItem.unitPrice;
       } else {
         const orderIndex = state.items.findIndex(
-          (item) => item.orderId == action.payload
+          (item) => item.orderItemId == action.payload
         );
+
         state.items[orderIndex].quantity -= 1;
         state.itemsCount -= 1;
         state.total -= orderItem!.unitPrice;
@@ -62,11 +70,19 @@ export const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCart.fulfilled, (state, action) => {
-      state.items = action.payload.items;
-      state.itemsCount = action.payload.itemsCount;
-      state.total = action.payload.total;
-    });
+    builder
+      .addCase(loadCart.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.items = action.payload.items;
+          state.itemsCount = action.payload.itemsCount;
+          state.total = action.payload.total;
+        }
+      })
+      .addCase(clearCart.fulfilled, (state, action) => {
+        state.items = [];
+        state.itemsCount = 0;
+        state.total = 0;
+      });
   },
 });
 
