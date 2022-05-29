@@ -1,12 +1,17 @@
 import { NextPage } from "next";
 import Image from "next/image";
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps } from "next";
 import { useState } from "react";
 
 import { ButtonIcon } from "../../../components/hoc";
 import { Layout } from "../../../components/layouts";
 import { BarButton, PortionsList, TagsList } from "../../../components/ui";
-import { IProduct, OrderItemState, PortionState, TagGroupState } from "../../../interfaces";
+import {
+  IProduct,
+  OrderItemState,
+  PortionState,
+  TagGroupState,
+} from "../../../interfaces";
 
 import { useAppDispatch } from "../../../store/hooks";
 import { add } from "../../../store";
@@ -14,234 +19,268 @@ import { add } from "../../../store";
 import { nanoid } from "@reduxjs/toolkit";
 import { Minus, Plus } from "react-feather";
 
-
 export interface Props {
-    product: IProduct;
+  product: IProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+  const dispatch = useAppDispatch();
 
-    const dispatch = useAppDispatch();
-
-    const defaultTags = product.portions[0].tagGroups.map(tagGroup => ({
-        name: tagGroup.name,
+  const defaultTags = product.portions[0].tagGroups.map((tagGroup) => ({
+    name: tagGroup.name,
+    quantity: 0,
+    tags: [
+      {
+        id: null,
+        name: "",
+        value: "",
         quantity: 0,
-        tags: [{
-            id: null,
-            name: '',
-            value: '',
-            quantity: 0,
-            price: 0,
-        }],
-    }))
+        price: 0,
+      },
+    ],
+  }));
 
-    const [order, setOrder] = useState<OrderItemState>(
-        {
-            orderItemId: nanoid(),
-            productId: product.id,
-            productName: product.name,
-            quantity: 1,
-            portion: { id: product.portions[0].id, name: product.portions[0].name, price: product.portions[0].price },
-            tagsGroups: defaultTags,
-            price: product.portions[0].price,
-            unitPrice: product.portions[0].price
-        }
-    );
+  const [order, setOrder] = useState<OrderItemState>({
+    orderItemId: nanoid(),
+    productId: product.id,
+    productName: product.name,
+    quantity: 1,
+    portion: {
+      id: product.portions[0].id,
+      name: product.portions[0].name,
+      price: product.portions[0].price,
+    },
+    tagsGroups: defaultTags,
+    price: product.portions[0].price,
+    unitPrice: product.portions[0].price,
+  });
 
-    const handleAddClick = () => {
-        dispatch(add({ ...order, orderItemId: nanoid() }));
-    }
+  const handleAddClick = () => {
+    dispatch(add({ ...order, orderItemId: nanoid() }));
+  };
 
-    const calculateTotal = (portion: PortionState, tagsGroups: TagGroupState[], qty: number) => {
-        const totalAmount = (portion.price +
-            tagsGroups.reduce((previousGroup, currentGroup) =>
-                previousGroup + currentGroup.tags.reduce((previousTag, currentTag) =>
-                    (previousTag + (currentTag.quantity * currentTag.price)), 0), 0)) * qty;
+  const calculateTotal = (
+    portion: PortionState,
+    tagsGroups: TagGroupState[],
+    qty: number
+  ) => {
+    const totalAmount =
+      (portion.price +
+        tagsGroups.reduce(
+          (previousGroup, currentGroup) =>
+            previousGroup +
+            currentGroup.tags.reduce(
+              (previousTag, currentTag) =>
+                previousTag + currentTag.quantity * currentTag.price,
+              0
+            ),
+          0
+        )) *
+      qty;
 
-        return totalAmount;
-    }
+    return totalAmount;
+  };
 
-    const calculateUnitTotal = (portion: PortionState, tagsGroups: TagGroupState[]) => {
-        const totalAmount = (portion.price +
-            tagsGroups.reduce((previousGroup, currentGroup) =>
-                previousGroup + currentGroup.tags.reduce((previousTag, currentTag) =>
-                    (previousTag + (currentTag.quantity * currentTag.price)), 0), 0));
+  const calculateUnitTotal = (
+    portion: PortionState,
+    tagsGroups: TagGroupState[]
+  ) => {
+    const totalAmount =
+      portion.price +
+      tagsGroups.reduce(
+        (previousGroup, currentGroup) =>
+          previousGroup +
+          currentGroup.tags.reduce(
+            (previousTag, currentTag) =>
+              previousTag + currentTag.quantity * currentTag.price,
+            0
+          ),
+        0
+      );
 
-        return totalAmount;
-    }
+    return totalAmount;
+  };
 
-
-    const handlePortionChange = (portion: any) => {
-
-        return setOrder((prevOrder) => (
+  const handlePortionChange = (portion: any) => {
+    return setOrder((prevOrder) => ({
+      ...prevOrder,
+      tagsGroups: product.portions
+        .find((p) => p.id === portion.id)!
+        .tagGroups.map((tagGroup) => ({
+          name: tagGroup.name,
+          quantity: 0,
+          tags: [
             {
-                ...prevOrder,
-                tagsGroups: product.portions.find((p) => p.id === portion.id)!.tagGroups.map(tagGroup => ({
-                    name: tagGroup.name,
-                    quantity: 0,
-                    tags: [{
-                        id: null,
-                        name: '',
-                        value: '',
-                        quantity: 0,
-                        price: 0,
-                    }],
-                })),
-                portion: { id: portion.id, name: portion.name, price: portion.price },
-                price: calculateTotal(portion, prevOrder.tagsGroups, prevOrder.quantity),
-                unitPrice: calculateUnitTotal(portion, prevOrder.tagsGroups)
-            }
-        ));
+              id: null,
+              name: "",
+              value: "",
+              quantity: 0,
+              price: 0,
+            },
+          ],
+        })),
+      portion: { id: portion.id, name: portion.name, price: portion.price },
+      price: calculateTotal(portion, prevOrder.tagsGroups, prevOrder.quantity),
+      unitPrice: calculateUnitTotal(portion, prevOrder.tagsGroups),
+    }));
+  };
 
-    }
+  const handleTagChange = (tag: any, name: string) => {
+    console.log(tag, "hola");
 
-    const handleTagChange = (tag: any, name: string) => {
+    setOrder((prevOrder) => {
+      const newTagsGroups = [
+        ...prevOrder.tagsGroups.map((tagGroup) => {
+          if (tagGroup.name !== tag.name) {
+            return tagGroup;
+          }
+          return tag;
+        }),
+      ];
 
-        console.log(tag, 'hola');
+      return {
+        ...prevOrder,
+        tagsGroups: newTagsGroups,
+        price: calculateTotal(
+          prevOrder.portion,
+          newTagsGroups,
+          prevOrder.quantity
+        ),
+        unitPrice: calculateUnitTotal(prevOrder.portion, newTagsGroups),
+      };
+    });
+  };
 
-        setOrder((prevOrder) => {
-
-            const newTagsGroups = [...prevOrder.tagsGroups.map(tagGroup => {
-                if (tagGroup.name !== tag.name) {
-                    return tagGroup;
+  return (
+    <Layout title={product.name} margin>
+      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
+        <div className="w-full">
+          <div className="relative overflow-hidden bg-primary p-8 h-vh space-y-4 pb-14 rounded-t-2xl">
+            <div className="block">
+              <Image
+                src={
+                  "https://cdnimg.webstaurantstore.com/images/blogs/1804/gameday-header.jpg"
                 }
-                return tag;
-            })
-            ]
-
-            return {
-                ...prevOrder,
-                tagsGroups: newTagsGroups,
-                price: calculateTotal(prevOrder.portion, newTagsGroups, prevOrder.quantity),
-                unitPrice: calculateUnitTotal(prevOrder.portion, newTagsGroups)
-            }
-        });
-
-    }
-
-    return (
-        <Layout title={product.name} margin>
-
-            <div className="flex flex-col items-center space-y-0 md:space-y-0 m-4 mt-2">
-
-                <div className="w-full lg:w-3/5 xl:1/2">
-                    <div className="relative overflow-hidden bg-primary p-8 h-vh space-y-4 pb-14 rounded-t-2xl">
-                        <div className="block">
-                            <Image src={'https://cdnimg.webstaurantstore.com/images/blogs/1804/gameday-header.jpg'}
-                                alt={product.name}
-                                layout="fill"
-                                className="object-cover bg-gradient-to-l from-slate-50 z-0 opacity-10">
-                            </Image>
-                        </div>
-
-                        <h1 className="font-extrabold text-2xl sm:text-3xl text-white z-10 relative">
-                            {product.name}
-                        </h1>
-
-                        <p className="text-white">
-                            {product.description}
-                        </p>
-                    </div>
-
-                    <div className="w-full bg-white rounded-3xl relative -top-6">
-
-                        <section className="md:w-4/5 space-y-4 p-6" >
-                            <PortionsList
-                                selectedPortion={order.portion.name}
-                                portions={product.portions} handleChange={handlePortionChange} />
-                        </section>
-
-                        {product.portions.find((portion) => portion.id === order.portion.id)!.tagGroups.map((tagGroup, index) => (
-                            <section key={tagGroup.name} className="md:w-4/5 space-y-4 p-6" >
-                                <TagsList
-                                    tagGroup={tagGroup}
-                                    tagsInitialState={order.tagsGroups[index]}
-                                    handleChange={handleTagChange}
-                                />
-                            </section>
-                        ))}
-                    </div>
-
-                </div>
+                alt={product.name}
+                layout="fill"
+                className="object-cover bg-gradient-to-l from-slate-50 z-0 opacity-10"
+              ></Image>
             </div>
 
-            <div className="fixed bottom-0 bg-white border-t w-full h-20 flex justify-center items-center">
-                <div className="w-full lg:w-3/5 xl:1/2 flex px-4 space-x-8">
-                    <div className="flex flex-row space-x-4 items-center p-2 justify-between">
-                        <ButtonIcon handleClick={() => order.quantity <= 1 ? '' : setOrder((prevOrder) => (
-                            {
-                                ...prevOrder,
-                                quantity: prevOrder.quantity - 1,
-                                price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity - 1),
-                                unitPrice: calculateUnitTotal(prevOrder.portion, prevOrder.tagsGroups),
-                            }
-                        ))}>
-                            <Minus />
-                        </ButtonIcon>
+            <h1 className="font-extrabold text-2xl sm:text-3xl text-white z-10 relative">
+              {product.name}
+            </h1>
 
-                        <span className="font-bold text-sm">
-                            {order.quantity}
-                        </span>
+            <p className="text-white">{product.description}</p>
+          </div>
 
-                        <ButtonIcon
-                            handleClick={() => setOrder((prevOrder) => (
-                                {
-                                    ...prevOrder,
-                                    quantity: prevOrder.quantity + 1,
-                                    price: calculateTotal(prevOrder.portion, prevOrder.tagsGroups, prevOrder.quantity + 1),
-                                    unitPrice: calculateUnitTotal(prevOrder.portion, prevOrder.tagsGroups),
+          <div className="w-full bg-white rounded-3xl relative -top-6">
+            <section className="md:w-4/5 space-y-4 p-6">
+              <PortionsList
+                selectedPortion={order.portion.name}
+                portions={product.portions}
+                handleChange={handlePortionChange}
+              />
+            </section>
 
-                                }
-                            ))}
-                            style="bg-primary hover:bg-primary">
-                            <Plus color="white" />
-                        </ButtonIcon>
+            {product.portions
+              .find((portion) => portion.id === order.portion.id)!
+              .tagGroups.map((tagGroup, index) => (
+                <section key={tagGroup.name} className="md:w-4/5 space-y-4 p-6">
+                  <TagsList
+                    tagGroup={tagGroup}
+                    tagsInitialState={order.tagsGroups[index]}
+                    handleChange={handleTagChange}
+                  />
+                </section>
+              ))}
+          </div>
+        </div>
+      </div>
 
-                    </div>
-                    <BarButton handleClick={handleAddClick}>
-                        <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base">
-                            <div>
-                                Añadir
-                            </div>
-                            <div className="font-extrabold text-sm sm:text-base">
-                                ${order.price.toFixed(2)}
-                            </div>
+      <div className="fixed bottom-0 bg-white border-t w-full left-0 h-20 flex justify-center items-center">
+        <div className="w-full lg:w-3/5 xl:1/2 flex px-4 space-x-8">
+          <div className="flex flex-row space-x-4 items-center p-2 justify-between">
+            <ButtonIcon
+              handleClick={() =>
+                order.quantity <= 1
+                  ? ""
+                  : setOrder((prevOrder) => ({
+                      ...prevOrder,
+                      quantity: prevOrder.quantity - 1,
+                      price: calculateTotal(
+                        prevOrder.portion,
+                        prevOrder.tagsGroups,
+                        prevOrder.quantity - 1
+                      ),
+                      unitPrice: calculateUnitTotal(
+                        prevOrder.portion,
+                        prevOrder.tagsGroups
+                      ),
+                    }))
+              }
+            >
+              <Minus />
+            </ButtonIcon>
 
-                        </div>
-                    </BarButton>
-                </div>
+            <span className="font-bold text-sm">{order.quantity}</span>
+
+            <ButtonIcon
+              handleClick={() =>
+                setOrder((prevOrder) => ({
+                  ...prevOrder,
+                  quantity: prevOrder.quantity + 1,
+                  price: calculateTotal(
+                    prevOrder.portion,
+                    prevOrder.tagsGroups,
+                    prevOrder.quantity + 1
+                  ),
+                  unitPrice: calculateUnitTotal(
+                    prevOrder.portion,
+                    prevOrder.tagsGroups
+                  ),
+                }))
+              }
+              style="bg-primary hover:bg-primary"
+            >
+              <Plus color="white" />
+            </ButtonIcon>
+          </div>
+          <BarButton handleClick={handleAddClick}>
+            <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base">
+              <div>Añadir</div>
+              <div className="font-extrabold text-sm sm:text-base">
+                ${order.price.toFixed(2)}
+              </div>
             </div>
-
-        </Layout >
-    );
-}
-
-
+          </BarButton>
+        </div>
+      </div>
+    </Layout>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { product } = params as { product: string };
 
-    const { product } = params as { product: string }
+  const data = await (
+    await fetch(`http://192.168.0.16:5000/products/${product}`)
+  ).json();
 
-
-    const data = await (await fetch(`http://192.168.0.11:5000/products/${product}`)).json();
-
-
-    if (!data || data === undefined) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            }
-        }
-    }
-
+  if (!data || data === undefined) {
     return {
-        props: {
-            product: data,
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-        }
-    }
-}
-
+  return {
+    props: {
+      product: data,
+    },
+  };
+};
 
 export default ProductPage;

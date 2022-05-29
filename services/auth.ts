@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Category, IUser, Profile, OrderItemState } from "../interfaces";
+import {
+  Category,
+  IUser,
+  Profile,
+  OrderItemState,
+  IPaymentLink,
+} from "../interfaces";
 
 export interface LoginRequest {
   username: string;
@@ -8,7 +14,7 @@ export interface LoginRequest {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.0.11:5000/",
+    baseUrl: "http://192.168.0.16:5000/",
     credentials: "include",
   }),
   endpoints: (builder) => ({
@@ -72,6 +78,27 @@ export const api = createApi({
         },
       }),
     }),
+    payWithWompi: builder.mutation<IPaymentLink, OrderItemState[]>({
+      query: (order) => ({
+        url: "tickets",
+        method: "POST",
+        body: {
+          orderType: "", //TODO: modify hardcoded properties
+          customerAddressId: 1,
+          scheduledDate: "2022-05-22T22:01:26.932Z", //TODO: modify hardcoded properties
+          storeId: 1,
+          ticketItems: [
+            ...order.map((item) => ({
+              productId: item.productId,
+              portion: item.portion,
+              quantity: item.quantity,
+              tagsGroups: item.tagsGroups,
+            })),
+          ],
+        },
+      }),
+    }),
+
     protected: builder.mutation<{ message: string }, void>({
       query: () => "protected",
     }),
@@ -87,4 +114,5 @@ export const {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
   useCalculateTotalQuery,
+  usePayWithWompiMutation,
 } = api;

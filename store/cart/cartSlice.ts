@@ -35,6 +35,10 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<OrderItemState>) => {
+      action.payload = {
+        ...action.payload,
+        tagsGroups: [...action.payload.tagsGroups.filter((tagGroup) => tagGroup.quantity > 0)]
+      }
       state.items.push(action.payload);
       state.itemsCount += action.payload.quantity;
       state.total += action.payload.price;

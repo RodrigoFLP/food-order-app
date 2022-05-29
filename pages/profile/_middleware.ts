@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   try {
     const { Authentication: token = "" } = req.cookies;
 
-    const res = await fetch("http://192.168.0.11:5000/auth/checkheader", {
+    const res = await fetch("http://192.168.0.16:5000/auth/checkheader", {
       headers: new Headers({ Authorization: `Bearer ${token}` }),
     });
 
@@ -18,6 +18,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.next();
   } catch (err) {
     const page = req.page.name;
-    return NextResponse.redirect(`http://192.168.0.12:3000/login?p=${page}`);
+    return NextResponse.redirect(`http://192.168.0.16:3000/login?p=${page}`);
   }
 }
