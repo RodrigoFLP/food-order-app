@@ -5,13 +5,13 @@ export const useOnScroll = () => {
 
   useEffect(() => {
     const onScroll = (e: Event) => {
-      const newShowFixed = window.scrollY > 0;
-      showFixed !== newShowFixed && setShowFixed(newShowFixed);
+      setShowFixed(window.scrollY > 0);
     };
     document.addEventListener("scroll", onScroll);
+    if (window.scrollY > 0) setShowFixed(true);
 
     return () => document.removeEventListener("scroll", onScroll);
-  });
+  }, []); //eslint-disable-line
 
   return { showFixed };
 };

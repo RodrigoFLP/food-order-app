@@ -17,7 +17,10 @@ import { useAppDispatch } from "../../../store/hooks";
 import { add } from "../../../store";
 
 import { nanoid } from "@reduxjs/toolkit";
-import { Minus, Plus } from "react-feather";
+import { Minus, Plus, ShoppingCart } from "react-feather";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 export interface Props {
   product: IProduct;
@@ -40,7 +43,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     ],
   }));
 
-  const [order, setOrder] = useState<OrderItemState>({
+  const initialOrderState = {
     orderItemId: nanoid(),
     productId: product.id,
     productName: product.name,
@@ -53,10 +56,18 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     tagsGroups: defaultTags,
     price: product.portions[0].price,
     unitPrice: product.portions[0].price,
-  });
+  };
+
+  const [order, setOrder] = useState<OrderItemState>(initialOrderState);
 
   const handleAddClick = () => {
+    toast("Agregado al carrito", {
+      type: "success",
+      autoClose: 1000,
+      // icon: <ShoppingCart />,
+    });
     dispatch(add({ ...order, orderItemId: nanoid() }));
+    setOrder(initialOrderState);
   };
 
   const calculateTotal = (
@@ -226,6 +237,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             <span className="font-bold text-sm">{order.quantity}</span>
 
             <ButtonIcon
+              style={true}
               handleClick={() =>
                 setOrder((prevOrder) => ({
                   ...prevOrder,
@@ -241,7 +253,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                   ),
                 }))
               }
-              style="bg-primary hover:bg-primary"
             >
               <Plus color="white" />
             </ButtonIcon>
@@ -256,6 +267,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
           </BarButton>
         </div>
       </div>
+      <ToastContainer />
     </Layout>
   );
 };

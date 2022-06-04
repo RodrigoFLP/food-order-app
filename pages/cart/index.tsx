@@ -56,6 +56,7 @@ const CartPage: NextPage = () => {
         <BarButton
           Icon={ShoppingCart}
           handleClick={() => router.push("/checkout")}
+          disabled={!showCart ? true : !(items.length > 0)}
         >
           Continuar
         </BarButton>

@@ -3,6 +3,7 @@ import ModalContainer from "./ModalContainer";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import BarButton from "./BarButton";
+import { useGetDeliveryAreasQuery } from "../../services/auth";
 
 const MapContainer = dynamic<any>(
   () => import("react-leaflet").then((module) => module.MapContainer),
@@ -31,17 +32,23 @@ interface Props {
 }
 
 export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
-  const position = [13.702342669306118, -89.21357999951415];
+  const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
+
+  const [markerPosition, setMarkerPosition] = useState([
+    13.702342669306118, -89.21357999951415,
+  ]);
 
   const purpleOptions = { color: "blue" };
 
-  const polygon = [
-    [13.697854464210797, -89.22316924646987],
-    [13.714531770243466, -89.219306865748],
-    [13.716366201612633, -89.19381515298369],
-    [13.70084168236646, -89.20130621188689],
-    [13.695087810300349, -89.21121965573968],
-  ];
+  const polygon =
+    isSuccess && !isLoading
+      ? [
+          ...data[0].coordinates.map((coordinate) => [
+            coordinate.lat,
+            coordinate.lon,
+          ]),
+        ]
+      : [];
 
   return show ? (
     <ModalContainer>
@@ -61,19 +68,22 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
           </div>
 
           <MapContainer
-            style={{ height: "100%", width: "100%", "z-index": "10" }}
-            center={position}
+            style={{ height: "100%", width: "100%", zIndex: "10" }}
+            center={markerPosition}
             zoom={13}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-            <Marker position={position}>
+            <Marker position={markerPosition}>
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>
             </Marker>
 
-            <Polygon pathOptions={purpleOptions} positions={polygon} />
+            <Polygon
+              pathOptions={purpleOptions}
+              positions={isSuccess ? polygon : []}
+            />
           </MapContainer>
           <div className="absolute p-6 bottom-0 z-50 w-full">
             <BarButton>Seleccionar</BarButton>

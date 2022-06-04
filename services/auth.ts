@@ -5,6 +5,8 @@ import {
   Profile,
   OrderItemState,
   IPaymentLink,
+  Address,
+  DeliveryArea,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -47,6 +49,13 @@ export const api = createApi({
         credentials: "include",
       }),
     }),
+    getAddress: builder.query<Address[], void>({
+      query: () => ({
+        url: "/profile/address",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     getCategoriesList: builder.query<Category[], void>({
       query: () => ({
         url: "categories",
@@ -56,6 +65,12 @@ export const api = createApi({
     getCategoryProducts: builder.query<Category, number>({
       query: (categoryId) => ({
         url: `categories/${categoryId}`,
+        method: "GET",
+      }),
+    }),
+    getDeliveryAreas: builder.query<DeliveryArea[], number>({
+      query: (storeId) => ({
+        url: `stores/${storeId}/area`,
         method: "GET",
       }),
     }),
@@ -115,4 +130,6 @@ export const {
   useGetCategoryProductsQuery,
   useCalculateTotalQuery,
   usePayWithWompiMutation,
+  useGetAddressQuery,
+  useGetDeliveryAreasQuery,
 } = api;

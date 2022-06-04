@@ -21,3 +21,5 @@ export * from "./TagsList";
 export * from "./SearchInput";
 export * from "./OrderCard";
 export * from "./ProfileButton";
+export * from "./AddressCard";
+export * from "./CheckoutStepContainer";

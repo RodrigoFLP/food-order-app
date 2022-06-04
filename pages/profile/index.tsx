@@ -1,8 +1,12 @@
 import { NextPage } from "next";
 import { Edit } from "react-feather";
 import { Layout } from "../../components/layouts";
+import { AddressCard } from "../../components/ui";
+import { useGetAddressQuery } from "../../services/auth";
 
 const ProfilePage: NextPage = () => {
+  const { isLoading, isFetching, data, isSuccess } = useGetAddressQuery();
+
   return (
     <Layout title="Perfil">
       <div className="">
@@ -24,14 +28,12 @@ const ProfilePage: NextPage = () => {
           </div>
         </div>
         <h1 className="font-semibold pb-4 mt-6">Direcciones</h1>
-        <div className="bg-white text-black border rounded-xl shadow-sm p-4 flex justify-between text-sm">
-          <div>
-            <h2 className="font-semibold">Dirección 1</h2>
-            <div>Departamento, municipio</div>
-            <div>Colonia buena vista calle número 17</div>
-            <div>#28</div>
-          </div>
-          <Edit />
+        <div className="space-y-2">
+          {isSuccess
+            ? data.map((address) => (
+                <AddressCard key={address.id} {...address} />
+              ))
+            : "Cargando..."}
         </div>
       </div>
     </Layout>
