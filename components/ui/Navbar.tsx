@@ -1,11 +1,11 @@
-import { ButtonIcon } from "../ui";
-import { User, ShoppingCart } from "react-feather";
+import { ButtonIcon } from "./Buttons/ButtonIcon";
+import { ShoppingCart } from "react-feather";
 import Link from "next/link";
 import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
 import { selectItemsCount } from "../../store";
 import { useEffect, useState } from "react";
-import ProfileButton from "./ProfileButton";
+import { ProfileButton } from "./Buttons";
 
 export const Navbar = () => {
   const { showFixed } = useOnScroll();

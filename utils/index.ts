@@ -1,3 +1,1 @@
-
-
-export const string = '';
+export * from "./isMarkerInsidePolygon";

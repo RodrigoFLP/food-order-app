@@ -139,10 +139,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@react-leaflet/core@^2.0.0-beta.0":
-  version "2.0.0-beta.0"
-  resolved "https://registry.npmjs.org/@react-leaflet/core/-/core-2.0.0-beta.0.tgz"
-  integrity sha512-hDk+9Y5vQ9rxkAR8hyvEymqOuPpQvOXTWanh1lW0YQVbsZnx+XMz2sBF0ExrWZm3l0LEKlpMD4VzbCrbDAIpBQ==
+"@react-leaflet/core@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.0.0.tgz#212f4d87dc7681f40ca0e47d99672676c20c8ef6"
+  integrity sha512-SQQ5DCQIaLzvslN6wCXs5OWqtlvk1Ubv2n5d7zTM8SDl9hM5Rr2wVy7/nOCIY958D75/ovhq6ZoSvT7GLCX6sg==
 
 "@reduxjs/toolkit@^1.8.1":
   version "1.8.1"
@@ -164,6 +164,11 @@
   resolved "https://registry.npmjs.org/@tailwindcss/line-clamp/-/line-clamp-0.3.1.tgz"
   integrity sha512-pNr0T8LAc3TUx/gxCfQZRe9NB2dPEo/cedPHzUGIPxqDMhgjwNm6jYxww4W5l0zAsAddxr+XfZcqttGiFDgrGg==
 
+"@types/geojson@*":
+  version "7946.0.8"
+  resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.8.tgz"
+  integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
@@ -176,6 +181,13 @@
   version "0.0.29"
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/leaflet@^1.7.11":
+  version "1.7.11"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.7.11.tgz#48b33b7a15b015bbb1e8950399298a112c3220c8"
+  integrity sha512-VwAYom2pfIAf/pLj1VR5aLltd4tOtHyvfaJlNYCoejzP2nu52PrMi1ehsLRMUS+bgafmIIKBV1cMfKeS+uJ0Vg==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/lodash@^4.14.175":
   version "4.14.181"
@@ -499,7 +511,7 @@ chokidar@^3.5.3:
 
 clsx@^1.1.1:
   version "1.1.1"
-  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  resolved "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
 color-convert@^2.0.1:
@@ -1754,12 +1766,17 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
-react-leaflet@4.0.0-beta.0:
-  version "4.0.0-beta.0"
-  resolved "https://registry.npmjs.org/react-leaflet/-/react-leaflet-4.0.0-beta.0.tgz"
-  integrity sha512-LCPSfqBOCvDcpXGAPhe5KrnO/rAmtWJ10SQG7FOLIErI+DU3rhhDfbao2/YPe+a1JJfvL4vODkp6Cf4jel0TBg==
+react-leaflet-search@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-leaflet-search/-/react-leaflet-search-2.0.1.tgz#73d29114648ed92b7936c1a9fc0326f0ab7e435b"
+  integrity sha512-doOcPPUgQVO2CJrO5kg0o14qCC/iD4gQwIclZt4xfvO353yUVRGkBAt5LOhjFLgLzxWjI54VkBKK3EK1ps6clA==
+
+react-leaflet@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.0.0.tgz#9c2b8de82c6f5930387f5b1b37cb0ec4d8f98d61"
+  integrity sha512-qJJvoCNe12XHSWVUwhXYmMObPoSYy8h/hn0aDNvcBuq3O8zmVI5S2RdabhaDg/iWMCJ2jbCWZWtIU5VtztO9sg==
   dependencies:
-    "@react-leaflet/core" "^2.0.0-beta.0"
+    "@react-leaflet/core" "^2.0.0"
 
 react-redux@^8.0.1:
   version "8.0.1"
@@ -1775,7 +1792,7 @@ react-redux@^8.0.1:
 
 react-toastify@^9.0.1:
   version "9.0.1"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.1.tgz#2f3abd26a75efd55a82cb9c0a897c865218ea420"
+  resolved "https://registry.npmjs.org/react-toastify/-/react-toastify-9.0.1.tgz"
   integrity sha512-c2zeZHkCX+WXuItS/JRqQ/8CH8Qm/je+M0rt09xe9fnu5YPJigtNOdD8zX4fwLA093V2am3abkGfOowwpkrwOQ==
   dependencies:
     clsx "^1.1.1"

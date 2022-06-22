@@ -10,6 +10,7 @@ export interface Profile {
   receiveAds: boolean;
   addresses: Address[];
   tickets: Ticket[];
+  email: string;
 }
 
 export interface Address {

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { FC } from "react";
-import ButtonIcon from "./ButtonIcon";
-import { Plus, Minus, Trash } from "react-feather";
-import { OrderItemState } from "../../interfaces";
-import { incrementItemQuantity, remove } from "../../store";
-import { useAppDispatch } from "../../store/hooks";
+import { ButtonIcon } from "../Buttons";
+import { Plus, Minus } from "react-feather";
+import { OrderItemState } from "../../../interfaces";
+import { incrementItemQuantity, remove } from "../../../store";
+import { useAppDispatch } from "../../../store/hooks";
 
 interface Props {
   order: OrderItemState;

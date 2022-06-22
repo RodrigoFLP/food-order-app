@@ -1,30 +1,15 @@
-import { FC, useEffect, useState } from "react";
-import ModalContainer from "./ModalContainer";
-import dynamic from "next/dynamic";
-import "leaflet/dist/leaflet.css";
-import BarButton from "./BarButton";
-import { useGetDeliveryAreasQuery } from "../../services/auth";
+import { FC, useState } from "react";
+import { useGetDeliveryAreasQuery } from "../../../services/auth";
+import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
+import L, { LatLngExpression } from "leaflet";
 
-const MapContainer = dynamic<any>(
-  () => import("react-leaflet").then((module) => module.MapContainer),
-  { ssr: false }
-);
-const Marker = dynamic<any>(
-  () => import("react-leaflet").then((module) => module.Marker),
-  { ssr: false }
-);
-const Popup = dynamic<any>(
-  () => import("react-leaflet").then((module) => module.Popup),
-  { ssr: false }
-);
-const TileLayer = dynamic<any>(
-  () => import("react-leaflet").then((module) => module.TileLayer),
-  { ssr: false }
-);
-const Polygon = dynamic<any>(
-  () => import("react-leaflet").then((module) => module.Polygon),
-  { ssr: false }
-);
+import ModalContainer from "./ModalContainer";
+import { BarButton } from "../Buttons";
+import CustomMarker from "../CustomMarker";
+
+import "leaflet/dist/leaflet.css";
+import isMarkerInsidePolygon from "../../../utils/isMarkerInsidePolygon";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Props {
   show: boolean;
@@ -32,11 +17,13 @@ interface Props {
 }
 
 export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
-  const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
-
   const [markerPosition, setMarkerPosition] = useState([
     13.702342669306118, -89.21357999951415,
   ]);
+
+  const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
+
+  delete (L.Icon.Default as any).prototype._getIconUrl;
 
   const purpleOptions = { color: "blue" };
 
@@ -49,6 +36,17 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
           ]),
         ]
       : [];
+
+  const handleMapClick = (newPosition: number[]) => {
+    const isMarkerInside = isMarkerInsidePolygon(newPosition, polygon);
+    isMarkerInside
+      ? setMarkerPosition(newPosition)
+      : toast("Ubicación sin cobertura", {
+          type: "error",
+          autoClose: 500,
+          // icon: <ShoppingCart />,
+        });
+  };
 
   return show ? (
     <ModalContainer>
@@ -69,20 +67,19 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
 
           <MapContainer
             style={{ height: "100%", width: "100%", zIndex: "10" }}
-            center={markerPosition}
+            center={[13.702342669306118, -89.21357999951415]}
             zoom={13}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-            <Marker position={markerPosition}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
+            <CustomMarker
+              handleMapClick={handleMapClick}
+              markerPosition={markerPosition as LatLngExpression}
+            />
 
             <Polygon
               pathOptions={purpleOptions}
-              positions={isSuccess ? polygon : []}
+              positions={isSuccess ? (polygon as LatLngExpression[]) : []}
             />
           </MapContainer>
           <div className="absolute p-6 bottom-0 z-50 w-full">
@@ -95,6 +92,7 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
           onClick={handleClose}
         ></div>
       </div>
+      <ToastContainer />
     </ModalContainer>
   ) : null;
 };

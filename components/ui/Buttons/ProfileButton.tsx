@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import {
+  FC,
+  MouseEventHandler,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { User } from "react-feather";
 import { useDispatch } from "react-redux";
-import { useLogoutMutation } from "../../services/auth";
-import { clearCart, selectIsLoggedIn, selectUser } from "../../store";
-import { useAppSelector } from "../../store/hooks";
-import { AppDispatch } from "../../store/store";
+import { useLogoutMutation } from "../../../services/auth";
+import { clearCart, selectIsLoggedIn, selectUser } from "../../../store";
+import { useAppSelector } from "../../../store/hooks";
+import { AppDispatch } from "../../../store/store";
 
 export const ProfileButton: FC = () => {
   const [showMenu, setShowMenu] = useState(false);

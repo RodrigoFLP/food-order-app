@@ -3,9 +3,11 @@ import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 
-import { ButtonIcon } from "../../../components/hoc";
+import { ButtonIcon } from "../../../components/ui/Buttons";
 import { Layout } from "../../../components/layouts";
-import { BarButton, PortionsList, TagsList } from "../../../components/ui";
+import { PortionsList, TagsList } from "../../../components/ui";
+import { BarButton } from "../../../components/ui/Buttons";
+
 import {
   IProduct,
   OrderItemState,
@@ -17,7 +19,7 @@ import { useAppDispatch } from "../../../store/hooks";
 import { add } from "../../../store";
 
 import { nanoid } from "@reduxjs/toolkit";
-import { Minus, Plus, ShoppingCart } from "react-feather";
+import { Minus, Plus } from "react-feather";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -164,7 +166,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
   return (
     <Layout title={product.name} margin>
-      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
+      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2 md:px-40">
         <div className="w-full">
           <div className="relative overflow-hidden bg-primary p-8 h-vh space-y-4 pb-14 rounded-t-2xl">
             <div className="block">
@@ -276,7 +278,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { product } = params as { product: string };
 
   const data = await (
-    await fetch(`http://192.168.0.16:5000/products/${product}`)
+    await fetch(`http://192.168.0.17:5000/products/${product}`)
   ).json();
 
   if (!data || data === undefined) {

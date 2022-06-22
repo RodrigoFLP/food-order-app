@@ -7,6 +7,7 @@ import {
   IPaymentLink,
   Address,
   DeliveryArea,
+  Store,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -16,7 +17,7 @@ export interface LoginRequest {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.0.16:5000/",
+    baseUrl: "http://192.168.0.17:5000/",
     credentials: "include",
   }),
   endpoints: (builder) => ({
@@ -49,6 +50,13 @@ export const api = createApi({
         credentials: "include",
       }),
     }),
+    getCustomerProfile: builder.query<Profile, void>({
+      query: () => ({
+        url: "/profile",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     getAddress: builder.query<Address[], void>({
       query: () => ({
         url: "/profile/address",
@@ -71,6 +79,12 @@ export const api = createApi({
     getDeliveryAreas: builder.query<DeliveryArea[], number>({
       query: (storeId) => ({
         url: `stores/${storeId}/area`,
+        method: "GET",
+      }),
+    }),
+    getStores: builder.query<Store[], void>({
+      query: () => ({
+        url: `stores`,
         method: "GET",
       }),
     }),
@@ -132,4 +146,6 @@ export const {
   usePayWithWompiMutation,
   useGetAddressQuery,
   useGetDeliveryAreasQuery,
+  useGetCustomerProfileQuery,
+  useGetStoresQuery,
 } = api;

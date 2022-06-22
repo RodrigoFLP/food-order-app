@@ -1,16 +1,10 @@
 import type { NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { Search } from "react-feather";
 import { Layout } from "../components/layouts";
-import {
-  Card,
-  CardsSlider,
-  AdHeader,
-  SliderButton,
-  UserHeader,
-  SearchInput,
-} from "../components/ui";
+import { AdHeader } from "../components/ui";
+import { SliderButton } from "../components/ui/Buttons";
+
+import { Card, CardsSlider } from "../components/ui/Cards";
 import { SectionContainer } from "../components/ui";
 import ListButtonsPlaceholder from "../components/ui/ListButtonsPlaceholder";
 import { Category } from "../interfaces";

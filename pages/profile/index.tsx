@@ -1,33 +1,56 @@
 import { NextPage } from "next";
-import { Edit } from "react-feather";
 import { Layout } from "../../components/layouts";
-import { AddressCard } from "../../components/ui";
-import { useGetAddressQuery } from "../../services/auth";
+import { AddressCard } from "../../components/ui/Cards";
+import {
+  useGetAddressQuery,
+  useGetCustomerProfileQuery,
+} from "../../services/auth";
 
 const ProfilePage: NextPage = () => {
   const { isLoading, isFetching, data, isSuccess } = useGetAddressQuery();
+  const {
+    isLoading: isProfileLoading,
+    isFetching: isProfileFetching,
+    data: profileData,
+    isSuccess: isProfileSuccess,
+  } = useGetCustomerProfileQuery();
 
   return (
     <Layout title="Perfil">
       <div className="">
         <div className="rounded-2xl bg-white shadow-sm p-4">
-          <h1 className="font-semibold">¡Bienvenido Rodrigo!</h1>
+          <h1 className="font-semibold">
+            ¡Bienvenido/a {profileData?.firstName}!
+          </h1>
           <div className="pt-4 text-sm space-y-2">
             <div>
-              <span className="bg-secondary rounded-2xl p-1 px-2 text-white font-semibold mr-2">
-                Última orden
+              <span className="bg-primary rounded-2xl p-1 px-2 text-white font-semibold mr-2">
+                Teléfono
               </span>
-              17 de mayo de 2021
+              {profileData?.phoneNumber}
             </div>
             <div>
-              <span className="bg-secondary rounded-2xl p-1 px-2 text-white font-semibold mr-2">
-                Total de ordenes:
+              <span className="bg-primary rounded-2xl p-1 px-2 text-white font-semibold mr-2">
+                Correo
               </span>
-              3
+              {profileData?.email}
+            </div>
+            <div>
+              <span className="bg-primary rounded-2xl p-1 px-2 text-white font-semibold mr-2">
+                Cumpleaños
+              </span>
+              {`${profileData?.birthDate}`}
             </div>
           </div>
         </div>
-        <h1 className="font-semibold pb-4 mt-6">Direcciones</h1>
+        <div className="pb-4 mt-6 flex justify-between">
+          <h1 className="font-semibold">Direcciones</h1>
+          {isSuccess && data.length < 3 && (
+            <h1 className="font-semibold text-sm text-primary">
+              Añadir Dirección
+            </h1>
+          )}
+        </div>
         <div className="space-y-2">
           {isSuccess
             ? data.map((address) => (

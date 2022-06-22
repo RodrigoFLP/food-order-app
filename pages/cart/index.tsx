@@ -1,19 +1,19 @@
+import { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+
 import { ShoppingCart } from "react-feather";
+
 import { Layout } from "../../components/layouts";
 import { BarButton } from "../../components/ui";
-import CartListTile from "../../components/ui/CartListTile";
-import { useCalculateTotalQuery } from "../../services/auth";
+import { CartListTile } from "../../components/ui/Cards";
+
 import { selectItems, selectTotal } from "../../store";
 import { useAppSelector } from "../../store/hooks";
 
 const CartPage: NextPage = () => {
   const items = useAppSelector(selectItems);
   const total = useAppSelector(selectTotal);
-
-  const { data, isError, isLoading } = useCalculateTotalQuery(items);
 
   const [showCart, setShowCart] = useState(false);
   const router = useRouter();
@@ -47,7 +47,6 @@ const CartPage: NextPage = () => {
             <div className="flex justify-between">
               <div>Subtotal</div>
               <div className="font-semibold">${Math.abs(total).toFixed(2)}</div>
-              {/* {!isLoading && !isError ? data.totalAmount : isError && isError} */}
             </div>
           </section>
         </div>
