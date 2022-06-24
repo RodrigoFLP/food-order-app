@@ -1,102 +1,29 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import { Address, IPaymentLink, OrderItemState } from "../../interfaces";
+import { IPaymentLink } from "../../interfaces";
 
 import { Layout } from "../../components/layouts";
 import { CheckoutStepContainer } from "../../components/ui";
 import { BarButton } from "../../components/ui/Buttons";
-import { AddressCard } from "../../components/ui/Cards";
-import {
-  Input,
-  SelectAddressInput,
-  SelectInput,
-} from "../../components/ui/Inputs";
+import PickupForm from "../../components/ui/Forms/PickupForm";
+import DeliveryForm from "../../components/ui/Forms/DeliveryForm";
+import { OrderSummaryCard } from "../../components/ui/Cards";
 
 import {
   useCalculateTotalQuery,
   useGetAddressQuery,
-  useGetStoresQuery,
   usePayWithWompiMutation,
 } from "../../services/auth";
 import { selectItems } from "../../store";
 import { useAppSelector } from "../../store/hooks";
-
-import { CreditCard, Info, Map, MapPin } from "react-feather";
-import { toast, ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
-const PickupForm = () => {
-  const { data, isError, isLoading, isSuccess } = useGetStoresQuery();
-
-  return isSuccess ? (
-    <>
-      <p>Selecciona la sucursal</p>
-      <SelectInput
-        setValue={() => {}}
-        error={false}
-        initialValue={1}
-        label="Sucursal"
-        options={data?.map((store) => `${store.name} - ${store.addressLine1}`)}
-      />
-      <p>Datos</p>
-      <Input
-        error={false}
-        label="Nombre de quién recogera la orden"
-        Icon={Info}
-      />
-    </>
-  ) : null;
-};
-
-interface OrderInfo {
-  deliveryType: string;
-  clientName: string;
-  storeId: number;
-  addressId: number;
-}
-
-interface Props {
-  addresses: Address[];
-  orderInfo: OrderInfo;
-  setOrderInfo: Dispatch<SetStateAction<OrderInfo>>;
-}
-
-const DeliveryForm: FC<Props> = ({ addresses, orderInfo, setOrderInfo }) => {
-  const handleAddressChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setOrderInfo((currentValue) => ({
-      ...currentValue,
-      addressId: parseInt(event.target.value),
-    }));
-  };
-
-  return (
-    <>
-      <p>Selecciona tu dirección:</p>
-      <SelectAddressInput
-        setValue={handleAddressChange}
-        error={false}
-        initialValue={orderInfo.addressId}
-        label="Dirección"
-        options={addresses}
-      />
-      <AddressCard
-        {...addresses.find((address) => address.id === orderInfo.addressId)!}
-      />
-    </>
-  );
-};
+import { CreditCard, Map, MapPin } from "react-feather";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StepSeparator = ({ isActivated = false }: { isActivated: boolean }) => {
   return (
@@ -108,66 +35,36 @@ const StepSeparator = ({ isActivated = false }: { isActivated: boolean }) => {
   );
 };
 
-const OrderSummary = ({
-  items,
-  showItems,
-  isLoading,
-  isError,
-  data,
-}: {
-  items: OrderItemState[];
-  showItems: boolean;
-  isLoading: boolean;
-  isError: boolean;
-  data: any;
-}) => {
-  return (
-    <div className="flex bg-white w-full h-full p-4 rounded-2xl shadow-sm flex-col space-y-2">
-      <div className="flex justify-between items-center">
-        <h2 className="font-semibold">Resumen</h2>
-        <h3 className="text-sm text-primary font-semibold cursor-pointer">
-          Editar
-        </h3>
-      </div>
-      {showItems && (
-        <>
-          <div className="border shadow-sm p-2 rounded-xl divide-y">
-            {items.map((item) => {
-              return (
-                <div key={item.orderItemId} className="p-1">
-                  <div>
-                    <span className="mr-2 p-1 rounded-lg text-white font-semibold bg-primary">
-                      {item.quantity}
-                    </span>
-                    <span className="font-semibold">{item.productName} </span>
-                    <span className="text-xs">{item.portion.name}</span>
-                  </div>
-                  {/* {item.tagsGroups} */}
-                </div>
-              );
-            })}
-          </div>
-          <div className="text-right pt-2 ">
-            Total: $
-            {!isLoading && !isError
-              ? data.totalAmount.toFixed(2)
-              : isError && isError}
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+interface OrderInfo {
+  deliveryType: string;
+  clientName: string;
+  storeId: number;
+  addressId: number | undefined;
+}
 
 const CheckoutPage: NextPage = () => {
   const router = useRouter();
   const items = useAppSelector(selectItems);
 
   const [payWithWompi, result] = usePayWithWompiMutation();
-
   const { data, isError, isLoading } = useCalculateTotalQuery(items);
-
   const { isSuccess, data: addressResult } = useGetAddressQuery();
+
+  const [orderInfo, setOrderInfo] = useState<OrderInfo>({
+    deliveryType: "",
+    clientName: "",
+    storeId: 0,
+    addressId: undefined,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOrderInfo((currentValue) => ({
+        ...currentValue,
+        addressId: addressResult[0].id,
+      }));
+    }
+  }, [addressResult, isSuccess]);
 
   //SSR check
   const [isClient, setIsClient] = useState(false);
@@ -180,13 +77,6 @@ const CheckoutPage: NextPage = () => {
     isStepOneDone: false,
     isStepTwoDone: false,
     isStepThreeDone: false,
-  });
-
-  const [orderInfo, setOrderInfo] = useState({
-    deliveryType: "",
-    clientName: "",
-    storeId: 0,
-    addressId: 0,
   });
 
   const handleDeliveryChange = (deliveryType: string) => {
@@ -221,7 +111,7 @@ const CheckoutPage: NextPage = () => {
           const response = res as { data: IPaymentLink };
           router.push(response.data?.urlEnlace);
         })
-        .catch((error) => console.log("hay error"));
+        .catch((error) => console.log(error));
     } catch (err) {
       console.log(err);
     }
@@ -300,7 +190,7 @@ const CheckoutPage: NextPage = () => {
               </BarButton>
             </CheckoutStepContainer>
           </div>
-          <OrderSummary
+          <OrderSummaryCard
             data={data}
             isLoading={isLoading}
             isError={isError}

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { ShoppingCart } from "react-feather";
 
 import { Layout } from "../../components/layouts";
-import { BarButton } from "../../components/ui";
+import { BarButton } from "../../components/ui/Buttons";
 import { CartListTile } from "../../components/ui/Cards";
 
 import { selectItems, selectTotal } from "../../store";

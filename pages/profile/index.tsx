@@ -54,7 +54,7 @@ const ProfilePage: NextPage = () => {
         <div className="space-y-2">
           {isSuccess
             ? data.map((address) => (
-                <AddressCard key={address.id} {...address} />
+                <AddressCard key={address.id} address={address} />
               ))
             : "Cargando..."}
         </div>

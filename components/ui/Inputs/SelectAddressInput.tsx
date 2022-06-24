@@ -6,7 +6,7 @@ import { Address } from "../../../interfaces";
 interface Props {
   label: string;
   options: Address[];
-  initialValue: number | string;
+  value: number | string | undefined;
   setValue: ChangeEventHandler<HTMLSelectElement>;
   error: boolean;
   errorMessage?: string;
@@ -16,7 +16,7 @@ interface Props {
 export const SelectAddressInput: FC<Props> = ({
   label,
   options,
-  initialValue,
+  value,
   setValue,
   error,
   errorMessage,
@@ -34,7 +34,7 @@ export const SelectAddressInput: FC<Props> = ({
         <select
           {...register}
           onChange={setValue}
-          value={initialValue}
+          value={value}
           className={`relative form-select form-select-lg appearance-none block pl-4 pr-12 pt-6 pb-1 text-base font-normal text-gray-700 
         bg-white bg-clip-padding bg-no-repeat rounded-lg transition ease-in-out m-0
         focus:text-gray-700 focus:bg-white ${

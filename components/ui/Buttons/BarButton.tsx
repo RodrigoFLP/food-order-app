@@ -1,12 +1,5 @@
-import { type } from "os";
-import {
-  FC,
-  FormEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  ReactNode,
-} from "react";
-import { ArrowRight, Icon } from "react-feather";
+import { FC, MouseEventHandler, ReactNode } from "react";
+import { Icon } from "react-feather";
 
 interface Props {
   children: ReactNode;

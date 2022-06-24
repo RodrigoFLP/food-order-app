@@ -1,12 +1,11 @@
-import Input from "../Inputs/Input";
-import { SelectInput } from "../Inputs";
+import { SelectInput, Input } from "../Inputs";
 import { BarButton } from "../Buttons";
-import { Map, MapPin } from "react-feather";
+import { Map, MapPin, Save } from "react-feather";
 
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { SignupForm } from "../../../interfaces";
+import { Address, SignupForm } from "../../../interfaces";
 import { validationSignup } from "../../../utils/schemas";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import techposApi from "../../../api/techposApi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -43,7 +42,11 @@ const useYupValidationResolver = (validationSchema: typeof validationSignup) =>
     [validationSchema]
   );
 
-export const AddressForm = () => {
+interface Props {
+  address?: Address;
+}
+
+export const AddressForm: FC<Props> = ({ address }) => {
   const resolver = useYupValidationResolver(validationSignup);
 
   const router = useRouter();
@@ -68,8 +71,9 @@ export const AddressForm = () => {
               address: {
                 state: data.state,
                 city: data.city,
-                addressLine1: data.address,
-                addressReference: data.addressDetail,
+                addressLine1: data.addressLine1,
+                addressLine2: data.addressLine2,
+                addressReference: data.addressReference,
                 coordinates: "0,0",
               },
             },
@@ -91,10 +95,30 @@ export const AddressForm = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<SignupForm>({ resolver });
+  } = useForm<SignupForm>({
+    resolver,
+    defaultValues: {
+      state: address?.state,
+      city: address?.city,
+      addressLine1: address?.addressLine1,
+      addressReference: address?.addressReference,
+    },
+  });
+
+  // export interface Address {
+  //   id: number;
+  //   state: string;
+  //   city: string;
+  //   addressLine1: string;
+  //   addressLine2: null;
+  //   addressReference: string;
+  //   coordinates: string;
+  //   createdAt: Date;
+  //   updatedAt: Date;
+  // }
 
   return (
-    <form className="" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 items-center">
         <SelectInput
           label="Departamento"
@@ -114,33 +138,32 @@ export const AddressForm = () => {
           initialValue={1}
           setValue={() => {}}
         />
-        <SelectInput
-          label="Colonia"
-          register={register("locality", { required: true })}
-          errorMessage={errors.locality?.message}
-          error={errors.locality ? true : false}
-          options={["Santa Ana", "San Salvador"]}
-          initialValue={1}
-          setValue={() => {}}
-        />
         <Input
           label="Dirección"
           Icon={Map}
-          register={register("address", { required: true })}
-          errorMessage={errors.address?.message}
-          error={errors.address ? true : false}
+          register={register("addressLine1", { required: true })}
+          errorMessage={errors.addressLine1?.message}
+          error={errors.addressLine1 ? true : false}
+        />
+        <Input
+          label="Dirección línea 2"
+          Icon={Map}
+          register={register("addressLine2", { required: true })}
+          errorMessage={errors.addressLine2?.message}
+          error={errors.addressLine2 ? true : false}
         />
         <Input
           label="No. de casa o apto."
           Icon={MapPin}
-          register={register("addressDetail", { required: true })}
-          errorMessage={errors.addressDetail?.message}
-          error={errors.addressDetail ? true : false}
+          register={register("addressReference", { required: true })}
+          errorMessage={errors.addressReference?.message}
+          error={errors.addressReference ? true : false}
         />
         <BarButton type="button" handleClick={handleClick} Icon={MapPin}>
           Seleccionar ubicación
         </BarButton>
       </section>
+      <BarButton Icon={Save}>Guardar cambios</BarButton>
     </form>
   );
 };

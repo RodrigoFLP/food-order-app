@@ -5,13 +5,19 @@ import ModalContainer from "./ModalContainer";
 import "leaflet/dist/leaflet.css";
 import { toast, ToastContainer } from "react-toastify";
 import { AddressForm } from "../Forms/AddressForm";
+import { Address } from "../../../interfaces";
 
 interface Props {
+  address: Address;
   show: boolean;
   handleClose: () => void;
 }
 
-export const AddressModal: FC<Props> = ({ show = false, handleClose }) => {
+export const AddressModal: FC<Props> = ({
+  show = false,
+  handleClose,
+  address,
+}) => {
   return show ? (
     <ModalContainer>
       <div
@@ -24,7 +30,7 @@ export const AddressModal: FC<Props> = ({ show = false, handleClose }) => {
                 animate-bouncein shadow-md p-4 [-webkit-scrollbar:none]"
         >
           <h1 className="font-semibold text-xl">Edita la dirección</h1>
-          <AddressForm />
+          <AddressForm address={address} />
         </div>
         <div
           className="z-30 bg-black w-full h-screen fixed 

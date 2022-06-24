@@ -8,6 +8,7 @@ export interface SignupForm {
   state: string;
   city: string;
   locality: string;
-  address: string;
-  addressDetail: string;
+  addressLine1: string;
+  addressLine2: string;
+  addressReference: string;
 }

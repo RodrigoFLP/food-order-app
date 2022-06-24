@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { FC, ReactNode } from "react";
-import { useCheckAuth, useOnScroll } from "../../hooks";
 import { Footer, Navbar } from "../ui";
 
 interface Props {

@@ -3,14 +3,11 @@ import { Edit } from "react-feather";
 import { Address } from "../../../interfaces";
 import { AddressModal } from "../Modals/AddressModal";
 
-export const AddressCard: FC<Address> = ({
-  id,
-  state,
-  city,
-  addressLine1,
-  addressLine2,
-  addressReference,
-}) => {
+interface Props {
+  address: Address;
+}
+
+export const AddressCard: FC<Props> = ({ address }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -28,17 +25,21 @@ export const AddressCard: FC<Address> = ({
         onClick={handleClick}
       >
         <div>
-          <h2 className="font-semibold">Dirección {id}</h2>
+          <h2 className="font-semibold">Dirección {address.id}</h2>
           <div>
-            {state}, {city}
+            {address.state}, {address.city}
           </div>
-          <div>{addressLine1}</div>
-          <div>{addressLine2}</div>
-          <div>{addressReference}</div>
+          <div>{address.addressLine1}</div>
+          <div>{address.addressLine2}</div>
+          <div>{address.addressReference}</div>
         </div>
         <Edit className="group-hover:text-blue-400" />
       </div>
-      <AddressModal show={showModal} handleClose={handleCloseModal} />
+      <AddressModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        address={address}
+      />
     </>
   );
 };
