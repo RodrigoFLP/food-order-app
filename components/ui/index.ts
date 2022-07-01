@@ -11,4 +11,7 @@ export * from "./PortionsList";
 export * from "./TagsList";
 // export * from "./SearchInput";
 export * from "./CheckoutStepContainer";
+export * from "./StepSeparator";
 // export * from "./SelectAddressInput";
+
+export * from "./StatusStepContainer";

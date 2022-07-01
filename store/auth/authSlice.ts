@@ -15,8 +15,10 @@ interface authState {
 const initialState: authState = {
   user: {
     id: null,
+    firstName: "",
     email: "",
     role: "",
+    isEmailConfirmed: null,
   },
   isLoggedIn: false,
   isIdle: true,
@@ -30,7 +32,6 @@ export const fetchAuth = createAsyncThunk(
   "auth/fetchAuth",
   async (thunkAPI) => {
     const response = await techposApi.get("/auth/check");
-    console.log(response.data);
     return response.data;
   }
 );

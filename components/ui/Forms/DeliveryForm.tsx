@@ -7,7 +7,7 @@ interface OrderInfo {
   deliveryType: string;
   clientName: string;
   storeId: number;
-  addressId: number | undefined;
+  addressId: string | undefined;
 }
 
 interface Props {
@@ -24,7 +24,7 @@ export const DeliveryForm: FC<Props> = ({
   const handleAddressChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setOrderInfo((currentValue) => ({
       ...currentValue,
-      addressId: parseInt(event.target.value),
+      addressId: event.target.value,
     }));
   };
 

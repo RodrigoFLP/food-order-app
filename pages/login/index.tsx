@@ -75,17 +75,27 @@ const LoginPage: NextPage = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     try {
+      toast("Ingresando...", {
+        toastId: "login",
+        isLoading: true,
+        position: "bottom-right",
+      });
       const payload = await login(data).unwrap();
       dispatch(setCredentials(payload));
 
       router.replace(router.query.p ? (router.query.p as string) : "/");
-    } catch (err) {
+    } catch (err: any) {
       reset({ password: "" });
-      toast("Revisa tus datos", {
-        type: "error",
-        autoClose: 1000,
-        position: "bottom-right",
-      });
+      toast.dismiss("login");
+      setTimeout(
+        () =>
+          toast(`${err.data.message ? err.data.message : err} `, {
+            type: "error",
+            autoClose: 2000,
+            position: "bottom-right",
+          }),
+        500
+      );
     }
   };
 

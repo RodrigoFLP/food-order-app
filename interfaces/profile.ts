@@ -1,3 +1,5 @@
+import { Ticket } from "./ticket";
+
 export interface Profile {
   id: number;
   firstName: string;
@@ -14,24 +16,13 @@ export interface Profile {
 }
 
 export interface Address {
-  id: number;
+  id: string;
   state: string;
   city: string;
   addressLine1: string;
   addressLine2: null;
   addressReference: string;
   coordinates: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface Ticket {
-  id: number;
-  couponId: string;
-  totalAmount: string;
-  status: string;
-  orderType: string;
-  scheduledDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -18,28 +18,17 @@ import {
 } from "../../services/auth";
 import { selectItems } from "../../store";
 import { useAppSelector } from "../../store/hooks";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
 
 import { CreditCard, Map, MapPin } from "react-feather";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const StepSeparator = ({ isActivated = false }: { isActivated: boolean }) => {
-  return (
-    <div
-      className={`w-[4px] transition-all h-6 ${
-        isActivated ? "bg-primary" : "bg-gray-300"
-      } ml-4`}
-    ></div>
-  );
-};
+import { StepSeparator } from "../../components/ui";
 
 interface OrderInfo {
   deliveryType: string;
   clientName: string;
   storeId: number;
-  addressId: number | undefined;
+  addressId: string | undefined;
 }
 
 const CheckoutPage: NextPage = () => {
@@ -90,30 +79,40 @@ const CheckoutPage: NextPage = () => {
 
   const handleWompiPayment = async () => {
     try {
-      const res = await toast
-        .promise(
-          payWithWompi(items),
-          {
-            success: "Enlace creado",
-            pending: "Creando enlace",
-            error: "No se ha podido crear el pago",
-          },
-          { autoClose: 1000, position: "bottom-right" }
-        )
-        .then((res) => {
-          const { error } = res as {
-            error: FetchBaseQueryError | SerializedError;
-          };
+      toast("Creando pago...", {
+        toastId: "payment",
+        isLoading: true,
+        position: "bottom-right",
+      });
 
-          if (error) {
-            throw new Error("could not create payment");
-          }
-          const response = res as { data: IPaymentLink };
-          router.push(response.data?.urlEnlace);
-        })
-        .catch((error) => console.log(error));
-    } catch (err) {
-      console.log(err);
+      const res = (await payWithWompi({
+        info: {
+          orderType: orderInfo.deliveryType,
+          storeId: orderInfo.storeId,
+          customerAddressId: orderInfo.addressId,
+        },
+        items,
+      })) as any;
+
+      if (res.error) {
+        throw new Error("No se ha podido generar el pago");
+      }
+
+      const response = res as { data: IPaymentLink };
+      router.push(response.data?.urlEnlace);
+    } catch (err: any) {
+      toast.dismiss("payment");
+      toast.dismiss("error");
+      setTimeout(
+        () =>
+          toast(`${err.data ? err.data.message : err} `, {
+            type: "error",
+            toastId: "error",
+            autoClose: 1000,
+            position: "bottom-right",
+          }),
+        500
+      );
     }
   };
 

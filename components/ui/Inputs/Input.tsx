@@ -9,6 +9,7 @@ interface Props {
   Icon: Icon;
   register?: UseFormRegisterReturn;
   type?: HTMLInputTypeAttribute;
+  maxLength?: number;
 }
 
 export const Input: FC<Props> = ({
@@ -18,6 +19,7 @@ export const Input: FC<Props> = ({
   Icon,
   register,
   type,
+  maxLength,
 }) => {
   return (
     <div className="relative">
@@ -29,6 +31,7 @@ export const Input: FC<Props> = ({
 
       <div className="relative flex-grow w-full">
         <input
+          maxLength={maxLength}
           type={type}
           {...register}
           className={`relative form-select form-select-lg appearance-none block 

@@ -65,7 +65,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   const handleAddClick = () => {
     toast("Agregado al carrito", {
       type: "success",
-      autoClose: 1000,
+      autoClose: 300,
       // icon: <ShoppingCart />,
     });
     dispatch(add({ ...order, orderItemId: nanoid() }));
@@ -139,8 +139,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   };
 
   const handleTagChange = (tag: any, name: string) => {
-    console.log(tag, "hola");
-
     setOrder((prevOrder) => {
       const newTagsGroups = [
         ...prevOrder.tagsGroups.map((tagGroup) => {

@@ -8,6 +8,9 @@ import {
   Address,
   DeliveryArea,
   Store,
+  SignUpBody,
+  Ticket,
+  TicketMutation,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -29,6 +32,13 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    signUp: builder.mutation<IUser, SignUpBody>({
+      query: (data) => ({
+        url: "auth/signup",
+        method: "POST",
+        body: data,
+      }),
+    }),
     check: builder.mutation<IUser, void>({
       query: () => ({
         url: "auth/check",
@@ -46,6 +56,20 @@ export const api = createApi({
     getProfile: builder.mutation<Profile, void>({
       query: () => ({
         url: "/profile",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    getCustomerOrders: builder.query<Ticket[], void>({
+      query: () => ({
+        url: "/profile/orders",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    getCustomerOrder: builder.mutation<Ticket, string>({
+      query: (id) => ({
+        url: `/profile/orders/${id}`,
         method: "GET",
         credentials: "include",
       }),
@@ -93,8 +117,8 @@ export const api = createApi({
         url: "tickets/calculate",
         method: "POST",
         body: {
-          orderType: "", //TODO: modify hardcoded properties
-          customerAddressId: 1,
+          orderType: "pickup",
+          customerAddressId: null,
           storeId: 1,
           ticketItems: [
             ...order.map((item) => ({
@@ -107,17 +131,20 @@ export const api = createApi({
         },
       }),
     }),
-    payWithWompi: builder.mutation<IPaymentLink, OrderItemState[]>({
+    payWithWompi: builder.mutation<
+      IPaymentLink,
+      { info: TicketMutation; items: OrderItemState[] }
+    >({
       query: (order) => ({
         url: "tickets",
         method: "POST",
         body: {
-          orderType: "", //TODO: modify hardcoded properties
-          customerAddressId: 1,
-          scheduledDate: "2022-05-22T22:01:26.932Z", //TODO: modify hardcoded properties
-          storeId: 1,
+          orderType: order.info.orderType, //TODO: modify hardcoded properties
+          customerAddressId: order.info.customerAddressId || null,
+          scheduledDate: order.info.scheduledDate || null, //TODO: modify hardcoded properties
+          storeId: order.info.storeId,
           ticketItems: [
-            ...order.map((item) => ({
+            ...order.items.map((item) => ({
               productId: item.productId,
               portion: item.portion,
               quantity: item.quantity,
@@ -136,6 +163,7 @@ export const api = createApi({
 
 export const {
   useLoginMutation,
+  useSignUpMutation,
   useProtectedMutation,
   useCheckMutation,
   useGetProfileMutation,
@@ -148,4 +176,6 @@ export const {
   useGetDeliveryAreasQuery,
   useGetCustomerProfileQuery,
   useGetStoresQuery,
+  useGetCustomerOrdersQuery,
+  useGetCustomerOrderMutation,
 } = api;

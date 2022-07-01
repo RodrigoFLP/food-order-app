@@ -27,7 +27,7 @@ export const AddressModal: FC<Props> = ({
         <div
           className="bg-white fixed z-50 w-11/12 h-4/6 md:w-3/4 md:h-3/4 
                 rounded-2xl overflow-scroll flex flex-col
-                animate-bouncein shadow-md p-4 [-webkit-scrollbar:none]"
+                animate-bouncein shadow-md p-4 scrollbar-hide"
         >
           <h1 className="font-semibold text-xl">Edita la dirección</h1>
           <AddressForm address={address} />

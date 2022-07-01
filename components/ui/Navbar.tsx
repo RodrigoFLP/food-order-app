@@ -35,7 +35,6 @@ export const Navbar = () => {
           <li>
             <ProfileButton />
           </li>
-
           <Link href="/cart" passHref>
             <li className="relative">
               <ButtonIcon>

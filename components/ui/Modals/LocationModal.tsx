@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useGetDeliveryAreasQuery } from "../../../services/auth";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
@@ -14,12 +14,21 @@ import { toast, ToastContainer } from "react-toastify";
 interface Props {
   show: boolean;
   handleClose: () => void;
+  setCoordinate: Dispatch<SetStateAction<{ lat: number; lon: number } | null>>;
+  coordinate: { lat: number; lon: number } | null;
 }
 
-export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
-  const [markerPosition, setMarkerPosition] = useState([
-    13.702342669306118, -89.21357999951415,
-  ]);
+export const LocationModal: FC<Props> = ({
+  show = false,
+  handleClose,
+  setCoordinate,
+  coordinate,
+}) => {
+  const [markerPosition, setMarkerPosition] = useState(
+    coordinate
+      ? [coordinate.lat, coordinate.lon]
+      : [13.702342669306118, -89.21357999951415]
+  );
 
   const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
 
@@ -48,19 +57,24 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
         });
   };
 
+  const handleSelectButton = async () => {
+    setCoordinate({ lat: markerPosition[0], lon: markerPosition[1] });
+    handleClose();
+  };
+
   return show ? (
     <ModalContainer>
       <div
         className="z-40 w-full h-screen fixed top-0 left-0
-                flex justify-center items-center"
+                flex justify-center items-center "
       >
         <div
           className="bg-white fixed z-50 w-11/12 h-4/6 md:w-3/4 md:h-3/4 
                 rounded-2xl overflow-hidden flex flex-col justify-between
                 animate-bouncein shadow-md"
         >
-          <div className="absolute top-0 z-50 pt-4 flex w-full justify-center items-center ">
-            <h1 className="bg-white rounded-xl p-4 shadow-md font-bold">
+          <div className="absolute top-0 z-50 pt-4 flex w-full justify-center items-center pointer-events-none">
+            <h1 className="bg-white rounded-xl p-4 shadow-md font-bold pointer-events-auto">
               Selecciona tu ubicación
             </h1>
           </div>
@@ -83,7 +97,7 @@ export const LocationModal: FC<Props> = ({ show = false, handleClose }) => {
             />
           </MapContainer>
           <div className="absolute p-6 bottom-0 z-50 w-full">
-            <BarButton>Seleccionar</BarButton>
+            <BarButton handleClick={handleSelectButton}>Seleccionar</BarButton>
           </div>
         </div>
         <div

@@ -12,14 +12,22 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
         token: req.url.split("token=")[1],
       }),
     });
+    console.log(res.status);
 
-    if (res.status !== 200) {
-      throw new Error("Algún error");
+    if (res.status == 409) {
+      throw new Error("done");
+    }
+
+    if (res.status !== 201) {
+      throw new Error("invalid");
     }
 
     return NextResponse.next();
-  } catch (err) {
-    const page = req.page.name;
-    return NextResponse.redirect(`http://192.168.0.17:3000`);
+  } catch (err: any) {
+    console.log(err);
+    // const page = req.page.name;
+    return NextResponse.redirect(
+      `http://192.168.0.17:3000/confirm-email-error?message=${err.message}`
+    );
   }
 }
