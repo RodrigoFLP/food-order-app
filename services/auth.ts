@@ -23,6 +23,7 @@ export const api = createApi({
     baseUrl: "http://192.168.0.17:5000/",
     credentials: "include",
   }),
+  tagTypes: ["Address", "Error"],
   endpoints: (builder) => ({
     login: builder.mutation<IUser, LoginRequest>({
       query: (credentials) => ({
@@ -87,6 +88,17 @@ export const api = createApi({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: ["Address"],
+    }),
+    updateAddress: builder.mutation<Address, Address>({
+      query: (data) => ({
+        url: `/profile/address/${data.id}`,
+        method: "PATCH",
+        credentials: "include",
+        body: { ...data, id: undefined },
+      }),
+      invalidatesTags: (result, error, arg) =>
+        result ? ["Address"] : ["Error"],
     }),
     getCategoriesList: builder.query<Category[], void>({
       query: () => ({
@@ -178,4 +190,5 @@ export const {
   useGetStoresQuery,
   useGetCustomerOrdersQuery,
   useGetCustomerOrderMutation,
+  useUpdateAddressMutation,
 } = api;

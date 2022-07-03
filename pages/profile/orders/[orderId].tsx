@@ -21,14 +21,14 @@ const OrderPage: NextPage = () => {
 
   return (
     <Layout title="Confirmar correo">
-      <div className="flex flex-col">
-        <h1 className="text-lg font-bold">Detalles de orden</h1>
-        <h2 className="text-sm">#{orderId}</h2>
-        <section className="mt-4">
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+      <div className="">
+        <section className="md:flex md:space-x-8">
+          <div className="sm:flex-1">
+            <h1 className="text-lg font-bold">Detalles de orden</h1>
+            <h2 className="text-sm">#{orderId}</h2>
             {result.isLoading && "Cargando..."}
             {result.isSuccess && result.data && (
-              <article className="bg-white p-4 rounded-2xl border space-y-2 cursor-pointer hover:scale-95 transition-all active:bg-shade">
+              <article className="bg-white mt-4 p-4 rounded-2xl border space-y-2 cursor-pointer hover:scale-95 transition-all active:bg-shade">
                 <div className="flex flex-row justify-between items-center">
                   <h1 className="font-semibold text-base">
                     #{result.data.id.split("-")[0]}
@@ -60,7 +60,7 @@ const OrderPage: NextPage = () => {
             )}
             {result.error && "No existe la orden"}
           </div>
-          <div className="mt-10">
+          <div className="mt-10 md:mt-0 flex-1">
             <h1 className="font-bold text-lg mb-4">Estado de la orden</h1>
             <StatusStepContainer
               isDone={true}

@@ -13,6 +13,8 @@ import {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
 } from "../services/auth";
+import { SearchInput } from "../components/ui/Inputs";
+import { Search } from "react-feather";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -28,17 +30,14 @@ const Home: NextPage = () => {
     isLoading: isLoadingProducts,
   } = useGetCategoryProductsQuery(1);
 
-  // const { products, isLoadingProducts, errorProducts } = useProducts('http://192.168.0.12:5000', 'categories/1')
-
   return (
     <Layout title="Pancho's Villa">
       <div className="flex w-full flex-col-reverse pt-2">
         <div className="flex-none transition-all">
           <AdHeader />
-          {/* <div className='pt-4'>
-            <SearchInput error={false} label='Buscar' Icon={Search} />
-
-          </div> */}
+          <div className="pt-4">
+            <SearchInput error={false} label="Buscar" Icon={Search} />
+          </div>
           <SectionContainer title="🔥 Categorías">
             <CardsSlider>
               {isLoadingCategories || errorCategories ? (
@@ -77,7 +76,6 @@ const Home: NextPage = () => {
             </div>
           </SectionContainer>
         </div>
-        <div className="w-full">{/* <UserHeader /> */}</div>
       </div>
     </Layout>
   );

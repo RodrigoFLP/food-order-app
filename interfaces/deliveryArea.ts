@@ -5,7 +5,7 @@ export interface DeliveryArea {
 }
 
 export interface Coordinate {
-  id: number;
+  // id: number;
   lat: number;
   lon: number;
 }

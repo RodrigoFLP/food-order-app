@@ -24,7 +24,7 @@ export const LocationButton: FC<Props> = ({
       onClick={handleClick}
       disabled={disabled}
     >
-      {isSelected ? "Ubicación seleccionada" : "Seleccionar ubicación"}
+      {isSelected ? "Cambiar ubicación" : "Seleccionar ubicación"}
       {isSelected ? (
         <CheckCircle className="text-green-500" />
       ) : (

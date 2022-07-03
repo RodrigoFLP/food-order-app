@@ -20,9 +20,10 @@ export interface Address {
   state: string;
   city: string;
   addressLine1: string;
-  addressLine2: null;
+  addressLine2: string;
   addressReference: string;
-  coordinates: string;
-  createdAt: Date;
-  updatedAt: Date;
+  lat: number;
+  lon: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

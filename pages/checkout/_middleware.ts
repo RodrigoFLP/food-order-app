@@ -1,9 +1,6 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import techposApi from "../../api/techposApi";
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  //   const { Authentication: token = "" } = req.cookies;
-
   try {
     const { Authentication: token = "" } = req.cookies;
 

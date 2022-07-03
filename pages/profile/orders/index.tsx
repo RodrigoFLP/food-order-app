@@ -3,7 +3,7 @@ import { Layout } from "../../../components/layouts";
 import { OrderCard } from "../../../components/ui/Cards";
 import { useGetCustomerOrdersQuery } from "../../../services/auth";
 
-const ConfirmEmailErrorPage: NextPage = () => {
+const OrdersPage: NextPage = () => {
   const { isLoading, isFetching, data, isSuccess } =
     useGetCustomerOrdersQuery();
 
@@ -23,4 +23,4 @@ const ConfirmEmailErrorPage: NextPage = () => {
   );
 };
 
-export default ConfirmEmailErrorPage;
+export default OrdersPage;

@@ -1,121 +1,81 @@
 import { SelectInput, Input } from "../Inputs";
-import { BarButton } from "../Buttons";
+import { BarButton, LocationButton } from "../Buttons";
 import { Map, MapPin, Save } from "react-feather";
 
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { Address, SignupForm } from "../../../interfaces";
-import { validationSignup } from "../../../utils/schemas";
-import { FC, useCallback } from "react";
-import techposApi from "../../../api/techposApi";
-import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Address, Coordinate, SignupForm } from "../../../interfaces";
+import { validationAddress } from "../../../utils/schemas";
+import { FC } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { useUpdateAddressMutation } from "../../../services/auth";
 
-const useYupValidationResolver = (validationSchema: typeof validationSignup) =>
-  useCallback<Resolver<SignupForm>>(
-    async (data) => {
-      try {
-        const values = await validationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors: any) {
-        console.log(data, errors);
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? "validation",
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [validationSchema]
-  );
+import "react-toastify/dist/ReactToastify.css";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface Props {
-  address?: Address;
+  address: Address;
+  onClickLocationButton: () => void;
+  coordinate: Coordinate | null;
+  onSave: () => void;
 }
 
-export const AddressForm: FC<Props> = ({ address }) => {
-  const resolver = useYupValidationResolver(validationSignup);
-
-  const router = useRouter();
-
-  const handleClick = () => {
-    console.log("show modal");
-  };
-
-  const onSubmit: SubmitHandler<SignupForm> = async (data) => {
-    try {
-      const res = await toast
-        .promise(
-          techposApi.post("/auth/register", {
-            email: data.email,
-            password: data.password,
-            customer: {
-              firstName: data.firstName,
-              lastName: data.lastname,
-              phoneNumber: data.phoneNumber,
-              birthDate: data.birthDate,
-              receiveAds: false,
-              address: {
-                state: data.state,
-                city: data.city,
-                addressLine1: data.addressLine1,
-                addressLine2: data.addressLine2,
-                addressReference: data.addressReference,
-                coordinates: "0,0",
-              },
-            },
-          }),
-          {
-            success: "Usuario registrado",
-            pending: "Registrando",
-            error: "No se ha podido crear el usuario",
-          },
-          { autoClose: 1000, position: "bottom-right" }
-        )
-        .then(() => router.replace("/"));
-
-      router.push("/");
-    } catch (err) {}
-  };
+export const AddressForm: FC<Props> = ({
+  address,
+  onClickLocationButton,
+  coordinate,
+  onSave,
+}) => {
+  const [updateAddress] = useUpdateAddressMutation();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<SignupForm>({
-    resolver,
+    resolver: yupResolver(validationAddress),
     defaultValues: {
       state: address?.state,
       city: address?.city,
       addressLine1: address?.addressLine1,
+      addressLine2: address?.addressLine2,
       addressReference: address?.addressReference,
     },
   });
 
-  // export interface Address {
-  //   id: number;
-  //   state: string;
-  //   city: string;
-  //   addressLine1: string;
-  //   addressLine2: null;
-  //   addressReference: string;
-  //   coordinates: string;
-  //   createdAt: Date;
-  //   updatedAt: Date;
-  // }
+  const onSubmit: SubmitHandler<SignupForm> = async (data) => {
+    try {
+      if (!coordinate) {
+        throw new Error("Ubicación no seleccionada");
+      }
+
+      toast("Actualizando...", {
+        toastId: "updating",
+        isLoading: true,
+        position: "top-right",
+      });
+      const res = (await updateAddress({
+        ...data,
+        id: address.id,
+        lat: coordinate.lat,
+        lon: coordinate.lon,
+      })) as any;
+
+      if (res.error) {
+        throw new Error("No se pudo actualizar");
+      }
+      onSave();
+      toast.dismiss("updating");
+    } catch (err) {
+      toast.dismiss("updating");
+      toast("No se ha podido actualizar", {
+        toastId: "error",
+        delay: 500,
+        autoClose: 500,
+        type: "error",
+        position: "top-right",
+      });
+    }
+  };
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -159,11 +119,14 @@ export const AddressForm: FC<Props> = ({ address }) => {
           errorMessage={errors.addressReference?.message}
           error={errors.addressReference ? true : false}
         />
-        <BarButton type="button" handleClick={handleClick} Icon={MapPin}>
-          Seleccionar ubicación
-        </BarButton>
+        <LocationButton
+          type="button"
+          handleClick={onClickLocationButton}
+          isSelected={coordinate ? true : false}
+        />
       </section>
       <BarButton Icon={Save}>Guardar cambios</BarButton>
+      <ToastContainer />
     </form>
   );
 };

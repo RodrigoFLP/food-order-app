@@ -1,13 +1,18 @@
+import dynamic from "next/dynamic";
 import { FC, useState } from "react";
 import { Edit } from "react-feather";
 import { Address } from "../../../interfaces";
-import { AddressModal } from "../Modals/AddressModal";
 
 interface Props {
   address: Address;
 }
 
 export const AddressCard: FC<Props> = ({ address }) => {
+  const AddressModal = dynamic(
+    () => import("../Modals/AddressModal"), // replace '@components/map' with your component's location
+    { ssr: false } // This line is important. It's what prevents server-side render
+  );
+
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
