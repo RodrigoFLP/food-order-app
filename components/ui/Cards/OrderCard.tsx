@@ -17,7 +17,7 @@ export const OrderCard: FC<Ticket> = ({
         <div className="flex flex-row justify-between items-center">
           <h1 className="font-semibold text-base">#{id.split("-")[0]}</h1>
           <div className="bg-secondary text-white p-1 px-2 rounded-full text-xs font-bold">
-            {status[0].toUpperCase() + status.slice(1, status.length)}
+            {"status"}
           </div>
         </div>
         <div className="text-xs">{createdAt}</div>

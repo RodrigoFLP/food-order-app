@@ -3,16 +3,21 @@ import { Check } from "react-feather";
 
 interface Props {
   showStepLine?: boolean;
-  title: string;
-  subtitle: string | null;
   isDone: boolean;
+  isPreviousDone: boolean;
+  title: string;
+  processingSubtitle: string;
+  timestamp: Date | null;
 }
 
 const StatusStepContainer: FC<Props> = ({
   showStepLine = true,
+  isPreviousDone = false,
   isDone = false,
   title,
-  subtitle,
+
+  processingSubtitle,
+  timestamp,
 }) => {
   return (
     <div className="flex space-x-4">
@@ -30,7 +35,12 @@ const StatusStepContainer: FC<Props> = ({
       </div>
       <div className="relative -top-1 pb-6">
         <h2 className="font-semibold">{title}</h2>
-        {subtitle && <h3 className="text-sm text-gray-800">{subtitle}</h3>}
+        <h3 className="text-sm text-gray-800">
+          {isPreviousDone &&
+            (!isDone
+              ? processingSubtitle
+              : new Date(timestamp!).toLocaleString("en-gb"))}
+        </h3>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const OrderPage: NextPage = () => {
                     #{result.data.id.split("-")[0]}
                   </h1>
                   <div className="bg-secondary text-white p-1 px-2 rounded-full text-xs font-bold">
-                    {initialToUpperCase(result.data.status)}
+                    {"status"}
                   </div>
                 </div>
                 <div className="text-xs">{result.data.createdAt}</div>
@@ -62,27 +62,46 @@ const OrderPage: NextPage = () => {
           </div>
           <div className="mt-10 md:mt-0 flex-1">
             <h1 className="font-bold text-lg mb-4">Estado de la orden</h1>
-            <StatusStepContainer
-              isDone={true}
-              title={"Pago procesado"}
-              subtitle={"2022-06-30T22:33:25.301Z"}
-            />
-            <StatusStepContainer
-              isDone={false}
-              title={"Orden aceptada"}
-              subtitle={"2022-06-30T22:33:25.301Z"}
-            />
-            <StatusStepContainer
-              isDone={false}
-              title={"Envío"}
-              subtitle={"2022-06-30T22:33:25.301Z"}
-            />
-            <StatusStepContainer
-              isDone={false}
-              showStepLine={false}
-              title={"Recibido"}
-              subtitle={"2022-06-30T22:33:25.301Z"}
-            />
+            {result.isSuccess && (
+              <>
+                <StatusStepContainer
+                  title="Orden realizada"
+                  isPreviousDone={true}
+                  isDone={!!result.data.status.orderPlaced}
+                  timestamp={result.data.status.orderPlaced}
+                  processingSubtitle="Se está procesando la orden"
+                />
+                <StatusStepContainer
+                  title={"Orden pagada"}
+                  isPreviousDone={!!result.data.status.orderPlaced}
+                  isDone={!!result.data.status.orderPaid}
+                  timestamp={result.data.status.orderPaid}
+                  processingSubtitle="La orden está por pagarse"
+                />
+                <StatusStepContainer
+                  title={"Orden confirmada"}
+                  isPreviousDone={!!result.data.status.orderPaid}
+                  isDone={!!result.data.status.orderConfirmed}
+                  timestamp={result.data.status.orderConfirmed}
+                  processingSubtitle="La orden está por confirmarse"
+                />
+                <StatusStepContainer
+                  title={"Orden preparada"}
+                  isPreviousDone={!!result.data.status.orderConfirmed}
+                  isDone={!!result.data.status.orderPrepared}
+                  timestamp={result.data.status.orderPrepared}
+                  processingSubtitle="Se está preparando la orden"
+                />
+                <StatusStepContainer
+                  title={"Orden recibida"}
+                  showStepLine={false}
+                  isPreviousDone={!!result.data.status.orderPrepared}
+                  isDone={!!result.data.status.orderReceived}
+                  timestamp={result.data.status.orderReceived}
+                  processingSubtitle="La orden está lista para el envío"
+                />
+              </>
+            )}
           </div>
         </section>
       </div>

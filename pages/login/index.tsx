@@ -18,54 +18,21 @@ import { setCredentials } from "../../store/auth/authSlice";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useLoginMutation } from "../../services/auth";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface IFormInput {
   username: string;
   password: string;
 }
 
-const useYupValidationResolver = (validationSchema: typeof validationLogin) =>
-  useCallback<Resolver<IFormInput>>(
-    async (data) => {
-      try {
-        const values = await validationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors: any) {
-        // console.log(data, errors);
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? "validation",
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [validationSchema]
-  );
-
 const LoginPage: NextPage = () => {
-  const resolver = useYupValidationResolver(validationLogin);
-
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
     setError,
-  } = useForm<IFormInput>({ resolver });
+  } = useForm<IFormInput>({ resolver: yupResolver(validationLogin) });
 
   const router = useRouter();
 
@@ -82,20 +49,16 @@ const LoginPage: NextPage = () => {
       });
       const payload = await login(data).unwrap();
       dispatch(setCredentials(payload));
-
       router.replace(router.query.p ? (router.query.p as string) : "/");
     } catch (err: any) {
       reset({ password: "" });
       toast.dismiss("login");
-      setTimeout(
-        () =>
-          toast(`${err.data.message ? err.data.message : err} `, {
-            type: "error",
-            autoClose: 2000,
-            position: "bottom-right",
-          }),
-        500
-      );
+      toast(`${err.data.message ? err.data.message : err} `, {
+        type: "error",
+        autoClose: 2000,
+        delay: 500,
+        position: "bottom-right",
+      });
     }
   };
 
