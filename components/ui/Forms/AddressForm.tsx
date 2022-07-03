@@ -78,7 +78,10 @@ export const AddressForm: FC<Props> = ({
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="space-y-4 h-full  flex flex-col justify-between"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 items-center">
         <SelectInput
           label="Departamento"
@@ -125,8 +128,8 @@ export const AddressForm: FC<Props> = ({
           isSelected={coordinate ? true : false}
         />
       </section>
-      <BarButton Icon={Save}>Guardar cambios</BarButton>
       <ToastContainer />
+      <BarButton Icon={Save}>Guardar cambios</BarButton>
     </form>
   );
 };

@@ -9,7 +9,7 @@ import cartSlice, {
   remove,
 } from "./cart/cartSlice";
 
-import { api } from "../services/auth";
+import { api } from "../services/api";
 
 import { startAppListening, listenerMiddleware } from "./listenerMiddleware";
 

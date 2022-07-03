@@ -10,7 +10,7 @@ import {
 } from "react";
 import { User } from "react-feather";
 import { useDispatch } from "react-redux";
-import { useLogoutMutation } from "../../../services/auth";
+import { useLogoutMutation } from "../../../services/api";
 import { clearCart, selectIsLoggedIn, selectUser } from "../../../store";
 import { useAppSelector } from "../../../store/hooks";
 import { AppDispatch } from "../../../store/store";

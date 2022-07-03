@@ -9,7 +9,7 @@ import {
 
 import styles from "../Placeholder.module.css";
 
-import { useGetProfileMutation, useLogoutMutation } from "../../services/auth";
+import { useGetProfileMutation, useLogoutMutation } from "../../services/api";
 import { useRouter } from "next/router";
 import { OrderCard } from "./Cards/OrderCard";
 import { useDispatch } from "react-redux";

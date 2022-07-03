@@ -15,7 +15,7 @@ import {
   useCalculateTotalQuery,
   useGetAddressQuery,
   usePayWithWompiMutation,
-} from "../../services/auth";
+} from "../../services/api";
 import { selectItems } from "../../store";
 import { useAppSelector } from "../../store/hooks";
 

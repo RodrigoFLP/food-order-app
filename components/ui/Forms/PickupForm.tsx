@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Info } from "react-feather";
-import { useGetStoresQuery } from "../../../services/auth";
+import { useGetStoresQuery } from "../../../services/api";
 import { Input, SelectInput } from "../Inputs";
 
 export const PickupForm: FC = () => {

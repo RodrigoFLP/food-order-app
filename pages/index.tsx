@@ -12,7 +12,7 @@ import { Category } from "../interfaces";
 import {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
-} from "../services/auth";
+} from "../services/api";
 import { SearchInput } from "../components/ui/Inputs";
 import { Search } from "react-feather";
 

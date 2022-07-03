@@ -26,11 +26,13 @@ export const AddressCard: FC<Props> = ({ address }) => {
     <>
       <div
         className="group bg-white text-black border rounded-xl shadow-sm p-4 flex justify-between
-     transition-all cursor-pointer hover:bg-shade active:scale-95"
+     transition-all cursor-pointer hover:bg-shade active:scale-95 text-sm animate-opacityin"
         onClick={handleClick}
       >
         <div>
-          <h2 className="font-semibold">Dirección {address.id}</h2>
+          <h2 className="font-semibold text-base mb-1">
+            Dirección {address.id}
+          </h2>
           <div>
             {address.state}, {address.city}
           </div>

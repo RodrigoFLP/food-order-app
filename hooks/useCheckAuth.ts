@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCheckMutation } from "../services/auth";
+import { useCheckMutation } from "../services/api";
 import { useAppDispatch } from "../store/hooks";
 import { setCredentials, startFetching } from "../store";
 

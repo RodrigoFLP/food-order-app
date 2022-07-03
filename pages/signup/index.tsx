@@ -15,7 +15,7 @@ import { validationSignup } from "../../utils/schemas";
 import { SignupForm } from "../../interfaces";
 
 import "react-toastify/dist/ReactToastify.css";
-import { useSignUpMutation } from "../../services/auth";
+import { useSignUpMutation } from "../../services/api";
 import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store";
 

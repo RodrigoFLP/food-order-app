@@ -11,7 +11,7 @@ import { Category } from "../../interfaces";
 import {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
-} from "../../services/auth";
+} from "../../services/api";
 
 const productsList = products.products;
 

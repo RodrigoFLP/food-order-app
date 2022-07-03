@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import { useGetDeliveryAreasQuery } from "../../../services/auth";
+import { useGetDeliveryAreasQuery } from "../../../services/api";
 import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 
