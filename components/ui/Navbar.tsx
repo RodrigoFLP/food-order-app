@@ -35,7 +35,7 @@ export const Navbar = () => {
           <li>
             <ProfileButton />
           </li>
-          <Link href="/cart" passHref>
+          <Link href="/cart" passHref prefetch={false}>
             <li className="relative">
               <ButtonIcon>
                 <ShoppingCart />
