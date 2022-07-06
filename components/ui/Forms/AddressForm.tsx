@@ -7,7 +7,7 @@ import { Address, Coordinate, SignupForm } from "../../../interfaces";
 import { validationAddress } from "../../../utils/schemas";
 import { FC } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { useUpdateAddressMutation } from "../../../services/auth";
+import { useUpdateAddressMutation } from "../../../services/api";
 
 import "react-toastify/dist/ReactToastify.css";
 import { yupResolver } from "@hookform/resolvers/yup";

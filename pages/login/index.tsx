@@ -17,7 +17,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/auth/authSlice";
 
 import "react-toastify/dist/ReactToastify.css";
-import { useLoginMutation } from "../../services/auth";
+import { useLoginMutation } from "../../services/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface IFormInput {
