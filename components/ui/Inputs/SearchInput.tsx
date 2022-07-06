@@ -1,4 +1,4 @@
-import { FC, HTMLInputTypeAttribute } from "react";
+import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from "react";
 import { Icon } from "react-feather";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -9,6 +9,8 @@ interface Props {
   Icon: Icon;
   register?: UseFormRegisterReturn;
   type?: HTMLInputTypeAttribute;
+  value?: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 export const SearchInput: FC<Props> = ({
@@ -18,6 +20,8 @@ export const SearchInput: FC<Props> = ({
   Icon,
   register,
   type,
+  onChange,
+  value,
 }) => {
   return (
     <div className="relative">
@@ -29,6 +33,8 @@ export const SearchInput: FC<Props> = ({
 
       <div className="relative flex-grow w-full">
         <input
+          onChange={onChange}
+          value={value}
           type={type}
           {...register}
           className={`relative form-select form-select-lg appearance-none block 

@@ -11,6 +11,7 @@ import {
   SignUpBody,
   Ticket,
   TicketMutation,
+  Product,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -166,7 +167,12 @@ export const api = createApi({
         },
       }),
     }),
-
+    searchProduct: builder.mutation<Product[], string>({
+      query: (keyword) => ({
+        url: `products/search?keyword=${keyword}`,
+        method: "GET",
+      }),
+    }),
     protected: builder.mutation<{ message: string }, void>({
       query: () => "protected",
     }),
@@ -191,4 +197,5 @@ export const {
   useGetCustomerOrdersQuery,
   useGetCustomerOrderMutation,
   useUpdateAddressMutation,
+  useSearchProductMutation,
 } = api;

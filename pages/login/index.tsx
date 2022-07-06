@@ -97,7 +97,7 @@ const LoginPage: NextPage = () => {
         <Link href="/signup" passHref>
           <button
             className="flex items-center flex-col p-4 
-                rounded-xl bg-slate-100 cursor-pointer peer group active:scale-95"
+                rounded-xl bg-shade cursor-pointer peer group active:scale-95"
           >
             <h1 className="font-extrabold peer">¿Aún no tienes cuenta?</h1>
             <h1

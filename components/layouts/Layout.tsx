@@ -38,7 +38,7 @@ export const Layout: FC<Props> = ({ children, title, margin = false }) => {
       )}
       <Navbar />
       <main className={`lg:flex p-6 pt-2 px-6 justify-center w-full`}>
-        <div className="lg:w-11/12 xl:w-10/12 2xl:7/12">{children}</div>
+        <div className="lg:w-11/12 xl:w-8/12 2xl:6/12">{children}</div>
       </main>
       <Footer margin={margin} />
     </>

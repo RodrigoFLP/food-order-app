@@ -15,3 +15,4 @@ export * from "./StepSeparator";
 // export * from "./SelectAddressInput";
 
 export * from "./StatusStepContainer";
+export * from "./Search";

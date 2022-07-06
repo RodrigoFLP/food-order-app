@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../components/layouts";
-import { AdHeader } from "../components/ui";
+import { AdHeader, Search } from "../components/ui";
 import { SliderButton } from "../components/ui/Buttons";
 
 import { Card, CardsSlider } from "../components/ui/Cards";
@@ -13,8 +13,6 @@ import {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
 } from "../services/api";
-import { SearchInput } from "../components/ui/Inputs";
-import { Search } from "react-feather";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -35,9 +33,7 @@ const Home: NextPage = () => {
       <div className="flex w-full flex-col-reverse pt-2">
         <div className="flex-none transition-all">
           <AdHeader />
-          <div className="pt-4">
-            <SearchInput error={false} label="Buscar" Icon={Search} />
-          </div>
+          <Search />
           <SectionContainer title="🔥 Categorías">
             <CardsSlider>
               {isLoadingCategories || errorCategories ? (
@@ -58,7 +54,7 @@ const Home: NextPage = () => {
           </SectionContainer>
           <SectionContainer title="🔥 Populares">
             <div
-              className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-x-4 top-0 gap-y-6 ${
+              className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-8 gap-x-4 top-0 gap-y-6 ${
                 isLoadingProducts ? "h-40" : ""
               }`}
             >

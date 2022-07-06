@@ -5,6 +5,7 @@ import { Layout } from "../../components/layouts";
 import { ListTile } from "../../components/ui";
 import { SliderButton } from "../../components/ui/Buttons";
 import { CardsSlider } from "../../components/ui/Cards";
+import Loading from "../../components/ui/Loading";
 
 import { products } from "../../data";
 import { Category } from "../../interfaces";
@@ -36,12 +37,14 @@ const MenuPage: NextPage = () => {
 
   const {
     data: categories,
-    isError: errorCategories,
+    isError: isErrorCategories,
+    isSuccess: isSuccessCategories,
     isLoading: isLoadingCategories,
   } = useGetCategoriesListQuery();
   const {
     data: products,
-    isError: errorProducts,
+    isError: isErrorProducts,
+    isSuccess: isSuccessLoadingProducts,
     isLoading: isLoadingProducts,
   } = useGetCategoryProductsQuery(selectedCategory);
 
@@ -49,12 +52,10 @@ const MenuPage: NextPage = () => {
     setSelectedCategory(category);
   };
 
-  console.log(selectedCategory, "holaa");
-
   return (
     <Layout title="Menú">
       <CardsSlider>
-        {!isLoadingCategories &&
+        {isSuccessCategories &&
           categories!.map((category) => (
             <SliderButton
               key={category.id}
@@ -64,13 +65,16 @@ const MenuPage: NextPage = () => {
             />
           ))}
       </CardsSlider>
-      <div className="xs:flex md:grid md:grid-cols-3 flex-col pt-8 space-y-4 md:space-y-0 md:gap-4">
-        {!isLoadingProducts &&
-          products !== undefined &&
-          (products! as Category).productsList.map((product) => (
+      {isLoadingProducts && <Loading />}
+      {isErrorProducts &&
+        "No se pudieron cargar los productos, recarga la página"}
+      {isSuccessLoadingProducts && products !== undefined && (
+        <div className="xs:flex md:grid md:grid-cols-3 flex-col pt-8 space-y-4 md:space-y-0 md:gap-4">
+          {(products! as Category).productsList.map((product) => (
             <ListTile {...product} src={product.image} key={product.id} />
           ))}
-      </div>
+        </div>
+      )}
     </Layout>
   );
 };

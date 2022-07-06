@@ -19,7 +19,7 @@ export const BarButton: FC<Props> = ({
   return (
     <button
       type={type}
-      className="bg-primary w-full text-white font-semibold h-12 flex-none 
+      className="bg-primary w-full text-white font-semibold h-12 flex-auto 
         rounded-lg flex items-center justify-between space-x-4 px-4
         active:scale-95 transition-all active:bg-secondary hover:opacity-80
         disabled:grayscale disabled:opacity-20 disabled:pointer-events-none"
