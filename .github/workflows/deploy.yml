@@ -21,6 +21,8 @@ jobs:
           cd /var/www/client
           git pull origin main
           pm2 delete next-client
+          node -v
           yarn build
           pm2 start yarn --name "next-client" -- start
+          pm2 save
           echo 'Deployment succesful to digital ocean'
