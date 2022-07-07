@@ -32,7 +32,7 @@ const Home: NextPage = () => {
     <Layout title="Pancho's Villa">
       <div className="flex w-full flex-col-reverse pt-2">
         <div className="flex-none transition-all">
-          <AdHeader />
+          {/* <AdHeader /> */}
           <Search />
           <SectionContainer title="Categorías">
             <CardsSlider>
