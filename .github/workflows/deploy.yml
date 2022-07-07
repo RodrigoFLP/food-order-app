@@ -1,0 +1,22 @@
+name: Next CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Next client
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.SSH_HOST}}
+        key: ${{secrets.SSH_KEY}}
+        username: ${{secrets.SSH_USERNAME}}
+        script: |
+          cd /var/www/client
+          git pull origin main
+          echo 'Deployment succesful to digital ocean'
