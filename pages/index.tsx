@@ -52,7 +52,7 @@ const Home: NextPage = () => {
               )}
             </CardsSlider>
           </SectionContainer>
-          <SectionContainer title="Populares">
+          <SectionContainer title="Más populares">
             <div
               className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-8 gap-x-4 top-0 gap-y-6 ${
                 isLoadingProducts ? "h-40" : ""
