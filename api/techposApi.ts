@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const techposApi = axios.create({
-  baseURL: "http://192.168.0.17:5000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 

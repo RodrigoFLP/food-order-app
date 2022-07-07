@@ -21,7 +21,7 @@ export interface LoginRequest {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.0.17:5000/",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/`,
     credentials: "include",
   }),
   tagTypes: ["Address", "Error"],

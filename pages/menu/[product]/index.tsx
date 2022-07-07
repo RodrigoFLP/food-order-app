@@ -276,7 +276,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { product } = params as { product: string };
 
   const data = await (
-    await fetch(`http://192.168.0.17:5000/products/${product}`)
+    await fetch(`${process.env.API_URL}/products/${product}`)
   ).json();
 
   if (!data || data === undefined) {

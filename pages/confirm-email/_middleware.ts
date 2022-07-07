@@ -3,7 +3,7 @@ import techposApi from "../../api/techposApi";
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   try {
-    const res = await fetch("http://192.168.0.17:5000/confirm-email/confirm", {
+    const res = await fetch(`${process.env.API_URL}/confirm-email/confirm`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     console.log(err);
     // const page = req.page.name;
     return NextResponse.redirect(
-      `http://192.168.0.17:3000/confirm-email-error?message=${err.message}`
+      `${process.env.URL}/confirm-email-error?message=${err.message}`
     );
   }
 }
