@@ -8,6 +8,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     const { Authentication: token = "" } = req.cookies;
 
     const res = await fetch(`${process.env.API_URL}/auth/checkheader`, {
+      credentials: "include",
       headers: new Headers({ Authorization: `Bearer ${token}` }),
     });
 

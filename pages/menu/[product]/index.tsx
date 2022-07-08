@@ -178,10 +178,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
           </div>
           <div className="w-full bg-white rounded-3xl relative -top-6">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
-              <h1 className="font-bold text-2xl sm:text-3xl text-black z-10">
+              <h1 className="font-semibold text-2xl sm:text-3xl text-black z-10 tracking-tighter">
                 {product.name}
               </h1>
-              <p className="text-black z-10">{product.description}</p>
+              <p className="text-black z-10 tracking-tight">
+                {product.description}
+              </p>
             </section>
             <hr className="m-2" />
             <section className="md:w-4/5 space-y-4 p-6 pt-3">
@@ -195,7 +197,10 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             {product.portions
               .find((portion) => portion.id === order.portion.id)!
               .tagGroups.map((tagGroup, index) => (
-                <section key={tagGroup.name} className="md:w-4/5 space-y-4 p-6">
+                <section
+                  key={tagGroup.name}
+                  className="md:w-4/5 space-y-4 p-6 pt-2"
+                >
                   <TagsList
                     tagGroup={tagGroup}
                     tagsInitialState={order.tagsGroups[index]}
