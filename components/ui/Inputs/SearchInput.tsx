@@ -43,7 +43,7 @@ export const SearchInput: FC<Props> = ({
           onChange={onChange}
           value={value}
           type={type}
-          {...register}
+          // {...register}
           className={`relative form-select form-select-lg appearance-none block 
                 pl-8 pr-12 py-4 text-base font-normal text-gray-700 
         bg-shade bg-clip-padding bg-no-repeat rounded-full transition ease-in-out m-0
