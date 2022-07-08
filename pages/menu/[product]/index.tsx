@@ -166,27 +166,25 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     <Layout title={product.name} margin>
       <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-primary p-8 h-vh space-y-4 pb-14 rounded-t-2xl">
+          <div className="relative overflow-hidden bg-primary p-8 h-56 space-y-4 pb-14 rounded-t-2xl">
             <div className="block">
               <Image
-                src={
-                  "https://cdnimg.webstaurantstore.com/images/blogs/1804/gameday-header.jpg"
-                }
+                src={product.image}
                 alt={product.name}
                 layout="fill"
-                className="object-cover bg-gradient-to-l from-slate-50 z-0 opacity-10"
+                className="object-cover bg-gradient-to-l from-slate-50 z-0"
               ></Image>
             </div>
-
-            <h1 className="font-extrabold text-2xl sm:text-3xl text-white z-10 relative">
-              {product.name}
-            </h1>
-
-            <p className="text-white">{product.description}</p>
           </div>
-
           <div className="w-full bg-white rounded-3xl relative -top-6">
-            <section className="md:w-4/5 space-y-4 p-6">
+            <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
+              <h1 className="font-bold text-2xl sm:text-3xl text-black z-10">
+                {product.name}
+              </h1>
+              <p className="text-black z-10">{product.description}</p>
+            </section>
+            <hr className="m-2" />
+            <section className="md:w-4/5 space-y-4 p-6 pt-3">
               <PortionsList
                 selectedPortion={order.portion.name}
                 portions={product.portions}

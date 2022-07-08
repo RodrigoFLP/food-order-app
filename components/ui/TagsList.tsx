@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useTagList } from "../../hooks";
 import { TagGroup, TagGroupState } from "../../interfaces";
+import initialToUpperCase from "../../utils/initialToUpperCase";
 
 interface Props {
   tagGroup: TagGroup;
@@ -18,8 +19,10 @@ export const TagsList: FC<Props> = ({
   return (
     <section className="space-y-4">
       <div className="flex items-center space-x-2">
-        <h2 className="font-semibold text-xl">{tagGroup.name}</h2>
-        <div className="bg-secondary text-white rounded-lg text-sm font-bold px-2 py-1 ">
+        <h2 className="font-semibold text-xl">
+          {initialToUpperCase(tagGroup.name)}
+        </h2>
+        <div className="bg-primary text-white rounded-lg text-sm font-bold px-2 py-1 ">
           {tagsInitialState.quantity}/{tagGroup.max}
         </div>
       </div>
@@ -55,7 +58,7 @@ export const TagsList: FC<Props> = ({
                   0}{" "}
                 x ${tag.price?.toFixed(2)}
               </div>{" "}
-              {tag.value}
+              {initialToUpperCase(tag.value)}
             </button>
           );
         })}
