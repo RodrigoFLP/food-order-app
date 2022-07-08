@@ -17,7 +17,7 @@ export const PortionsList: FC<Props> = ({
   selectedPortion,
 }) => {
   return (
-    <section className="space-y-4">
+    <section className="space-y-2">
       <h2 className="font-semibold text-xl">Porciones</h2>
       <p className="text-sm">Selecciona el tamaño del platillo</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 justify-between text-sm">

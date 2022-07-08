@@ -14,7 +14,7 @@ const ProductsContainer = ({
 }) => {
   return (
     <div
-      className={`pt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-8 gap-x-4 top-0 gap-y-6`}
+      className={`pt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-8 gap-x-4 top-0 gap-y-4`}
     >
       {products &&
         products.map((product) => (
