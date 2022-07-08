@@ -1,4 +1,9 @@
-import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  HTMLInputTypeAttribute,
+  MouseEventHandler,
+} from "react";
 import { Icon } from "react-feather";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -11,6 +16,7 @@ interface Props {
   type?: HTMLInputTypeAttribute;
   value?: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  onClick?: MouseEventHandler<SVGElement>;
 }
 
 export const SearchInput: FC<Props> = ({
@@ -21,6 +27,7 @@ export const SearchInput: FC<Props> = ({
   register,
   type,
   onChange,
+  onClick,
   value,
 }) => {
   return (
@@ -40,7 +47,7 @@ export const SearchInput: FC<Props> = ({
           className={`relative form-select form-select-lg appearance-none block 
                 pl-8 pr-12 py-4 text-base font-normal text-gray-700 
         bg-shade bg-clip-padding bg-no-repeat rounded-full transition ease-in-out m-0
-        focus:text-gray-700 focus:bg-white hover:bg-white hover:outline-blue-400 ${
+        focus:text-gray-700 focus:bg-white hover:bg-white hover:outline-blue-400 z-0 ${
           error
             ? "focus:outline-red-500 border-2 border-red-500"
             : "focus:outline-blue-400"
@@ -51,11 +58,13 @@ export const SearchInput: FC<Props> = ({
         />
         <Icon
           size={16}
-          className={` stroke-gray-600 absolute top-0 right-4 ${
+          onClick={value ? onClick : undefined}
+          className={` stroke-gray-600 absolute top-0 right-4 drop-shadow-md stroke-[3px] ${
             error
               ? "peer-focus:stroke-red-500 stroke-red-500"
               : "peer-focus:stroke-blue-400"
-          } peer-focus:stroke-blue-400 h-14 pointer-events-none`}
+          } peer-focus:stroke-blue-400 h-14 ${value && "cursor-pointer"}
+           `}
         />
       </div>
     </div>

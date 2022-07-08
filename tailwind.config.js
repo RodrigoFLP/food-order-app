@@ -19,6 +19,7 @@ module.exports = {
         secondary: "#301a4b",
         shade: "#ededf4",
         accent: "#59ffa0",
+        background: "#f3f5f7",
       },
       keyframes: {
         placeholder: {

@@ -9,7 +9,7 @@ interface Props {
 export const SectionContainer: FC<Props> = ({ children, title }) => {
   return (
     <section className="relative" about={title}>
-      <div className="flex justify-between pt-8 items-center pb-4">
+      <div className="flex justify-between pt-2 items-center pb-4">
         <span className="font-semibold text-lg">{title}</span>
         <Link href="/menu" passHref prefetch={false}>
           <span

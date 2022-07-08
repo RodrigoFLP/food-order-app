@@ -164,7 +164,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
   return (
     <Layout title={product.name} margin>
-      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2 md:px-40">
+      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
         <div className="w-full">
           <div className="relative overflow-hidden bg-primary p-8 h-vh space-y-4 pb-14 rounded-t-2xl">
             <div className="block">
