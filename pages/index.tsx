@@ -31,9 +31,9 @@ const Home: NextPage = () => {
   return (
     <Layout title="Pancho's Villa">
       <div className="flex w-full flex-col-reverse pt-2">
-        <div className="flex-none transition-all">
-          {/* <AdHeader /> */}
+        <div className="flex-none transition-all space-y-4">
           <Search />
+          <AdHeader />
           <SectionContainer title="Categorías">
             <CardsSlider>
               {isLoadingCategories || errorCategories ? (

@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Search as SearchIcon } from "react-feather";
+import { Search as SearchIcon, X } from "react-feather";
 import { useDebounce } from "../../hooks";
 import { Product } from "../../interfaces";
 import { useSearchProductMutation } from "../../services/api";
@@ -42,13 +42,21 @@ export const Search = () => {
     searchProduct(debouncedValue as string);
   }, [debouncedValue, searchProduct]);
 
+  const isLoading = result.isLoading || isDebounceLoading;
+  const isEmpty =
+    result.isSuccess && !isDebounceLoading && result.data.length === 0;
+  const isNotEmpty = result.isSuccess && !isDebounceLoading;
+
   return (
     <>
-      <div className="pt-4">
+      <div className="">
         <SearchInput
           error={false}
           label="Buscar"
-          Icon={SearchIcon}
+          Icon={keyword.length > 0 ? X : SearchIcon}
+          onClick={() => {
+            setKeyword("");
+          }}
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);
@@ -56,25 +64,21 @@ export const Search = () => {
         />
       </div>
       {keyword.length > 0 && (
-        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein">
-          <h2 className="text-lg font-semibold pl-1">Resultados</h2>
-          {result.isUninitialized && <div className="h-40"></div>}
-          {result.isLoading ||
-            (isDebounceLoading && (
-              <div className="h-44">
-                <Loading />
-              </div>
-            ))}
-          {result.isSuccess &&
-            !isDebounceLoading &&
-            result.data.length === 0 && (
-              <div className="h-40 flex items-center justify-center">
-                No hay resultados
-              </div>
-            )}
-          {result.isSuccess && !isDebounceLoading && (
-            <MemoizedProducts products={result.data} />
+        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein animate-heightin">
+          <h2 className="text-lg font-semibold pl-1">
+            Resultados de la búsqueda
+          </h2>
+          {isLoading && (
+            <div className="h-44">
+              <Loading />
+            </div>
           )}
+          {isEmpty && (
+            <div className="h-40 flex items-center justify-center text-sm">
+              No hay resultados
+            </div>
+          )}
+          {isNotEmpty && <MemoizedProducts products={result.data} />}
         </div>
       )}
     </>
