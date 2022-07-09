@@ -12,6 +12,8 @@ import {
   Ticket,
   TicketMutation,
   Product,
+  SearchQuery,
+  SearchResponse,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -167,9 +169,11 @@ export const api = createApi({
         },
       }),
     }),
-    searchProduct: builder.mutation<Product[], string>({
-      query: (keyword) => ({
-        url: `products/search?keyword=${keyword}`,
+    searchProduct: builder.mutation<SearchResponse, SearchQuery>({
+      query: (query) => ({
+        url: `products/search?keyword=${query.keyword}&take=5&skip=${
+          5 * query.skip!
+        }`,
         method: "GET",
       }),
     }),

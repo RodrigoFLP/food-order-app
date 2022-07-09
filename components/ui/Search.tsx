@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useState } from "react";
-import { Search as SearchIcon, X } from "react-feather";
+import { ArrowLeft, ArrowRight, Search as SearchIcon, X } from "react-feather";
 import { useDebounce } from "../../hooks";
 import { Product } from "../../interfaces";
 import { useSearchProductMutation } from "../../services/api";
+import { BarButton, ButtonIcon, TagButton } from "./Buttons";
 import { Card } from "./Cards";
 import { SearchInput } from "./Inputs";
 import Loading from "./Loading";
@@ -38,14 +39,22 @@ export const Search = () => {
   const [debouncedValue, isDebounceLoading] = useDebounce(keyword, 500);
   const [searchProduct, result] = useSearchProductMutation();
 
+  const [page, setPage] = useState(0);
+
   useEffect(() => {
-    searchProduct(debouncedValue as string);
-  }, [debouncedValue, searchProduct]);
+    searchProduct({ keyword: debouncedValue as string, skip: page });
+  }, [debouncedValue, searchProduct, page]);
 
   const isLoading = result.isLoading || isDebounceLoading;
   const isEmpty =
-    result.isSuccess && !isDebounceLoading && result.data.length === 0;
+    result.isSuccess && !isDebounceLoading && result.data.count === 0;
   const isNotEmpty = result.isSuccess && !isDebounceLoading;
+  const showNextPageButton =
+    result.isSuccess &&
+    !isDebounceLoading &&
+    result.data.count > 5 * (page + 1);
+  const showPreviousPageButton =
+    result.isSuccess && !isDebounceLoading && page > 0;
 
   return (
     <>
@@ -60,14 +69,33 @@ export const Search = () => {
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);
+            setPage(0);
           }}
         />
       </div>
       {keyword.length > 0 && (
         <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein animate-heightin">
-          <h2 className="text-lg font-semibold pl-1">
-            Resultados de la búsqueda
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold pl-1">Resultados</h2>
+            <div className="flex space-x-2">
+              {showPreviousPageButton && (
+                <ButtonIcon
+                  style
+                  handleClick={() => setPage((prev) => prev - 1)}
+                >
+                  <ArrowLeft />
+                </ButtonIcon>
+              )}
+              {showNextPageButton && (
+                <ButtonIcon
+                  style
+                  handleClick={() => setPage((prev) => prev + 1)}
+                >
+                  <ArrowRight />
+                </ButtonIcon>
+              )}
+            </div>
+          </div>
           {isLoading && (
             <div className="h-44">
               <Loading />
@@ -78,7 +106,11 @@ export const Search = () => {
               No hay resultados
             </div>
           )}
-          {isNotEmpty && <MemoizedProducts products={result.data} />}
+          {isNotEmpty && (
+            <>
+              <MemoizedProducts products={result.data.result} />
+            </>
+          )}
         </div>
       )}
     </>
