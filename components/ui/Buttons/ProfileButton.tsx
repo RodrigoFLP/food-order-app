@@ -43,14 +43,14 @@ export const ProfileButton: FC = () => {
     <>
       <div className="relative">
         <button
-          className={`bg-shade h-8 w-8 sm:w-auto rounded-full
-        active:scale-90 hover:bg-gray-200 transition-all
+          className={`bg-white shadow-sm border border-1 h-8 w-8 rounded-full
+        active:scale-90 hover:bg-gray-200 transition-all sm:w-40
         flex items-center justify-center p-2 space-x-1 text-sm`}
           onClick={() => {
             isLoggedIn ? setShowMenu((prev) => !prev) : router.push("/login");
           }}
         >
-          <User height={18} />
+          <User height={18} color="black" />
           <div className="hidden sm:block">
             {isClient
               ? isLoggedIn

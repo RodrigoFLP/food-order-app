@@ -178,12 +178,10 @@ const ProductPage: NextPage<Props> = ({ product }) => {
           </div>
           <div className="w-full bg-white rounded-3xl relative -top-6">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
-              <h1 className="font-semibold text-2xl sm:text-2xl text-black z-10 tracking-tighter">
+              <h1 className="font-semibold text-2xl sm:text-2xl text-black z-10">
                 {product.name}
               </h1>
-              <p className="text-black z-10 tracking-tight">
-                {product.description}
-              </p>
+              <p className="text-black z-10">{product.description}</p>
             </section>
             <hr className="m-2" />
             <section className="md:w-4/5 space-y-4 p-6 pt-3">

@@ -15,7 +15,7 @@ const ProductsContainer = ({
 }) => {
   return (
     <div
-      className={`pt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-8 gap-x-4 top-0 gap-y-4`}
+      className={`pt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-5 gap-x-4 top-0 gap-y-4`}
     >
       {products &&
         products.map((product) => (
@@ -30,8 +30,6 @@ const ProductsContainer = ({
     </div>
   );
 };
-
-const MemoizedProducts = React.memo(ProductsContainer);
 
 export const Search = () => {
   const [keyword, setKeyword] = useState("");
@@ -56,6 +54,20 @@ export const Search = () => {
   const showPreviousPageButton =
     result.isSuccess && !isDebounceLoading && page > 0;
 
+  const resultPaginationDescription = (count: number) => {
+    if (count === 0) {
+      return "";
+    }
+
+    if (count < 5) {
+      return `Mostrando ${count} resultados`;
+    }
+
+    return `Mostrando ${page * 5 + 1} a 
+    ${(page + 1) * 5 > count ? count : (page + 1) * 5}
+    de ${result.data?.count} resultados`;
+  };
+
   return (
     <>
       <div className="">
@@ -74,27 +86,32 @@ export const Search = () => {
         />
       </div>
       {keyword.length > 0 && (
-        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein animate-heightin">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold pl-1">Resultados</h2>
-            <div className="flex space-x-2">
-              {showPreviousPageButton && (
-                <ButtonIcon
-                  style
-                  handleClick={() => setPage((prev) => prev - 1)}
-                >
-                  <ArrowLeft />
-                </ButtonIcon>
-              )}
-              {showNextPageButton && (
-                <ButtonIcon
-                  style
-                  handleClick={() => setPage((prev) => prev + 1)}
-                >
-                  <ArrowRight />
-                </ButtonIcon>
-              )}
+        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein animate-heightin transition-all">
+          <div className="flex flex-col justify-between">
+            <div className="flex items-center justify-between h-10">
+              <h2 className="text-lg font-semibold pl-1">Resultados</h2>
+              <div className="flex space-x-2">
+                {showPreviousPageButton && (
+                  <ButtonIcon
+                    style
+                    handleClick={() => setPage((prev) => prev - 1)}
+                  >
+                    <ArrowLeft />
+                  </ButtonIcon>
+                )}
+                {showNextPageButton && (
+                  <ButtonIcon
+                    style
+                    handleClick={() => setPage((prev) => prev + 1)}
+                  >
+                    <ArrowRight />
+                  </ButtonIcon>
+                )}
+              </div>
             </div>
+            <h2 className="px-1 text-sm h-6">
+              {isNotEmpty && resultPaginationDescription(result.data.count)}
+            </h2>
           </div>
           {isLoading && (
             <div className="h-44">
@@ -108,7 +125,7 @@ export const Search = () => {
           )}
           {isNotEmpty && (
             <>
-              <MemoizedProducts products={result.data.result} />
+              <ProductsContainer products={result.data.result} />
             </>
           )}
         </div>

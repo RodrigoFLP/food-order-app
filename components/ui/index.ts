@@ -16,3 +16,4 @@ export * from "./StepSeparator";
 
 export * from "./StatusStepContainer";
 export * from "./Search";
+export * from "./Alerts/EmailAlert";

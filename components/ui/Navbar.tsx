@@ -19,8 +19,8 @@ export const Navbar = () => {
   return (
     <nav
       className={`sticky z-30 w-full ${
-        showFixed && "bg-slate-50 shadow-sm "
-      } top-0`}
+        showFixed && "bg-background shadow-sm "
+      } top-0 `}
     >
       <ul
         className="flex justify-between items-center

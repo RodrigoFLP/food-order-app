@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import { ArrowDown, Coffee } from "react-feather";
 
 interface Props {
   id: number;
@@ -25,7 +26,10 @@ export const Card: FC<Props> = ({ title, image, price, id }) => {
       onClick={handleClick}
     >
       <div className="h-3/5 relative w-full rounded-xl overflow-hidden">
-        <Image src={image} layout="fill" alt={title} className="object-cover" />
+        {/* <Image src={image} layout="fill" alt={title} className="object-cover" /> */}
+        <div className="bg-shade bg-gradient-to-br from-gray-200 to-shade w-full h-full flex items-center justify-center">
+          <Coffee size={50} color="gray" />
+        </div>
       </div>
       <div className="h-2/5 font-medium text-left p-1">
         <span className="text-sm">{title}</span>

@@ -16,7 +16,7 @@ export const ButtonIcon: FC<Props> = ({
       className={`${
         style
           ? "bg-primary hover:bg-primary hover:bg-opacity-80 text-white"
-          : "bg-shade hover:bg-gray-200"
+          : "bg-white border shadow-sm hover:bg-gray-200"
       }  h-8 w-8 rounded-full
         active:scale-90  transition-all
         flex items-center justify-center
