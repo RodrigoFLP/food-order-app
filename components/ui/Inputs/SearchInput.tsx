@@ -43,11 +43,10 @@ export const SearchInput: FC<Props> = ({
           onChange={onChange}
           value={value}
           type={type}
-          // {...register}
           className={`relative form-select form-select-lg appearance-none block 
                 pl-8 pr-12 py-4 text-base font-normal text-gray-700 
         bg-shade bg-clip-padding bg-no-repeat rounded-full transition ease-in-out m-0
-        focus:text-gray-700 focus:bg-white hover:bg-white hover:outline-blue-400 z-0 ${
+        focus:text-gray-700 focus:bg-white hover:bg-white hover:border-blue-400 hover:border-2 z-0 ${
           error
             ? "focus:outline-red-500 border-2 border-red-500"
             : "focus:outline-blue-400"
