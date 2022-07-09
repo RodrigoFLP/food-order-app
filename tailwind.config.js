@@ -14,6 +14,9 @@ module.exports = {
       "400%": "400%",
     },
     extend: {
+      fontFamily: {
+        sans: ["Roboto", ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         primary: "#ff3737",
         secondary: "#301a4b",

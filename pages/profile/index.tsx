@@ -26,24 +26,38 @@ const ProfilePage: NextPage = () => {
 
   return (
     <Layout title="Perfil">
-      {isProfileLoading && <Loading />}
-      {isProfileSuccess && profileData && <ProfileCard {...profileData} />}
-      {isProfileError && "Error al cargar el perfil"}
-      <div className="pb-4 mt-6 flex justify-between">
-        <h1 className="font-semibold">Direcciones</h1>
-        {isAddressSuccess && data.length < 3 && (
-          <h1 className="font-semibold text-sm text-primary">
-            Añadir Dirección
-          </h1>
-        )}
-      </div>
-      <div className="space-y-2">
-        {isAddressLoading && <Loading />}
-        {isAddressSuccess &&
-          data.map((address) => (
-            <AddressCard key={address.id} address={address} />
-          ))}
-        {isAddressError && "Error al cargar las direcciones"}
+      <div className="md:flex md:justify-between md:space-x-8">
+        <section className="flex-1">
+          <div className="pb-4 mt-6 flex justify-between">
+            <h1 className="font-semibold">Perfil</h1>
+          </div>
+          <div className="space-y-2">
+            {isProfileLoading && <Loading />}
+            {isProfileSuccess && profileData && (
+              <ProfileCard {...profileData} />
+            )}
+            {isProfileError && "Error al cargar el perfil"}
+          </div>
+        </section>
+
+        <section className="flex-1">
+          <div className="pb-4 mt-6 flex justify-between">
+            <h1 className="font-semibold">Direcciones</h1>
+            {isAddressSuccess && data.length < 3 && (
+              <h1 className="font-semibold text-sm text-primary">
+                Añadir Dirección
+              </h1>
+            )}
+          </div>
+          <div className="space-y-2">
+            {isAddressLoading && <Loading />}
+            {isAddressSuccess &&
+              data.map((address) => (
+                <AddressCard key={address.id} address={address} />
+              ))}
+            {isAddressError && "Error al cargar las direcciones"}
+          </div>
+        </section>
       </div>
     </Layout>
   );
