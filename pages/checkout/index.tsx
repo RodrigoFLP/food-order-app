@@ -212,7 +212,7 @@ const CheckoutPage: NextPage = () => {
         handleClose={() => {
           setShowWompiModal(false);
         }}
-        src={makeWompiUrl(result.data?.urlQrCodeEnlace!)}
+        src={result.data?.urlQrCodeEnlace!}
       />
       <ToastContainer />
     </Layout>

@@ -12,6 +12,7 @@ import { ArrowLeft } from "react-feather";
 import "react-toastify/dist/ReactToastify.css";
 import { findDOMNode } from "react-dom";
 import { type } from "os";
+import { makeWompiUrl } from "../../../utils";
 
 interface Props {
   show: boolean;
@@ -39,7 +40,7 @@ export const PaymentModal: FC<Props> = ({ show = false, handleClose, src }) => {
                 rounded-2xl overflow-scroll flex
                 animate-bouncein shadow-md scrollbar-hide pointer-events-auto"
         >
-          <iframe className="w-full h-full" src={src}></iframe>
+          <iframe className="w-full h-full" src={makeWompiUrl(src)}></iframe>
         </div>
       </div>
       <div
