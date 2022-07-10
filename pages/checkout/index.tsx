@@ -23,6 +23,8 @@ import { CreditCard, Map, MapPin } from "react-feather";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StepSeparator } from "../../components/ui";
+import PaymentModal from "../../components/ui/Modals/PaymentModal";
+import Script from "next/script";
 
 interface OrderInfo {
   deliveryType: string;
@@ -34,6 +36,8 @@ interface OrderInfo {
 const CheckoutPage: NextPage = () => {
   const router = useRouter();
   const items = useAppSelector(selectItems);
+
+  const [showWompiModal, setShowWompiModal] = useState(false);
 
   const [payWithWompi, result] = usePayWithWompiMutation();
   const { data, isError, isLoading } = useCalculateTotalQuery(items);
@@ -99,7 +103,10 @@ const CheckoutPage: NextPage = () => {
       }
 
       const response = res as { data: IPaymentLink };
-      router.push(response.data?.urlEnlace);
+
+      setShowWompiModal(true);
+
+      // router.push(response.data?.urlEnlace);
     } catch (err: any) {
       toast.dismiss("payment");
       toast.dismiss("error");
@@ -198,6 +205,14 @@ const CheckoutPage: NextPage = () => {
           />
         </div>
       )}
+
+      <PaymentModal
+        show={showWompiModal}
+        handleClose={() => {
+          setShowWompiModal(false);
+        }}
+        src={result.data?.urlEnlace!}
+      />
       <ToastContainer />
     </Layout>
   );

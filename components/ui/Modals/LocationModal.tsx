@@ -74,7 +74,7 @@ export const LocationModal: FC<Props> = ({
                 animate-bouncein shadow-md"
         >
           <div className="absolute top-0 z-50 pt-4 flex w-full justify-center items-center pointer-events-none">
-            <h1 className="bg-white rounded-xl p-4 shadow-md font-bold pointer-events-auto">
+            <h1 className="bg-white rounded-lg p-3 shadow-sm font-bold pointer-events-auto border">
               Selecciona tu ubicación
             </h1>
           </div>

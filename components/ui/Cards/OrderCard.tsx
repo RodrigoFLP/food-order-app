@@ -13,7 +13,7 @@ export const OrderCard: FC<Ticket> = ({
 }) => {
   return (
     <Link href={`/profile/orders/${id}`} passHref>
-      <article className="bg-white p-4 rounded-2xl border space-y-2 cursor-pointer hover:scale-95 transition-all active:bg-shade">
+      <article className="bg-white p-4 rounded-2xl border space-y-2 cursor-pointer hover:scale-95 transition-all active:bg-shade shadow-sm">
         <div className="flex flex-row justify-between items-center">
           <h1 className="font-semibold text-base">#{id.split("-")[0]}</h1>
           <div className="bg-secondary text-white p-1 px-2 rounded-full text-xs font-bold">

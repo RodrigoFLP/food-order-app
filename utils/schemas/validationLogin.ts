@@ -1,9 +1,14 @@
 import * as yup from "yup";
 import { string } from "yup";
 
+const requiredMessage = "Campo requerido";
+
 export const validationLogin = yup.object({
-  username: yup.string().email().required(),
-  password: yup.string().min(8).required(),
+  username: yup.string().email().required(requiredMessage),
+  password: yup
+    .string()
+    .min(8, "Contraseña no válida")
+    .required(requiredMessage),
 });
 
 export default validationLogin;

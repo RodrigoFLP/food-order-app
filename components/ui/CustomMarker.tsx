@@ -10,20 +10,20 @@ interface Props {
 const CustomMarker: FC<Props> = ({ markerPosition, handleMapClick }) => {
   const mapLocation = useMap();
 
-  useEffect(() => {
-    map.locate().on("locationfound", function (e) {
-      handleMapClick([e.latlng.lat, e.latlng.lng]);
-      map.flyTo(e.latlng, map.getZoom());
-      const radius = e.accuracy;
-    });
-  }, [mapLocation]);
-
   const map = useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
       handleMapClick([lat, lng]);
     },
   });
+
+  useEffect(() => {
+    map.locate().on("locationfound", function (e) {
+      handleMapClick([e.latlng.lat, e.latlng.lng]);
+      map.flyTo(e.latlng, map.getZoom());
+      const radius = e.accuracy;
+    });
+  }, [mapLocation, map, handleMapClick]);
 
   return <Marker position={markerPosition} />;
 };
