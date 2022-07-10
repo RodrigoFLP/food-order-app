@@ -65,6 +65,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   const handleAddClick = () => {
     toast("Agregado al carrito", {
       type: "success",
+
       autoClose: 300,
       // icon: <ShoppingCart />,
     });
@@ -166,7 +167,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     <Layout title={product.name} margin>
       <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-primary p-8 h-56 space-y-4 pb-14 rounded-t-2xl">
+          <div className="relative overflow-hidden bg-primary border p-8 h-56 space-y-4 pb-14 rounded-t-2xl">
             <div className="block">
               <Image
                 src={product.image}
@@ -176,12 +177,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               ></Image>
             </div>
           </div>
-          <div className="w-full bg-white rounded-3xl relative -top-6">
+          <div className="w-full bg-white rounded-3xl relative -top-6 shadow-sm border">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
               <h1 className="font-semibold text-2xl sm:text-2xl text-black z-10">
                 {product.name}
               </h1>
-              <p className="text-black z-10">{product.description}</p>
+              <p className="text-black z-10 text-sm">{product.description}</p>
             </section>
             <hr className="m-2" />
             <section className="md:w-4/5 space-y-4 p-6 pt-3">
@@ -259,7 +260,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             </ButtonIcon>
           </div>
           <BarButton handleClick={handleAddClick}>
-            <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base">
+            <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base ">
               <div>Añadir</div>
               <div className="font-extrabold text-sm sm:text-base">
                 ${order.price.toFixed(2)}

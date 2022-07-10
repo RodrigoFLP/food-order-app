@@ -72,6 +72,7 @@ export const Search = () => {
     <>
       <div className="">
         <SearchInput
+          // type={"search"}
           error={false}
           label="Buscar"
           Icon={keyword.length > 0 ? X : SearchIcon}
@@ -86,7 +87,7 @@ export const Search = () => {
         />
       </div>
       {keyword.length > 0 && (
-        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein animate-heightin transition-all">
+        <div className="mt-4 p-4 rounded-3xl bg-shade animate-opacityin animate-bouncein transition-all">
           <div className="flex flex-col justify-between">
             <div className="flex items-center justify-between h-10">
               <h2 className="text-lg font-semibold pl-1">Resultados</h2>

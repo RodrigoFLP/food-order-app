@@ -43,9 +43,31 @@ export const cartSlice = createSlice({
           ),
         ],
       };
-      state.items.push(action.payload);
-      state.itemsCount += action.payload.quantity;
-      state.total += action.payload.price;
+      const productStringified = JSON.stringify({
+        ...action.payload,
+        orderItemId: 0,
+        quantity: 0,
+        price: 0,
+      });
+      const itemId = state.items.findIndex(
+        (item) =>
+          JSON.stringify({ ...item, orderItemId: 0, quantity: 0, price: 0 }) ===
+          productStringified
+      );
+
+      console.log(itemId);
+
+      if (itemId !== -1) {
+        state.items[itemId].quantity += action.payload.quantity;
+        state.itemsCount += action.payload.quantity;
+        state.total += state.items[itemId].unitPrice * action.payload.quantity;
+      }
+
+      if (itemId === -1) {
+        state.items.push(action.payload);
+        state.itemsCount += action.payload.quantity;
+        state.total += action.payload.price;
+      }
     },
     incrementItemQuantity: (state, action: PayloadAction<string>) => {
       const orderIndex = state.items.findIndex(

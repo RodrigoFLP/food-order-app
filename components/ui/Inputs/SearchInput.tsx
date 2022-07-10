@@ -52,7 +52,6 @@ export const SearchInput: FC<Props> = ({
             : "focus:outline-blue-400"
         } w-full peer`}
           aria-label=".form-select-lg example"
-          defaultValue=""
           placeholder="Buscar"
         />
         <Icon

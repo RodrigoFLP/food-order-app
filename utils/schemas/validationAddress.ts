@@ -1,13 +1,13 @@
 import * as yup from "yup";
 
-const requiredMessage = "Required";
+const requiredMessage = "Campo requerido";
 
 export const validationAddress = yup.object({
   state: yup.string().required(requiredMessage),
   city: yup.string().required(requiredMessage),
-  addressLine1: yup.string().required(requiredMessage).min(4),
+  addressLine1: yup.string().required(requiredMessage),
   addressLine2: yup.string().required(requiredMessage),
-  addressReference: yup.string().required(),
+  addressReference: yup.string().required(requiredMessage),
 });
 
 export default validationAddress;
