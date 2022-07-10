@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { StepSeparator } from "../../components/ui";
 import PaymentModal from "../../components/ui/Modals/PaymentModal";
 import Script from "next/script";
+import { makeWompiUrl } from "../../utils";
 
 interface OrderInfo {
   deliveryType: string;
@@ -211,7 +212,7 @@ const CheckoutPage: NextPage = () => {
         handleClose={() => {
           setShowWompiModal(false);
         }}
-        src={result.data?.urlEnlace!}
+        src={makeWompiUrl(result.data?.urlQrCodeEnlace!)}
       />
       <ToastContainer />
     </Layout>
