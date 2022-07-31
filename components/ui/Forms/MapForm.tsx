@@ -4,7 +4,7 @@ import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 
 import { BarButton } from "../Buttons";
-import CustomMarker from "../CustomMarker";
+import CustomMarker from "../../common/CustomMarker";
 
 import "leaflet/dist/leaflet.css";
 import isMarkerInsidePolygon from "../../../utils/isMarkerInsidePolygon";

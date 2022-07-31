@@ -2,15 +2,11 @@ import { FC, MouseEventHandler, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
-  handleClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   style?: boolean;
 }
 
-export const ButtonIcon: FC<Props> = ({
-  children,
-  style = false,
-  handleClick,
-}) => {
+export const ButtonIcon: FC<Props> = ({ children, style = false, onClick }) => {
   return (
     <button
       className={`${
@@ -21,7 +17,7 @@ export const ButtonIcon: FC<Props> = ({
         active:scale-90  transition-all
         flex items-center justify-center
         p-2  `}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {children}
     </button>

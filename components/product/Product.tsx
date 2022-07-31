@@ -1,34 +1,30 @@
-import { NextPage } from "next";
 import Image from "next/image";
-import { GetServerSideProps } from "next";
-import { useState } from "react";
-
-import { ButtonIcon } from "../../../components/ui/Buttons";
-import { Layout } from "../../../components/layouts";
-import { PortionsList, TagsList } from "../../../components/ui";
-import { BarButton } from "../../../components/ui/Buttons";
+import { FC, useState } from "react";
+import { PortionsList, TagsList } from "../ui";
+import { BarButton } from "../ui/Buttons";
 
 import {
   IProduct,
   OrderItemState,
   PortionState,
   TagGroupState,
-} from "../../../interfaces";
+} from "../../interfaces";
 
-import { useAppDispatch } from "../../../store/hooks";
-import { add } from "../../../store";
+import { useAppDispatch } from "../../store/hooks";
+import { add } from "../../store";
 
 import { nanoid } from "@reduxjs/toolkit";
-import { Minus, Plus } from "react-feather";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import Counter from "../ui/Counter";
 
 export interface Props {
   product: IProduct;
+  onAdd: () => void;
 }
 
-const ProductPage: NextPage<Props> = ({ product }) => {
+export const Product: FC<Props> = ({ product, onAdd }) => {
   const dispatch = useAppDispatch();
 
   const defaultTags = product.portions[0].tagGroups.map((tagGroup) => ({
@@ -71,6 +67,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     });
     dispatch(add({ ...order, orderItemId: nanoid() }));
     setOrder(initialOrderState);
+    onAdd();
   };
 
   const calculateTotal = (
@@ -163,11 +160,42 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     });
   };
 
+  const handleAddQuantity = () => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      quantity: prevOrder.quantity + 1,
+      price: calculateTotal(
+        prevOrder.portion,
+        prevOrder.tagsGroups,
+        prevOrder.quantity + 1
+      ),
+      unitPrice: calculateUnitTotal(prevOrder.portion, prevOrder.tagsGroups),
+    }));
+  };
+
+  const handleRemoveQuantity = () => {
+    order.quantity <= 1
+      ? ""
+      : setOrder((prevOrder) => ({
+          ...prevOrder,
+          quantity: prevOrder.quantity - 1,
+          price: calculateTotal(
+            prevOrder.portion,
+            prevOrder.tagsGroups,
+            prevOrder.quantity - 1
+          ),
+          unitPrice: calculateUnitTotal(
+            prevOrder.portion,
+            prevOrder.tagsGroups
+          ),
+        }));
+  };
+
   return (
-    <Layout title={product.name} margin>
-      <div className="flex flex-col w-full items-center space-y-0 md:space-y-0 mt-2">
+    <div>
+      <div className="flex flex-col w-full items-center mb-20 animate-opacityin">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-primary border p-8 h-56 space-y-4 pb-14 rounded-t-2xl">
+          <div className="relative overflow-hidden bg-primary p-8 h-56 space-y-4 pb-14">
             <div className="block">
               <Image
                 src={product.image}
@@ -177,7 +205,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               ></Image>
             </div>
           </div>
-          <div className="w-full bg-white rounded-3xl relative -top-6 shadow-sm border">
+          <div className="w-full bg-white rounded-t-2xl relative -top-6">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
               <h1 className="font-semibold text-2xl sm:text-2xl text-black z-10">
                 {product.name}
@@ -211,90 +239,17 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 bg-white border-t w-full left-0 h-20 flex justify-center items-center">
-        <div className="w-full lg:w-3/5 xl:1/2 flex px-4 space-x-8">
-          <div className="flex flex-row space-x-4 items-center p-2 justify-between">
-            <ButtonIcon
-              onClick={() =>
-                order.quantity <= 1
-                  ? ""
-                  : setOrder((prevOrder) => ({
-                      ...prevOrder,
-                      quantity: prevOrder.quantity - 1,
-                      price: calculateTotal(
-                        prevOrder.portion,
-                        prevOrder.tagsGroups,
-                        prevOrder.quantity - 1
-                      ),
-                      unitPrice: calculateUnitTotal(
-                        prevOrder.portion,
-                        prevOrder.tagsGroups
-                      ),
-                    }))
-              }
-            >
-              <Minus />
-            </ButtonIcon>
-
-            <span className="font-bold text-sm">{order.quantity}</span>
-
-            <ButtonIcon
-              style={true}
-              onClick={() =>
-                setOrder((prevOrder) => ({
-                  ...prevOrder,
-                  quantity: prevOrder.quantity + 1,
-                  price: calculateTotal(
-                    prevOrder.portion,
-                    prevOrder.tagsGroups,
-                    prevOrder.quantity + 1
-                  ),
-                  unitPrice: calculateUnitTotal(
-                    prevOrder.portion,
-                    prevOrder.tagsGroups
-                  ),
-                }))
-              }
-            >
-              <Plus color="white" />
-            </ButtonIcon>
-          </div>
-          <BarButton handleClick={handleAddClick}>
-            <div className="flex flex-col sm:flex-row justify-between w-full text-sm sm:text-base ">
-              <div>Añadir</div>
-              <div className="font-extrabold text-sm sm:text-base">
-                ${order.price.toFixed(2)}
-              </div>
-            </div>
-          </BarButton>
-        </div>
+      <div className="fixed bottom-0 bg-red border-t h-20 flex px-4 items-center space-x-4 w-full sm:w-8/12 md:w-6/12 lg:w-4/12 bg-white">
+        <Counter
+          onPlusClick={handleAddQuantity}
+          onMinusClick={handleRemoveQuantity}
+          count={order.quantity}
+        />
+        <BarButton handleClick={handleAddClick}>Añadir</BarButton>
       </div>
       <ToastContainer />
-    </Layout>
+    </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { product } = params as { product: string };
-
-  const data = await (
-    await fetch(`${process.env.API_URL}/products/${product}`)
-  ).json();
-
-  if (!data || data === undefined) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      product: data,
-    },
-  };
-};
-
-export default ProductPage;
+export default Product;

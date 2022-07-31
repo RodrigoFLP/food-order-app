@@ -31,6 +31,7 @@ startAppListening({
   effect: async (action, listenerApi) => {
     try {
       const cart = JSON.stringify(listenerApi.getState().cart);
+
       localStorage.setItem("cart", cart);
     } catch (err) {
       console.log(err);

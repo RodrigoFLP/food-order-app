@@ -2,13 +2,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { IPaymentLink } from "../../interfaces";
-
 import { Layout } from "../../components/layouts";
 import { CheckoutStepContainer } from "../../components/ui";
 import { BarButton } from "../../components/ui/Buttons";
-import PickupForm from "../../components/ui/Forms/PickupForm";
-import DeliveryForm from "../../components/ui/Forms/DeliveryForm";
+import PickupForm from "../../components/checkout/PickupForm";
+import DeliveryForm from "../../components/checkout/DeliveryForm";
 import { OrderSummaryCard } from "../../components/ui/Cards";
 
 import {
@@ -23,9 +21,7 @@ import { CreditCard, Map, MapPin } from "react-feather";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StepSeparator } from "../../components/ui";
-import PaymentModal from "../../components/ui/Modals/PaymentModal";
-import Script from "next/script";
-import { makeWompiUrl } from "../../utils";
+import PaymentModal from "../../components/checkout/PaymentModal";
 
 interface OrderInfo {
   deliveryType: string;
@@ -102,12 +98,9 @@ const CheckoutPage: NextPage = () => {
       if (res.error) {
         throw new Error("No se ha podido generar el pago");
       }
-
-      const response = res as { data: IPaymentLink };
+      toast.dismiss("payment");
 
       setShowWompiModal(true);
-
-      // router.push(response.data?.urlEnlace);
     } catch (err: any) {
       toast.dismiss("payment");
       toast.dismiss("error");

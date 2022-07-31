@@ -1,13 +1,13 @@
-import { SelectInput, Input } from "../Inputs";
-import { BarButton, LocationButton } from "../Buttons";
+import { SelectInput, Input } from "../ui/Inputs";
+import { BarButton, LocationButton } from "../ui/Buttons";
 import { Map, MapPin, Save } from "react-feather";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Address, Coordinate, SignupForm } from "../../../interfaces";
-import { validationAddress } from "../../../utils/schemas";
+import { Address, Coordinate, SignupForm } from "../../interfaces";
+import { validationAddress } from "../../utils/schemas";
 import { FC } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { useUpdateAddressMutation } from "../../../services/api";
+import { useUpdateAddressMutation } from "../../services/api";
 
 import "react-toastify/dist/ReactToastify.css";
 import { yupResolver } from "@hookform/resolvers/yup";

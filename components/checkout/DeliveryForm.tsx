@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
-import { Address } from "../../../interfaces";
-import { AddressCard } from "../Cards";
-import { SelectAddressInput } from "../Inputs";
+import { Address } from "../../interfaces";
+import { AddressCard } from "../ui/Cards";
+import { SelectAddressInput } from "../ui/Inputs";
 
 interface OrderInfo {
   deliveryType: string;
