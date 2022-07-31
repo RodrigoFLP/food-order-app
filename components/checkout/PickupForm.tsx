@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Info } from "react-feather";
-import { useGetStoresQuery } from "../../../services/api";
-import { Input, SelectInput } from "../Inputs";
+import { useGetStoresQuery } from "../../services/api";
+import { Input, SelectInput } from "../ui/Inputs";
 
 export const PickupForm: FC = () => {
   const { data, isError, isLoading, isSuccess } = useGetStoresQuery();

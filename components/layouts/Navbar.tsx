@@ -4,7 +4,7 @@ import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
 import { selectItemsCount } from "../../store";
 import { useEffect, useState } from "react";
-import { ProfileButton, ButtonIcon } from "./Buttons";
+import { ProfileButton, ButtonIcon } from "../ui/Buttons";
 
 export const Navbar = () => {
   const { showFixed } = useOnScroll();

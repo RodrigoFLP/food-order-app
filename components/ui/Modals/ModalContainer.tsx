@@ -1,26 +1,33 @@
-import { FC, ReactNode, useEffect, useState, } from "react";
-import { createPortal } from 'react-dom';
+import { FC, ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface Props {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export const ModalContainer: FC<Props> = ({ children }) => {
+  const [isBrowser, setIsBrowser] = useState(false);
 
-    const [isBrowser, setIsBrowser] = useState(false);
+  function getScrollbarWidth() {
+    return window.innerWidth - document.documentElement.clientWidth;
+  }
 
-    useEffect(() => {
+  useEffect(() => {
+    console.log("scroll wifht, ", getScrollbarWidth());
+    document.body.style.marginRight = `${getScrollbarWidth()}px`;
+    document.body.style.overflow = "hidden";
 
+    setIsBrowser(true);
 
-        document.body.style.overflow = 'hidden';
-        setIsBrowser(true);
+    return () => {
+      document.body.style.overflowY = "scroll";
+      document.body.style.marginRight = "0px";
+    };
+  }, []);
 
-        return () => {
-            document.body.style.overflow = 'scroll'
-        }
-    }, [])
-
-    return isBrowser ? createPortal(children, document.body) : null;
-}
+  return isBrowser
+    ? createPortal(children, document.getElementById("modal-root")!)
+    : null;
+};
 
 export default ModalContainer;

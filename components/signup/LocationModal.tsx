@@ -1,14 +1,14 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import { useGetDeliveryAreasQuery } from "../../../services/api";
+import { useGetDeliveryAreasQuery } from "../../services/api";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 
-import ModalContainer from "./ModalContainer";
-import { BarButton } from "../Buttons";
-import CustomMarker from "../CustomMarker";
+import ModalContainer from "../ui/Modals/ModalContainer";
+import { BarButton } from "../ui/Buttons";
+import CustomMarker from "../common/CustomMarker";
 
 import "leaflet/dist/leaflet.css";
-import isMarkerInsidePolygon from "../../../utils/isMarkerInsidePolygon";
+import isMarkerInsidePolygon from "../../utils/isMarkerInsidePolygon";
 import { toast, ToastContainer } from "react-toastify";
 
 interface Props {

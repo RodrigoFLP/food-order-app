@@ -1,18 +1,18 @@
 import { createRef, FC, useEffect, useRef, useState } from "react";
 
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../ui/Modals/ModalContainer";
 
 import "leaflet/dist/leaflet.css";
 import { toast, ToastContainer } from "react-toastify";
-import { AddressForm } from "../Forms/AddressForm";
-import { Address, Coordinate } from "../../../interfaces";
-import MapForm from "../Forms/MapForm";
+import { AddressForm } from "../common/AddressForm";
+import { Address, Coordinate } from "../../interfaces";
+import MapForm from "../ui/Forms/MapForm";
 import { ArrowLeft } from "react-feather";
 
 import "react-toastify/dist/ReactToastify.css";
 import { findDOMNode } from "react-dom";
 import { type } from "os";
-import { makeWompiUrl } from "../../../utils";
+import { makeWompiUrl } from "../../utils";
 
 interface Props {
   show: boolean;

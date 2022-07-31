@@ -1,4 +1,4 @@
-import { OrderItemState } from "../../../interfaces";
+import { OrderItemState } from "../../interfaces";
 
 export const OrderSummaryCard = ({
   items,

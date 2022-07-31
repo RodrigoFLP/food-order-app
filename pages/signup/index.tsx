@@ -26,7 +26,7 @@ interface Coordinate {
 
 const SignupPage: NextPage = () => {
   const LocationModal = dynamic(
-    () => import("../../components/ui/Modals/LocationModal"), // replace '@components/map' with your component's location
+    () => import("../../components/signup/LocationModal"), // replace '@components/map' with your component's location
     { ssr: false } // This line is important. It's what prevents server-side render
   );
 

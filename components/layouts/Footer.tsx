@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ButtonIcon } from "./Buttons";
+import { ButtonIcon } from "../ui/Buttons";
 import { Facebook, Instagram } from "react-feather";
 
 interface Props {

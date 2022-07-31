@@ -1,19 +1,18 @@
-export * from "./Navbar";
-export * from "./AdHeader";
+export * from "../layouts/Navbar";
+export * from "../home/AdHeader";
 export * from "./SectionContainer";
 export * from "./ListTile";
-export * from "./Footer";
-export * from "./UserHeader";
+export * from "../layouts/Footer";
+export * from "../profile/UserHeader";
 // export * from "./LocationModal";
 // export * from "./DateInput";
-export * from "./OrderItemModal";
-export * from "./PortionsList";
-export * from "./TagsList";
+export * from "../product/PortionsList";
+export * from "../product/TagsList";
 // export * from "./SearchInput";
-export * from "./CheckoutStepContainer";
-export * from "./StepSeparator";
+export * from "../checkout/CheckoutStepContainer";
+export * from "../checkout/StepSeparator";
 // export * from "./SelectAddressInput";
 
 export * from "./StatusStepContainer";
-export * from "./Search";
+export * from "../home/Search";
 export * from "./Alerts/EmailAlert";

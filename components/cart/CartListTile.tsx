@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { FC } from "react";
-import { ButtonIcon } from "../Buttons";
+import { ButtonIcon } from "../ui/Buttons";
 import { Plus, Minus } from "react-feather";
-import { OrderItemState } from "../../../interfaces";
-import { incrementItemQuantity, remove } from "../../../store";
-import { useAppDispatch } from "../../../store/hooks";
+import { OrderItemState } from "../../interfaces";
+import { incrementItemQuantity, remove } from "../../store";
+import { useAppDispatch } from "../../store/hooks";
 
 interface Props {
   order: OrderItemState;
@@ -64,11 +64,11 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-between right-0 top-0 p-2 absolute h-full">
-        <ButtonIcon style={true} handleClick={handlePlusClick}>
+        <ButtonIcon style={true} onClick={handlePlusClick}>
           <Plus color="white" />
         </ButtonIcon>
         <span className="font-bold text-sm">{order.quantity}</span>
-        <ButtonIcon handleClick={handleMinusClick}>
+        <ButtonIcon onClick={handleMinusClick}>
           <Minus />
         </ButtonIcon>
       </div>

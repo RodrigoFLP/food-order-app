@@ -4,15 +4,19 @@ import { Layout } from "../components/layouts";
 import { AdHeader, Search } from "../components/ui";
 import { SliderButton } from "../components/ui/Buttons";
 
-import { Card, CardsSlider } from "../components/ui/Cards";
+import { CardsSlider, ProductCard } from "../components/ui/Cards";
 import { SectionContainer } from "../components/ui";
-import ListButtonsPlaceholder from "../components/ui/ListButtonsPlaceholder";
+import ListButtonsPlaceholder from "../components/ui/placeholders/ListButtonsPlaceholder";
 import { Category } from "../interfaces";
 
 import {
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
 } from "../services/api";
+
+import ProductModal from "../components/product/ProductModal";
+import { useProductModal } from "../hooks/useProductModal";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -27,6 +31,8 @@ const Home: NextPage = () => {
     isError: errorProducts,
     isLoading: isLoadingProducts,
   } = useGetCategoryProductsQuery(1);
+
+  console.log(router.query);
 
   return (
     <Layout title="Pancho's Villa">
@@ -61,18 +67,31 @@ const Home: NextPage = () => {
               {!isLoadingProducts &&
                 !errorProducts &&
                 (products! as Category).productsList.map((product) => (
-                  <Card
+                  <Link
+                    scroll={false}
                     key={product.id}
-                    id={product.id}
-                    title={product.name}
-                    image={product.image}
-                    price={parseFloat(product.price)}
-                  />
+                    href={`/?producto=${product.id}`}
+                  >
+                    <a>
+                      <ProductCard
+                        key={product.id}
+                        id={product.id}
+                        title={product.name}
+                        image={product.image}
+                        price={parseFloat(product.price)}
+                        onClick={() => {}}
+                      />
+                    </a>
+                  </Link>
                 ))}
             </div>
           </SectionContainer>
         </div>
       </div>
+      <ProductModal
+        show={!!router.query.producto}
+        onClose={() => router.push("/", undefined, { scroll: false })}
+      />
     </Layout>
   );
 };

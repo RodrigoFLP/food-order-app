@@ -1,12 +1,13 @@
+import Link from "next/link";
 import React, { memo, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Search as SearchIcon, X } from "react-feather";
 import { useDebounce } from "../../hooks";
 import { Product } from "../../interfaces";
 import { useSearchProductMutation } from "../../services/api";
-import { BarButton, ButtonIcon, TagButton } from "./Buttons";
-import { Card } from "./Cards";
-import { SearchInput } from "./Inputs";
-import Loading from "./Loading";
+import ProductCard from "../product/ProductCard";
+import { BarButton, ButtonIcon, TagButton } from "../ui/Buttons";
+import { SearchInput } from "../ui/Inputs";
+import Loading from "../ui/Loading";
 
 const ProductsContainer = ({
   products,
@@ -19,13 +20,21 @@ const ProductsContainer = ({
     >
       {products &&
         products.map((product) => (
-          <Card
+          <Link
+            scroll={false}
             key={product.id}
-            id={product.id}
-            title={product.name}
-            image={product.image}
-            price={parseFloat(product.price)}
-          />
+            href={`/?producto=${product.id}`}
+          >
+            <a>
+              <ProductCard
+                id={product.id}
+                title={product.name}
+                image={product.image}
+                price={parseFloat(product.price)}
+                onClick={() => {}}
+              />
+            </a>
+          </Link>
         ))}
     </div>
   );
@@ -93,18 +102,12 @@ export const Search = () => {
               <h2 className="text-lg font-semibold pl-1">Resultados</h2>
               <div className="flex space-x-2">
                 {showPreviousPageButton && (
-                  <ButtonIcon
-                    style
-                    handleClick={() => setPage((prev) => prev - 1)}
-                  >
+                  <ButtonIcon style onClick={() => setPage((prev) => prev - 1)}>
                     <ArrowLeft />
                   </ButtonIcon>
                 )}
                 {showNextPageButton && (
-                  <ButtonIcon
-                    style
-                    handleClick={() => setPage((prev) => prev + 1)}
-                  >
+                  <ButtonIcon style onClick={() => setPage((prev) => prev + 1)}>
                     <ArrowRight />
                   </ButtonIcon>
                 )}

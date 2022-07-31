@@ -11,7 +11,7 @@ import styles from "../Placeholder.module.css";
 
 import { useGetProfileMutation, useLogoutMutation } from "../../services/api";
 import { useRouter } from "next/router";
-import { OrderCard } from "./Cards/OrderCard";
+import { OrderCard } from "../common/OrderCard";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 
