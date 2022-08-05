@@ -19,7 +19,7 @@ export const TagsList: FC<Props> = ({
   return (
     <section className="space-y-4">
       <div className="flex items-center space-x-2">
-        <h2 className="font-semibold text-xl">
+        <h2 className="font-semibold text-lg">
           {initialToUpperCase(tagGroup.name)}
         </h2>
         <div className="bg-primary text-white rounded-lg text-sm font-bold px-2 py-1 ">
@@ -27,7 +27,7 @@ export const TagsList: FC<Props> = ({
         </div>
       </div>
       <div className="text-sm">{tagGroup.description}</div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 justify-between text-sm">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-between text-sm">
         {tagGroup.tags.map((tag) => {
           const tagIndex = tagsInitialState.tags.findIndex(
             (t) => t.value === tag.value
@@ -45,8 +45,8 @@ export const TagsList: FC<Props> = ({
                   ? "bg-primary text-white"
                   : "bg-shade text-black"
               } 
-                    p-2 px-4 rounded-3xl border border-dashed border-gray-300 hover:bg-secondary 
-                    hover:text-white active:scale-95 active:bg-secondary shadow-md cursor-pointer`}
+                    p-2 px-4 rounded-xl border border-dashed border-gray-300 hover:bg-secondary 
+                    hover:text-white active:scale-95 active:bg-secondary shadow-sm cursor-pointer`}
               onClick={() => {
                 handleClick(tag);
               }}

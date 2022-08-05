@@ -15,13 +15,13 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["Roboto", ...defaultTheme.fontFamily.sans],
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: "#ff3737",
-        secondary: "#301a4b",
+        primary: "#F95045",
+        secondary: "#1F1F23",
         shade: "#ededf4",
-        accent: "#59ffa0",
+        accent: "#838efe",
         background: "#f3f5f7",
       },
       keyframes: (theme) => ({

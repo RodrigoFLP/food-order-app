@@ -7,8 +7,8 @@ export const EmailAlert = () => {
 
   return show ? (
     <div
-      className=" p-4 fixed bottom-0 z-40 text-white m-4 rounded-xl r-0
-  text-sm animate-opacityin animate-bouncein clip-rect bg-primary shadow-md backdrop-blur-md bg-opacity-90
+      className=" p-4 fixed bottom-0 z-40 text-white m-4 rounded-lg r-0
+  text-sm animate-opacityin animate-bouncein clip-rect bg-primary shadow-md backdrop-blur-md
   "
     >
       Tú email no ha sido confirmado. Revisa tu correo o{" "}

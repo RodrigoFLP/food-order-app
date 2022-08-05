@@ -18,40 +18,42 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`sticky z-30 w-full ${
-        showFixed && "bg-background shadow-sm "
+      className={`sticky z-30 w-full lg:flex items-center justify-center ${
+        showFixed && "bg-background shadow-xs border-b "
       } top-0 `}
     >
-      <ul
-        className="flex justify-between items-center
+      <div className="w-full lg:w-11/12 xl:w-8/12 2xl:6/12">
+        <ul
+          className="flex justify-between items-center
             px-6 h-16 "
-      >
-        <Link href="/" passHref>
-          <span className="font-bold text-lg cursor-pointer">
-            Panchos Villa
-          </span>
-        </Link>
-        <div className="flex space-x-2">
-          <li>
-            <ProfileButton />
-          </li>
-          <Link href="/cart" passHref prefetch={false}>
-            <li className="relative">
-              <ButtonIcon>
-                <ShoppingCart />
-                <div
-                  className="absolute -top-2 -right-2 
+        >
+          <Link href="/" passHref>
+            <span className="font-bold text-lg cursor-pointer">
+              Panchos Villa
+            </span>
+          </Link>
+          <div className="flex space-x-2">
+            <li>
+              <ProfileButton />
+            </li>
+            <Link href="/cart" passHref prefetch={false}>
+              <li className="relative">
+                <ButtonIcon>
+                  <ShoppingCart />
+                  <div
+                    className="absolute -top-2 -right-2 
                                 bg-primary rounded-full h-5 w-5
                                 text-white flex justify-center items-center
                                 text-xs font-semibold"
-                >
-                  {showCartCount && itemsCount}
-                </div>
-              </ButtonIcon>
-            </li>
-          </Link>
-        </div>
-      </ul>
+                  >
+                    {showCartCount && itemsCount}
+                  </div>
+                </ButtonIcon>
+              </li>
+            </Link>
+          </div>
+        </ul>
+      </div>
     </nav>
   );
 };

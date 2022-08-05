@@ -17,9 +17,9 @@ export const SliderButton: FC<Props> = ({
   return (
     <button
       className={`animate-opacityin whitespace-nowrap 
-         font-semibold text-sm active:scale-95 shadow-sm
-         h-10 px-4 py-2 rounded-3xl transition-all
-        hover:bg-primary hover:text-white border
+         font-semibold border text-sm active:scale-95
+         h-10 px-4 py-2 rounded-full transition-all
+        hover:bg-primary hover:text-white
         active:bg-secondary
          ${selected ? "bg-primary text-white" : "bg-white text-black"}`}
       ref={ref}

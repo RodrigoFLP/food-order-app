@@ -4,6 +4,7 @@ export interface IProduct {
   description: string;
   price: string;
   portions: Portion[];
+  portionsTagGroups: TagGroup[];
   tags: Tag[];
   image: string;
   createdAt?: Date;
@@ -21,6 +22,7 @@ export interface Portion {
 export interface TagGroup {
   id: number;
   description: string;
+  portions: number[];
   max: number;
   min: number;
   name: string;

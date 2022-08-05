@@ -32,8 +32,6 @@ const Home: NextPage = () => {
     isLoading: isLoadingProducts,
   } = useGetCategoryProductsQuery(1);
 
-  console.log(router.query);
-
   return (
     <Layout title="Pancho's Villa">
       <div className="flex w-full flex-col-reverse pt-2">
