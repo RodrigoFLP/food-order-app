@@ -25,8 +25,8 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
   return (
     // <Link href={`/menu/${title}`} passHref>
     <div
-      className="w-full h-28 sm:h-32 flex rounded-2xl bg-white 
-        shadow-sm overflow-hidden space-x-4 transition-all border p-2 relative"
+      className="w-full h-28 sm:h-32 flex rounded-xl bg-white 
+         overflow-hidden space-x-4 transition-all border p-1 relative"
     >
       <div
         id="image"
@@ -51,15 +51,15 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
             tagGroup.tags.map((tag) => (
               <div
                 key={tag.value}
-                className="mr-1 text-xs font-semibold bg-primary px-1 sm:p-1 sm:px-2 text-white rounded-xl"
+                className="mr-1 text-xs font-semibold bg-primary px-2 sm:p-1 sm:px-2 text-white rounded-md"
               >
                 {tag.value}
               </div>
             ))
           )}
         </div>
-        <div className="font-extrabold">
-          <span className="text-sm">$</span>
+        <div className="font-regular">
+          <span className="text-regular">$</span>
           {order.unitPrice.toFixed(2)} x {order.quantity}
         </div>
       </div>

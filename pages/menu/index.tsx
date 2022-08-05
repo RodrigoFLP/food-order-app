@@ -32,7 +32,7 @@ const MenuPage: NextPage = () => {
     isError: isErrorProducts,
     isSuccess: isSuccessProducts,
     isLoading: isLoadingProducts,
-  } = useGetCategoryProductsQuery(currentCategory);
+  } = useGetCategoryProductsQuery(currentCategory || 100000);
 
   const onSelect = (category: number) => {
     router.push(`/menu?category=${category}`);

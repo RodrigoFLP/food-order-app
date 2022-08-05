@@ -43,7 +43,7 @@ export const ProfileButton: FC = () => {
     <>
       <div className="relative">
         <button
-          className={`bg-white shadow-sm border border-1 h-8 w-8 rounded-full
+          className={`bg-white h-8 w-8 rounded-full border
         active:scale-90 hover:bg-gray-200 transition-all sm:w-40
         flex items-center justify-center p-2 space-x-1 text-sm`}
           onClick={() => {
@@ -54,7 +54,7 @@ export const ProfileButton: FC = () => {
           <div className="hidden sm:block">
             {isClient
               ? isLoggedIn
-                ? firstName
+                ? "Ver perfil"
                 : "Inicia/registrate"
               : "Cargando"}
           </div>
@@ -62,8 +62,8 @@ export const ProfileButton: FC = () => {
         {showMenu && (
           <>
             <div
-              className="absolute bg-white w-48 animate-bouncein
-                right-0 py-2 rounded-xl shadow-md text-sm sm:text-base z-20"
+              className="absolute bg-white w-48 animate-opacityin
+                right-0 top-10 py-2 rounded-xl shadow-md text-sm  z-20"
             >
               <Link href="/profile/orders">
                 <a className="p-2 px-4 hover:bg-shade cursor-pointer w-full block">

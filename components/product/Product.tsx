@@ -6,6 +6,7 @@ import { BarButton } from "../ui/Buttons";
 import {
   IProduct,
   OrderItemState,
+  Portion,
   PortionState,
   TagGroupState,
 } from "../../interfaces";
@@ -27,19 +28,21 @@ export interface Props {
 export const Product: FC<Props> = ({ product, onAdd }) => {
   const dispatch = useAppDispatch();
 
-  const defaultTags = product.portions[0].tagGroups.map((tagGroup) => ({
-    name: tagGroup.name,
-    quantity: 0,
-    tags: [
-      {
-        id: null,
-        name: "",
-        value: "",
-        quantity: 0,
-        price: 0,
-      },
-    ],
-  }));
+  const defaultTags = product.portionsTagGroups
+    .filter((tagGroup) => tagGroup.portions.includes(product.portions[0].id))
+    .map((tagGroup) => ({
+      name: tagGroup.name,
+      quantity: 0,
+      tags: [
+        {
+          id: null,
+          name: "",
+          value: "",
+          quantity: 0,
+          price: 0,
+        },
+      ],
+    }));
 
   const initialOrderState = {
     orderItemId: nanoid(),
@@ -112,12 +115,12 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     return totalAmount;
   };
 
-  const handlePortionChange = (portion: any) => {
+  const handlePortionChange = (portion: Portion) => {
     return setOrder((prevOrder) => ({
       ...prevOrder,
-      tagsGroups: product.portions
-        .find((p) => p.id === portion.id)!
-        .tagGroups.map((tagGroup) => ({
+      tagsGroups: product.portionsTagGroups
+        .filter((tg) => tg.portions.includes(portion.id))
+        .map((tagGroup) => ({
           name: tagGroup.name,
           quantity: 0,
           tags: [
@@ -197,20 +200,24 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
         <div className="w-full">
           <div className="relative overflow-hidden bg-primary p-8 h-56 space-y-4 pb-14">
             <div className="block">
-              <Image
-                src={product.image}
-                alt={product.name}
-                layout="fill"
-                className="object-cover bg-gradient-to-l from-slate-50 z-0"
-              ></Image>
+              {product.image && (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  layout="fill"
+                  className="object-cover bg-gradient-to-l from-slate-50 z-0"
+                ></Image>
+              )}
             </div>
           </div>
-          <div className="w-full bg-white rounded-t-2xl relative -top-6">
+          <div className="w-full bg-white rounded-t-lg relative -top-6">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
-              <h1 className="font-semibold text-2xl sm:text-2xl text-black z-10">
+              <h1 className="font-semibold text-xl sm:text-xl text-black z-10">
                 {product.name}
               </h1>
-              <p className="text-black z-10 text-sm">{product.description}</p>
+              <p className="text-gray-700 z-10 text-sm">
+                {product.description}
+              </p>
             </section>
             <hr className="m-2" />
             <section className="md:w-4/5 space-y-4 p-6 pt-3">
@@ -221,9 +228,9 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
               />
             </section>
 
-            {product.portions
-              .find((portion) => portion.id === order.portion.id)!
-              .tagGroups.map((tagGroup, index) => (
+            {product.portionsTagGroups
+              .filter((tg) => tg.portions.includes(order.portion.id))
+              .map((tagGroup, index) => (
                 <section
                   key={tagGroup.name}
                   className="md:w-4/5 space-y-4 p-6 pt-2"
@@ -245,7 +252,12 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
           onMinusClick={handleRemoveQuantity}
           count={order.quantity}
         />
-        <BarButton handleClick={handleAddClick}>Añadir</BarButton>
+        <BarButton handleClick={handleAddClick}>
+          <div className="flex flex-row justify-between w-full">
+            <div>Añadir</div>
+            <div>${order.price.toFixed(2)}</div>
+          </div>
+        </BarButton>
       </div>
       <ToastContainer />
     </div>
