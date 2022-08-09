@@ -1,8 +1,10 @@
 import Head from "next/head";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { useGetIsOpenQuery, useGetOneStoreQuery } from "../../services/api";
 import { selectIsLoggedIn, selectUser } from "../../store";
 import { useAppSelector } from "../../store/hooks";
 import { EmailAlert, Footer, Navbar } from "../ui";
+import ScheduleAlert from "../ui/Alerts/ScheduleAlert";
 
 interface Props {
   children: ReactNode;
@@ -13,6 +15,19 @@ interface Props {
 export const Layout: FC<Props> = ({ children, title, margin = false }) => {
   const { isEmailConfirmed } = useAppSelector(selectUser);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const {
+    data: scheduling,
+    isLoading,
+    isError,
+    isUninitialized,
+  } = useGetIsOpenQuery();
+
+  const {
+    data: store,
+    isError: isStoreError,
+    isLoading: isStoreLoading,
+    isUninitialized: isStoreUninitialized,
+  } = useGetOneStoreQuery();
 
   const [isClient, setIsClient] = useState(false);
 
@@ -26,12 +41,17 @@ export const Layout: FC<Props> = ({ children, title, margin = false }) => {
         <title>{title || "Shop"}</title>
         <meta name="description" content="This is a shop" />
       </Head>
-      {isClient && isLoggedIn && !isEmailConfirmed && <EmailAlert />}
+      <div className=" fixed bottom-0 z-40">
+        {isClient && isLoggedIn && !isEmailConfirmed && <EmailAlert />}
+        {!isLoading && !isError && !isUninitialized && !scheduling.isOpen && (
+          <ScheduleAlert />
+        )}
+      </div>
       <Navbar />
       <main className={`lg:flex p-6 pt-2 px-6 justify-center w-full`}>
         <div className="lg:w-11/12 xl:w-8/12 2xl:6/12">{children}</div>
       </main>
-      <Footer margin={margin} />
+      {store && <Footer margin={margin} store={store} />}
     </>
   );
 };

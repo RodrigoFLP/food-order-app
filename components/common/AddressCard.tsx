@@ -5,9 +5,10 @@ import { Address } from "../../interfaces";
 
 interface Props {
   address: Address;
+  orderId: string;
 }
 
-export const AddressCard: FC<Props> = ({ address }) => {
+export const AddressCard: FC<Props> = ({ address, orderId }) => {
   const AddressModal = dynamic(
     () => import("./AddressModal"), // replace '@components/map' with your component's location
     { ssr: false } // This line is important. It's what prevents server-side render
@@ -25,14 +26,12 @@ export const AddressCard: FC<Props> = ({ address }) => {
   return (
     <>
       <div
-        className="group bg-white text-black border rounded-xl shadow-sm p-4 flex justify-between
+        className="group bg-white text-black border rounded-xl  p-4 flex justify-between
      transition-all cursor-pointer hover:bg-shade active:scale-95 text-sm animate-opacityin"
         onClick={handleClick}
       >
         <div>
-          <h2 className="font-semibold text-base mb-1">
-            Dirección {address.id}
-          </h2>
+          <h2 className="font-semibold text-base mb-1">Dirección {orderId}</h2>
           <div>
             {address.state}, {address.city}
           </div>

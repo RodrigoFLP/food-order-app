@@ -47,7 +47,11 @@ export const ProductModal: FC<Props> = ({ show, onClose }) => {
     setTimeout(() => setIsTransitionDone(true), 1000);
     setIsTransitionDone(false);
     fetchProduct();
+
+    //eslint-disable-next-line
   }, [router.query.producto]);
+
+  console.log(product);
 
   return show ? (
     <ModalContainer>

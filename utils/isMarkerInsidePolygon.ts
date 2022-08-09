@@ -1,4 +1,7 @@
-const isMarkerInsidePolygon = (marker: number[], polyPoints: number[][]) => {
+export const isMarkerInsidePolygon = (
+  marker: number[],
+  polyPoints: number[][]
+) => {
   let x = marker[0];
   let y = marker[1];
 
@@ -17,4 +20,11 @@ const isMarkerInsidePolygon = (marker: number[], polyPoints: number[][]) => {
   return inside;
 };
 
-export default isMarkerInsidePolygon;
+export const isMarkerInsideAnyPolygon = (
+  marker: number[],
+  polygons: number[][][]
+) => {
+  return polygons.some((polygon) => isMarkerInsidePolygon(marker, polygon));
+};
+
+export default isMarkerInsideAnyPolygon;

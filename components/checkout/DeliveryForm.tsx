@@ -28,7 +28,7 @@ export const DeliveryForm: FC<Props> = ({
     }));
   };
 
-  const address = addresses.find(
+  const addressIndex = addresses.findIndex(
     (address) => address.id === orderInfo.addressId
   )!;
 
@@ -42,7 +42,10 @@ export const DeliveryForm: FC<Props> = ({
         label="Dirección"
         options={addresses}
       />
-      <AddressCard address={address} />
+      <AddressCard
+        address={addresses[addressIndex]}
+        orderId={`${addressIndex + 1}`}
+      />
     </>
   );
 };

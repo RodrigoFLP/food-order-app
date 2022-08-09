@@ -10,6 +10,7 @@ import { CartListTile } from "../../components/ui/Cards";
 
 import { selectItems, selectTotal } from "../../store";
 import { useAppSelector } from "../../store/hooks";
+import { useGetIsOpenQuery } from "../../services/api";
 
 const CartPage: NextPage = () => {
   const items = useAppSelector(selectItems);
@@ -17,6 +18,13 @@ const CartPage: NextPage = () => {
 
   const [showCart, setShowCart] = useState(false);
   const router = useRouter();
+
+  const {
+    data: scheduling,
+    isLoading,
+    isError,
+    isUninitialized,
+  } = useGetIsOpenQuery();
 
   useEffect(() => {
     setShowCart(true);
@@ -43,23 +51,30 @@ const CartPage: NextPage = () => {
               <h1 className="text-center text-md">El carrito está vacío</h1>
             )}
           </section>
-          <section className="md:w-1/3 md:px-4 space-y-4 p-4 bg-white rounded-xl shadow-sm h-full">
-            <div className="flex justify-between">
+          <section className="md:w-1/3 md:px-4 space-y-4 p-4 bg-white rounded-lg border h-full">
+            <div className="flex justify-between px-2">
               <div>Subtotal</div>
               <div className="font-semibold">${Math.abs(total).toFixed(2)}</div>
             </div>
+            {scheduling && (
+              <BarButton
+                Icon={ShoppingCart}
+                handleClick={() => router.push("/checkout")}
+                disabled={
+                  !showCart
+                    ? true
+                    : !(items.length > 0) || scheduling.isOpen
+                    ? false
+                    : true
+                }
+              >
+                Continuar
+              </BarButton>
+            )}
           </section>
         </div>
       )}
-      <div className="fixed bottom-0 right-0 p-4 w-full md:w-1/3">
-        <BarButton
-          Icon={ShoppingCart}
-          handleClick={() => router.push("/checkout")}
-          disabled={!showCart ? true : !(items.length > 0)}
-        >
-          Continuar
-        </BarButton>
-      </div>
+      <div className="fixed bottom-0 right-0 p-4 w-full md:w-1/3"></div>
     </Layout>
   );
 };

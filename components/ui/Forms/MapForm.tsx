@@ -1,5 +1,8 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
-import { useGetDeliveryAreasQuery } from "../../../services/api";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  useGetDeliveryAreasQuery,
+  useGetOneStoreQuery,
+} from "../../../services/api";
 import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 
@@ -7,7 +10,9 @@ import { BarButton } from "../Buttons";
 import CustomMarker from "../../common/CustomMarker";
 
 import "leaflet/dist/leaflet.css";
-import isMarkerInsidePolygon from "../../../utils/isMarkerInsidePolygon";
+import isMarkerInsidePolygon, {
+  isMarkerInsideAnyPolygon,
+} from "../../../utils/isMarkerInsidePolygon";
 import { Coordinate } from "../../../interfaces";
 
 interface Props {
@@ -23,32 +28,53 @@ export const MapForm: FC<Props> = ({
   coordinate,
   errorToast,
 }) => {
-  console.log(coordinate);
+  const {
+    isSuccess: isSuccessAreas,
+    data: areas,
+    isLoading: isLoadingAreas,
+  } = useGetDeliveryAreasQuery(1);
+
+  const {
+    isSuccess: isSuccessStore,
+    data: store,
+    isLoading: isLoadingStore,
+  } = useGetOneStoreQuery();
+
+  const [centerPosition, setCenterPosition] = useState(
+    coordinate
+      ? [coordinate.lat, coordinate.lon]
+      : [13.981851794679411, -89.56730814403114]
+  );
 
   const [markerPosition, setMarkerPosition] = useState(
     coordinate
       ? [coordinate.lat, coordinate.lon]
-      : [13.702342669306118, -89.21357999951415]
+      : [13.981851794679411, -89.56730814403114]
   );
 
-  const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
+  useEffect(() => {
+    if (isSuccessStore && !centerPosition && !markerPosition) {
+      setMarkerPosition([store.lat, store.lon]);
+      setCenterPosition([store.lat, store.lon]);
+    }
+  }, [store, isSuccessStore, centerPosition, markerPosition]);
 
   delete (L.Icon.Default as any).prototype._getIconUrl;
 
-  const purpleOptions = { color: "blue" };
-
   const polygon =
-    isSuccess && !isLoading
+    isSuccessAreas && !isLoadingAreas
       ? [
-          ...data[0].coordinates.map((coordinate) => [
-            coordinate.lat,
-            coordinate.lon,
-          ]),
+          ...areas.map((area) =>
+            area.coordinates.map((coordinate) => [
+              coordinate.lat,
+              coordinate.lon,
+            ])
+          ),
         ]
       : [];
 
   const handleMapClick = (newPosition: number[]) => {
-    const isMarkerInside = isMarkerInsidePolygon(newPosition, polygon);
+    const isMarkerInside = isMarkerInsideAnyPolygon(newPosition, polygon);
     isMarkerInside ? setMarkerPosition(newPosition) : errorToast();
   };
 
@@ -60,12 +86,8 @@ export const MapForm: FC<Props> = ({
   return (
     <>
       <MapContainer
-        style={{
-          height: "100%",
-          width: "100%",
-          zIndex: "10",
-        }}
-        center={[13.702342669306118, -89.21357999951415]}
+        style={{ height: "100%", width: "100%", zIndex: "10" }}
+        center={centerPosition as LatLngExpression}
         zoom={13}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -74,11 +96,14 @@ export const MapForm: FC<Props> = ({
           handleMapClick={handleMapClick}
           markerPosition={markerPosition as LatLngExpression}
         />
-
-        <Polygon
-          pathOptions={purpleOptions}
-          positions={isSuccess ? (polygon as LatLngExpression[]) : []}
-        />
+        {areas &&
+          areas.map((area) => (
+            <Polygon
+              key={area.id}
+              pathOptions={{ color: "green" }}
+              positions={area.coordinates.map((c) => [c.lat, c.lon])}
+            />
+          ))}
       </MapContainer>
       <div className="absolute p-6 bottom-0 z-50 w-full">
         <BarButton handleClick={handleSelectButton}>Seleccionar</BarButton>

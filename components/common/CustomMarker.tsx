@@ -1,6 +1,7 @@
 import { LatLngExpression } from "leaflet";
 import { FC, useEffect } from "react";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
+import { BarButton } from "../ui/Buttons";
 
 interface Props {
   markerPosition: LatLngExpression;
@@ -25,7 +26,14 @@ const CustomMarker: FC<Props> = ({ markerPosition, handleMapClick }) => {
     });
   }, [mapLocation, map, handleMapClick]);
 
-  return <Marker position={markerPosition} />;
+  return (
+    <>
+      <div className="absolute p-6 top-0 z-[1000] right-0">
+        <BarButton handleClick={() => map.locate()}>Ubicarme</BarButton>
+      </div>
+      <Marker position={markerPosition} />;
+    </>
+  );
 };
 
 export default CustomMarker;

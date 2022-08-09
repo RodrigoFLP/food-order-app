@@ -177,6 +177,7 @@ const SignupPage: NextPage = () => {
           <hr />
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 items-center ">
             <SelectInput
+              hidden
               label="Departamento"
               register={register("state", { required: true })}
               errorMessage={errors.state?.message}
@@ -186,6 +187,7 @@ const SignupPage: NextPage = () => {
               setValue={() => {}}
             />
             <SelectInput
+              hidden
               label="Municipio"
               register={register("city", { required: true })}
               errorMessage={errors.city?.message}

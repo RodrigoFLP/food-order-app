@@ -2,7 +2,7 @@ import { useState } from "react";
 import { X } from "react-feather";
 import { ButtonIcon } from "../Buttons";
 
-export const EmailAlert = () => {
+export const ScheduleAlert = () => {
   const [show, setShow] = useState(true);
 
   return show ? (
@@ -11,8 +11,8 @@ export const EmailAlert = () => {
   text-sm animate-opacityin animate-bouncein clip-rect bg-primary shadow-md backdrop-blur-md
   "
     >
-      Tú email no ha sido confirmado. Revisa tu correo o{" "}
-      <span className="underline font-semibold">reenvía la confirmación</span>
+      ¡Pancho&apos;s Villa se encuentra{" "}
+      <span className="font-bold">cerrado</span> en este momento!
       <div className="absolute -top-3 -right-3">
         <ButtonIcon onClick={() => setShow(false)}>
           <X color="black" />
@@ -22,4 +22,4 @@ export const EmailAlert = () => {
   ) : null;
 };
 
-export default EmailAlert;
+export default ScheduleAlert;

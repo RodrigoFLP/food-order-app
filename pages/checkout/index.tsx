@@ -7,14 +7,16 @@ import { CheckoutStepContainer } from "../../components/ui";
 import { BarButton } from "../../components/ui/Buttons";
 import PickupForm from "../../components/checkout/PickupForm";
 import DeliveryForm from "../../components/checkout/DeliveryForm";
-import { OrderSummaryCard } from "../../components/ui/Cards";
+import { OrderCard, OrderSummaryCard } from "../../components/ui/Cards";
 
 import {
   useCalculateTotalQuery,
   useGetAddressQuery,
+  useGetOneStoreQuery,
+  useGetStoresQuery,
   usePayWithWompiMutation,
 } from "../../services/api";
-import { selectItems } from "../../store";
+import { clearCart, selectItems } from "../../store";
 import { useAppSelector } from "../../store/hooks";
 
 import { CreditCard, Map, MapPin } from "react-feather";
@@ -22,6 +24,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StepSeparator } from "../../components/ui";
 import PaymentModal from "../../components/checkout/PaymentModal";
+import SummaryCard from "../../components/checkout/SummaryCard";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import Loading from "../../components/ui/Loading";
 
 interface OrderInfo {
   deliveryType: string;
@@ -31,13 +37,16 @@ interface OrderInfo {
 }
 
 const CheckoutPage: NextPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const router = useRouter();
   const items = useAppSelector(selectItems);
 
   const [showWompiModal, setShowWompiModal] = useState(false);
 
   const [payWithWompi, result] = usePayWithWompiMutation();
-  const { data, isError, isLoading } = useCalculateTotalQuery(items);
+  const { data, isError, isLoading, isUninitialized } =
+    useCalculateTotalQuery(items);
   const { isSuccess, data: addressResult } = useGetAddressQuery();
 
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
@@ -46,6 +55,13 @@ const CheckoutPage: NextPage = () => {
     storeId: 0,
     addressId: undefined,
   });
+
+  const {
+    data: store,
+    isError: isStoreError,
+    isLoading: isStoreLoading,
+    isUninitialized: isStoreUninitialized,
+  } = useGetOneStoreQuery();
 
   useEffect(() => {
     if (isSuccess) {
@@ -121,6 +137,10 @@ const CheckoutPage: NextPage = () => {
     <Layout title="Pagar">
       <h1 className="text-lg font-semibold pb-4">Finalizar pedido</h1>
       <hr />
+      {(isLoading ||
+        isStoreLoading ||
+        isStoreUninitialized ||
+        isUninitialized) && <Loading />}
       {isClient && (
         <div className="pt-6 flex flex-col-reverse space-y-4 lg:space-y-0 lg:flex-row w-full lg:space-x-4">
           <div className="lg:w-4/6 flex-none pt-4 lg:pt-0">
@@ -136,24 +156,28 @@ const CheckoutPage: NextPage = () => {
                     orderInfo.deliveryType === "pickup"
                       ? "bg-primary text-white"
                       : "bg-shade"
-                  } p-4 flex-1 rounded-2xl 
+                  } p-2 flex-1 rounded-lg
                   hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
                   onClick={() => handleDeliveryChange("pickup")}
                 >
-                  <MapPin />
-                  <div className="pl-4">Recoger</div>
+                  <div className="flex items-center">
+                    <MapPin size={14} />
+                    <div className="pl-4">Recoger</div>
+                  </div>
                 </button>
                 <button
                   className={`${
                     orderInfo.deliveryType === "delivery"
                       ? "bg-primary text-white"
                       : "bg-shade"
-                  } p-4 flex-1 rounded-2xl 
+                  } p-2 flex-1 rounded-lg
                     hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
                   onClick={() => handleDeliveryChange("delivery")}
                 >
-                  <Map />
-                  <div className="pl-4">Domicilio</div>
+                  <div className="flex items-center">
+                    <Map size={14} />
+                    <div className="pl-4">Domicilio</div>
+                  </div>
                 </button>
               </div>
             </CheckoutStepContainer>
@@ -190,13 +214,15 @@ const CheckoutPage: NextPage = () => {
               </BarButton>
             </CheckoutStepContainer>
           </div>
-          <OrderSummaryCard
-            data={data}
-            isLoading={isLoading}
-            isError={isError}
-            items={items}
-            showItems={isClient}
-          />
+          {data && store && (
+            <SummaryCard
+              orderType={orderInfo.deliveryType}
+              deliveryCost={store.deliveryCost}
+              isDeliveryCostEnabled={store.isDeliveryCostEnabled}
+              ticketItems={data?.ticketItems}
+              totalAmount={data.totalAmount}
+            />
+          )}
         </div>
       )}
 
@@ -204,6 +230,7 @@ const CheckoutPage: NextPage = () => {
         show={showWompiModal}
         handleClose={() => {
           setShowWompiModal(false);
+          dispatch(clearCart());
         }}
         src={result.data?.urlQrCodeEnlace!}
       />

@@ -52,8 +52,12 @@ const ProfilePage: NextPage = () => {
           <div className="space-y-2">
             {isAddressLoading && <Loading />}
             {isAddressSuccess &&
-              data.map((address) => (
-                <AddressCard key={address.id} address={address} />
+              data.map((address, index) => (
+                <AddressCard
+                  key={address.id}
+                  address={{ ...address }}
+                  orderId={`${index + 1}`}
+                />
               ))}
             {isAddressError && "Error al cargar las direcciones"}
           </div>

@@ -1,23 +1,51 @@
 import { FC } from "react";
 import { ButtonIcon } from "../ui/Buttons";
-import { Facebook, Instagram } from "react-feather";
+import { Facebook, Instagram, Phone } from "react-feather";
+import { Store } from "../../interfaces";
+
+import { BrandWhatsapp } from "tabler-icons-react";
 
 interface Props {
   margin: boolean;
+  store: Store;
 }
 
-export const Footer: FC<Props> = ({ margin = false }) => {
+export const Footer: FC<Props> = ({ margin = false, store }) => {
   return (
     <footer className={`h-20 ${margin ? "mb-32" : ""}`}>
       <ul className="flex justify-center space-x-4 items-center h-full">
-        <ButtonIcon>
-          <Facebook />
-        </ButtonIcon>
-        <ButtonIcon>
-          <Instagram />
-        </ButtonIcon>
+        {store.facebook && (
+          <a href={store.facebook}>
+            <ButtonIcon>
+              <Facebook />
+            </ButtonIcon>
+          </a>
+        )}
+        {store.instagram && (
+          <a href={store.instagram}>
+            <ButtonIcon>
+              <Instagram />
+            </ButtonIcon>
+          </a>
+        )}
+        {store.whatsappNumber && (
+          <a
+            href={`https://api.whatsapp.com/send?phone=+503${store.whatsappNumber}`}
+          >
+            <ButtonIcon>
+              <BrandWhatsapp />
+            </ButtonIcon>
+          </a>
+        )}
+        {store.phoneNumber && (
+          <a href={`tel:${store.phoneNumber}`}>
+            <ButtonIcon>
+              <Phone />
+            </ButtonIcon>
+          </a>
+        )}
       </ul>
-      <div className="text-center pb-6 text-xs">© 2022 Powered by TechPOS</div>
+      <div className="text-center pb-6 text-xs">© 2022 Pancho&apos;s Villa</div>
     </footer>
   );
 };
