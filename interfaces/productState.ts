@@ -12,7 +12,7 @@ export interface TagState {
 }
 
 export interface PortionState {
-  id: number;
+  id: string;
   name: string;
   price: number;
 }

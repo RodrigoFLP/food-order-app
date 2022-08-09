@@ -27,6 +27,7 @@ const MenuPage: NextPage = () => {
     isUninitialized: isUninitializedCategories,
     isLoading: isLoadingCategories,
   } = useGetCategoriesListQuery();
+
   const {
     data: products,
     isError: isErrorProducts,

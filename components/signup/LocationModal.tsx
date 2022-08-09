@@ -1,6 +1,9 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
-import { useGetDeliveryAreasQuery } from "../../services/api";
-import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  useGetDeliveryAreasQuery,
+  useGetOneStoreQuery,
+} from "../../services/api";
+import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 
 import ModalContainer from "../ui/Modals/ModalContainer";
@@ -8,7 +11,7 @@ import { BarButton } from "../ui/Buttons";
 import CustomMarker from "../common/CustomMarker";
 
 import "leaflet/dist/leaflet.css";
-import isMarkerInsidePolygon from "../../utils/isMarkerInsidePolygon";
+import { isMarkerInsideAnyPolygon } from "../../utils/isMarkerInsidePolygon";
 import { toast, ToastContainer } from "react-toastify";
 
 interface Props {
@@ -24,30 +27,53 @@ export const LocationModal: FC<Props> = ({
   setCoordinate,
   coordinate,
 }) => {
+  const {
+    isSuccess: isSuccessAreas,
+    data: areas,
+    isLoading: isLoadingAreas,
+  } = useGetDeliveryAreasQuery(1);
+
+  const {
+    isSuccess: isSuccessStore,
+    data: store,
+    isLoading: isLoadingStore,
+  } = useGetOneStoreQuery();
+
+  const [centerPosition, setCenterPosition] = useState(
+    coordinate
+      ? [coordinate.lat, coordinate.lon]
+      : [13.981851794679411, -89.56730814403114]
+  );
+
   const [markerPosition, setMarkerPosition] = useState(
     coordinate
       ? [coordinate.lat, coordinate.lon]
-      : [13.702342669306118, -89.21357999951415]
+      : [13.981851794679411, -89.56730814403114]
   );
 
-  const { isSuccess, data, isLoading } = useGetDeliveryAreasQuery(1);
+  useEffect(() => {
+    if (isSuccessStore && !centerPosition && !markerPosition) {
+      setMarkerPosition([store.lat, store.lon]);
+      setCenterPosition([store.lat, store.lon]);
+    }
+  }, [store, isSuccessStore, centerPosition, markerPosition]);
 
   delete (L.Icon.Default as any).prototype._getIconUrl;
 
-  const purpleOptions = { color: "blue" };
-
   const polygon =
-    isSuccess && !isLoading
+    isSuccessAreas && !isLoadingAreas
       ? [
-          ...data[0].coordinates.map((coordinate) => [
-            coordinate.lat,
-            coordinate.lon,
-          ]),
+          ...areas.map((area) =>
+            area.coordinates.map((coordinate) => [
+              coordinate.lat,
+              coordinate.lon,
+            ])
+          ),
         ]
       : [];
 
   const handleMapClick = (newPosition: number[]) => {
-    const isMarkerInside = isMarkerInsidePolygon(newPosition, polygon);
+    const isMarkerInside = isMarkerInsideAnyPolygon(newPosition, polygon);
     isMarkerInside
       ? setMarkerPosition(newPosition)
       : toast("Ubicación sin cobertura", {
@@ -73,15 +99,9 @@ export const LocationModal: FC<Props> = ({
                 rounded-2xl overflow-hidden flex flex-col justify-between
                 animate-bouncein shadow-md"
         >
-          <div className="absolute top-0 z-50 pt-4 flex w-full justify-center items-center pointer-events-none">
-            <h1 className="bg-white rounded-lg p-3 shadow-sm font-bold pointer-events-auto border">
-              Selecciona tu ubicación
-            </h1>
-          </div>
-
           <MapContainer
             style={{ height: "100%", width: "100%", zIndex: "10" }}
-            center={[13.702342669306118, -89.21357999951415]}
+            center={centerPosition as LatLngExpression}
             zoom={13}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -90,14 +110,19 @@ export const LocationModal: FC<Props> = ({
               handleMapClick={handleMapClick}
               markerPosition={markerPosition as LatLngExpression}
             />
-
-            <Polygon
-              pathOptions={purpleOptions}
-              positions={isSuccess ? (polygon as LatLngExpression[]) : []}
-            />
+            {areas &&
+              areas.map((area) => (
+                <Polygon
+                  key={area.id}
+                  pathOptions={{ color: "green" }}
+                  positions={area.coordinates.map((c) => [c.lat, c.lon])}
+                />
+              ))}
           </MapContainer>
           <div className="absolute p-6 bottom-0 z-50 w-full">
-            <BarButton handleClick={handleSelectButton}>Seleccionar</BarButton>
+            <BarButton handleClick={handleSelectButton}>
+              Guardar ubicación
+            </BarButton>
           </div>
         </div>
         <div

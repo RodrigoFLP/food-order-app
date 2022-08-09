@@ -13,7 +13,7 @@ export interface IProduct {
 }
 
 export interface Portion {
-  id: number;
+  id: string;
   name: string;
   price: number;
   tagGroups: TagGroup[];
@@ -22,7 +22,7 @@ export interface Portion {
 export interface TagGroup {
   id: number;
   description: string;
-  portions: number[];
+  portions: string[];
   max: number;
   min: number;
   name: string;
@@ -31,7 +31,7 @@ export interface TagGroup {
 }
 
 export interface Tag {
-  id: number;
+  id: string;
   name: string;
   rate?: number;
   price: number;

@@ -3,6 +3,7 @@ import { Layout } from "../../../components/layouts";
 import { OrderCard } from "../../../components/ui/Cards";
 import Loading from "../../../components/ui/Loading";
 import { useGetCustomerOrdersQuery } from "../../../services/api";
+import { getStatus } from "../../../utils/getStatus";
 
 const OrdersPage: NextPage = () => {
   const { isLoading, isError, data, isSuccess, isUninitialized } =
@@ -16,7 +17,13 @@ const OrdersPage: NextPage = () => {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
           {isSuccess &&
             data.length > 0 &&
-            data.map((ticket) => <OrderCard key={ticket.id} {...ticket} />)}
+            data.map((ticket) => (
+              <OrderCard
+                key={ticket.id}
+                {...ticket}
+                currentStatus={getStatus(ticket.status)}
+              />
+            ))}
           {isSuccess && data.length === 0 && "No hay ordenes"}
           {isError && "No se han podido cargar las ordenes, recarga la página"}
         </div>

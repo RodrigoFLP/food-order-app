@@ -14,6 +14,7 @@ import {
   Product,
   SearchQuery,
   SearchResponse,
+  TicketCalculation,
 } from "../interfaces";
 
 export interface LoginRequest {
@@ -121,13 +122,25 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    getOneStore: builder.query<Store, void>({
+      query: () => ({
+        url: `stores/1`,
+        method: "GET",
+      }),
+    }),
     getStores: builder.query<Store[], void>({
       query: () => ({
         url: `stores`,
         method: "GET",
       }),
     }),
-    calculateTotal: builder.query<any, OrderItemState[]>({
+    getIsOpen: builder.query<{ isOpen: boolean }, void>({
+      query: () => ({
+        url: `stores/is-open`,
+        method: "GET",
+      }),
+    }),
+    calculateTotal: builder.query<TicketCalculation, OrderItemState[]>({
       query: (order) => ({
         url: "tickets/calculate",
         method: "POST",
@@ -198,8 +211,10 @@ export const {
   useGetDeliveryAreasQuery,
   useGetCustomerProfileQuery,
   useGetStoresQuery,
+  useGetIsOpenQuery,
   useGetCustomerOrdersQuery,
   useGetCustomerOrderMutation,
   useUpdateAddressMutation,
   useSearchProductMutation,
+  useGetOneStoreQuery,
 } = api;

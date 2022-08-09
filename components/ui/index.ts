@@ -3,7 +3,6 @@ export * from "../home/AdHeader";
 export * from "./SectionContainer";
 export * from "./ListTile";
 export * from "../layouts/Footer";
-export * from "../profile/UserHeader";
 // export * from "./LocationModal";
 // export * from "./DateInput";
 export * from "../product/PortionsList";

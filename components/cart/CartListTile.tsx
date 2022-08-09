@@ -23,14 +23,13 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
   };
 
   return (
-    // <Link href={`/menu/${title}`} passHref>
     <div
       className="w-full h-28 sm:h-32 flex rounded-xl bg-white 
-         overflow-hidden space-x-4 transition-all border p-1 relative"
+         overflow-hidden space-x-4 transition-all border relative"
     >
       <div
         id="image"
-        className="bg-slate-50 rounded-xl relative overflow-hidden aspect-square w-28 h-28 flex-shrink hidden sm:block"
+        className="bg-slate-50 relative overflow-hidden aspect-square w-30 h-30 flex-shrink hidden sm:block"
       >
         <Image
           src={src}

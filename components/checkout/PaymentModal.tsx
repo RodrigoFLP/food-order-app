@@ -1,17 +1,12 @@
-import { createRef, FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect } from "react";
 
 import ModalContainer from "../ui/Modals/ModalContainer";
 
 import "leaflet/dist/leaflet.css";
 import { toast, ToastContainer } from "react-toastify";
-import { AddressForm } from "../common/AddressForm";
-import { Address, Coordinate } from "../../interfaces";
-import MapForm from "../ui/Forms/MapForm";
-import { ArrowLeft } from "react-feather";
 
 import "react-toastify/dist/ReactToastify.css";
-import { findDOMNode } from "react-dom";
-import { type } from "os";
+
 import { makeWompiUrl } from "../../utils";
 
 interface Props {
@@ -27,7 +22,7 @@ export const PaymentModal: FC<Props> = ({ show = false, handleClose, src }) => {
         handleClose();
       }
     });
-  }, []);
+  }, [handleClose]);
 
   return show ? (
     <ModalContainer>

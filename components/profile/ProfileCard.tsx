@@ -15,7 +15,7 @@ export const ProfileCard: FC<Props> = ({
   birthDate,
 }) => {
   return (
-    <div className="rounded-2xl bg-white border p-4 animate-opacityin">
+    <div className="rounded-xl bg-white border p-4 animate-opacityin">
       <h1 className="font-semibold">¡Bienvenido/a {firstName}!</h1>
       <div className="pt-2 text-sm space-y-1 ">
         <div className="flex items-center space-x-2">

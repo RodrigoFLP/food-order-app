@@ -5,14 +5,27 @@ import { Layout } from "../../../components/layouts";
 import { StepSeparator } from "../../../components/ui";
 import Loading from "../../../components/ui/Loading";
 import StatusStepContainer from "../../../components/ui/StatusStepContainer";
-import { useGetCustomerOrderMutation } from "../../../services/api";
+import {
+  useGetCustomerOrderMutation,
+  useGetOneStoreQuery,
+} from "../../../services/api";
 import initialToUpperCase from "../../../utils/initialToUpperCase";
+import { BrandWhatsapp } from "tabler-icons-react";
+import { PhoneCall } from "react-feather";
+import { getWhatsappText } from "../../../utils/getWhatsappText";
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
   const { orderId } = router.query;
 
   const [order, result] = useGetCustomerOrderMutation();
+  const {
+    data: store,
+    isError: isStoreError,
+    isLoading: isStoreLoading,
+    isSuccess: isStoreSuccess,
+    isUninitialized: isStoreUninitialized,
+  } = useGetOneStoreQuery();
 
   useEffect(() => {
     if (orderId) {
@@ -22,7 +35,10 @@ const OrderPage: NextPage = () => {
 
   return (
     <Layout title="Confirmar correo">
-      {result.isLoading || (result.isUninitialized && <Loading />)}
+      {result.isLoading ||
+        isStoreLoading ||
+        isStoreUninitialized ||
+        (result.isUninitialized && <Loading />)}
       {result.isSuccess && result.data && (
         <section className="md:flex md:space-x-8 animate-opacityin">
           <div className="sm:flex-1">
@@ -102,6 +118,41 @@ const OrderPage: NextPage = () => {
                   processingSubtitle="La orden está lista para el envío"
                 />
               </>
+            )}
+            <div className="font-semibold mb-4">
+              ¿Tienes algún problema con tu orden?
+            </div>
+
+            {store && (
+              <div className="space-y-2">
+                <a
+                  className="block"
+                  href={`https://api.whatsapp.com/send?phone=+503${
+                    store.whatsappNumber
+                  }&text=${getWhatsappText(result.data)}`}
+                >
+                  <button
+                    className="p-3 bg-green-500 text-white rounded-lg font-semibold 
+            text-sm active:scale-95 transition-all hover:bg-green-600 w-full"
+                  >
+                    <div className="flex space-x-2 items-center justify-center">
+                      <BrandWhatsapp />
+                      <div>Contactanos por Whatsapp</div>
+                    </div>
+                  </button>
+                </a>
+                <a href={`tel:${store?.phoneNumber}`} className="block">
+                  <button
+                    className="p-3 bg-red-500 text-white rounded-lg font-semibold 
+            text-sm active:scale-95 transition-all hover:bg-red-600 w-full"
+                  >
+                    <div className="flex space-x-2 items-center justify-center">
+                      <PhoneCall />
+                      <div>Llámanos</div>
+                    </div>
+                  </button>
+                </a>
+              </div>
             )}
           </div>
         </section>
