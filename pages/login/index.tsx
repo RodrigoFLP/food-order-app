@@ -53,12 +53,15 @@ const LoginPage: NextPage = () => {
     } catch (err: any) {
       reset({ password: "" });
       toast.dismiss("login");
-      toast(`${err.data.message ? err.data.message : err} `, {
-        type: "error",
-        autoClose: 2000,
-        delay: 500,
-        position: "bottom-right",
-      });
+      toast(
+        `${err.data ? err.data.message : "No se ha podido iniciar sesión"} `,
+        {
+          type: "error",
+          autoClose: 2000,
+          delay: 500,
+          position: "bottom-right",
+        }
+      );
     }
   };
 
@@ -91,25 +94,23 @@ const LoginPage: NextPage = () => {
             </Link>
           </div>
           <BarButton type="submit">Ingresar</BarButton>
-        </form>
-      </div>
-      <section className="flex flex-col items-center pt-8">
-        <Link href="/signup" passHref>
-          <button
-            className="flex items-center flex-col p-4 
+          <Link href="/signup" passHref>
+            <button
+              className="flex items-center flex-col p-4 w-full
                 rounded-xl bg-white border shadow-sm cursor-pointer peer group active:scale-95"
-          >
-            <h1 className="font-extrabold peer">¿Aún no tienes cuenta?</h1>
-            <h1
-              className="underline decoration-2 decoration-primary
+            >
+              <h1 className="font-extrabold peer">¿Aún no tienes cuenta?</h1>
+              <h1
+                className="underline decoration-2 decoration-primary
                          font-semibold text-primary group-hover:text-secondary 
                          group-hover:decoration-secondary "
-            >
-              Registrate
-            </h1>
-          </button>
-        </Link>
-      </section>
+              >
+                Registrate
+              </h1>
+            </button>
+          </Link>
+        </form>
+      </div>
       <ToastContainer />
     </Layout>
   );

@@ -30,8 +30,6 @@ export const useTagList = (
         };
         break;
       case tagGroup.max:
-        console.log("maximo");
-
         tagPayload = tagExists
           ? {
               ...tagsInitialState,

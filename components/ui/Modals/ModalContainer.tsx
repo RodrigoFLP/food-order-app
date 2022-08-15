@@ -13,7 +13,6 @@ export const ModalContainer: FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log("scroll wifht, ", getScrollbarWidth());
     document.body.style.marginRight = `${getScrollbarWidth()}px`;
     document.body.style.overflow = "hidden";
 

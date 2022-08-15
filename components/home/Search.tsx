@@ -96,7 +96,7 @@ export const Search = () => {
         />
       </div>
       {keyword.length > 0 && (
-        <div className="mt-4 p-4 rounded-xl bg-shade animate-opacityin animate-bouncein transition-all">
+        <div className="mt-4 p-4 rounded-xl bg-white animate-opacityin animate-bouncein transition-all">
           <div className="flex flex-col justify-between">
             <div className="flex items-center justify-between h-10">
               <h2 className="text-lg font-semibold pl-1">Resultados</h2>

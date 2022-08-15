@@ -11,7 +11,7 @@ export const SectionContainer: FC<Props> = ({ children, title }) => {
     <section className="relative" about={title}>
       <div className="flex justify-between pt-2 items-center pb-4">
         <span className="font-bold text-lg">{title}</span>
-        <Link href="/menu" passHref prefetch={false}>
+        <Link href="/menu?category=1" passHref prefetch={false}>
           <span
             className="font-semibold text-primary text-sm 
                 cursor-pointer hover:text-secondary"

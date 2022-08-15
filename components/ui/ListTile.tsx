@@ -22,7 +22,7 @@ export const ListTile: FC<Props> = ({ id, name, description, src, price }) => {
       </div>
       <div className="flex flex-col justify-around center pr-2 flex-1 py-2">
         <div className="font-semibold flex-none text-base">{name}</div>
-        <p className="text-gray-600 text-sm line-clamp-2 leading-none ">
+        <p className="text-gray-600 text-xs line-clamp-2 leading-none ">
           {description}
         </p>
         <div className="pt-1 flex flex-row items-center justify-between">

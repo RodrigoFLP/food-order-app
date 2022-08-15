@@ -12,7 +12,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
         token: req.url.split("token=")[1],
       }),
     });
-    console.log(res.status);
 
     if (res.status == 409) {
       throw new Error("done");
@@ -24,7 +23,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
     return NextResponse.next();
   } catch (err: any) {
-    console.log(err);
     // const page = req.page.name;
     return NextResponse.redirect(
       `${process.env.URL}/confirm-email-error?message=${err.message}`

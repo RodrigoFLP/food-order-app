@@ -15,7 +15,9 @@ import {
   SearchQuery,
   SearchResponse,
   TicketCalculation,
+  IProduct,
 } from "../interfaces";
+import { Tag } from "../interfaces/tag";
 
 export interface LoginRequest {
   username: string;
@@ -116,6 +118,30 @@ export const api = createApi({
         method: "GET",
       }),
     }),
+    getTagProducts: builder.query<Tag, number>({
+      query: (tagId) => ({
+        url: `tags/${tagId}`,
+        method: "GET",
+      }),
+    }),
+    getProductsByCategory: builder.mutation<Category, number>({
+      query: (categoryId) => ({
+        url: `categories/${categoryId}`,
+        method: "GET",
+      }),
+    }),
+    getProductsByTag: builder.mutation<Tag, number>({
+      query: (tagId) => ({
+        url: `tags/${tagId}`,
+        method: "GET",
+      }),
+    }),
+    getProductById: builder.mutation<IProduct, number>({
+      query: (productId) => ({
+        url: `products/${productId}`,
+        method: "GET",
+      }),
+    }),
     getDeliveryAreas: builder.query<DeliveryArea[], number>({
       query: (storeId) => ({
         url: `stores/${storeId}/area`,
@@ -205,6 +231,7 @@ export const {
   useLogoutMutation,
   useGetCategoriesListQuery,
   useGetCategoryProductsQuery,
+  useGetProductsByCategoryMutation,
   useCalculateTotalQuery,
   usePayWithWompiMutation,
   useGetAddressQuery,
@@ -217,4 +244,6 @@ export const {
   useUpdateAddressMutation,
   useSearchProductMutation,
   useGetOneStoreQuery,
+  useGetProductByIdMutation,
+  useGetTagProductsQuery,
 } = api;

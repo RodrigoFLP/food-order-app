@@ -18,7 +18,6 @@ export const useCheckAuth = () => {
     dispatch(startFetching());
     try {
       const user = await check().unwrap();
-      console.log(user);
 
       dispatch(setCredentials(user));
     } catch (error) {

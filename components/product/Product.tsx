@@ -66,7 +66,6 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
       type: "success",
 
       autoClose: 300,
-      // icon: <ShoppingCart />,
     });
     dispatch(add({ ...order, orderItemId: nanoid() }));
     setOrder(initialOrderState);
@@ -198,7 +197,7 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     <div>
       <div className="flex flex-col w-full items-center mb-20 animate-opacityin">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-primary p-8 h-56 space-y-4 pb-14">
+          <div className="relative overflow-hidden bg-shade p-8 h-56 space-y-4 pb-14">
             <div className="block">
               {product.image && (
                 <Image
