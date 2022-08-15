@@ -57,7 +57,7 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
             ))
           )}
         </div>
-        <div className="font-regular">
+        <div className="font-medium text-base ">
           <span className="text-regular">$</span>
           {order.unitPrice.toFixed(2)} x {order.quantity}
         </div>

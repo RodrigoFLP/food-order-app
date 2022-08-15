@@ -1,6 +1,7 @@
 import { LatLngExpression } from "leaflet";
 import { FC, useEffect } from "react";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
+import { Location, Radar, Radar2, Gps } from "tabler-icons-react";
 import { BarButton } from "../ui/Buttons";
 
 interface Props {
@@ -14,22 +15,18 @@ const CustomMarker: FC<Props> = ({ markerPosition, handleMapClick }) => {
   const map = useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
-      handleMapClick([lat, lng]);
+      if (e.containerPoint.y > 100 || e.containerPoint.x < 660) {
+        handleMapClick([lat, lng]);
+      }
     },
   });
-
-  useEffect(() => {
-    map.locate().on("locationfound", function (e) {
-      handleMapClick([e.latlng.lat, e.latlng.lng]);
-      map.flyTo(e.latlng, map.getZoom());
-      const radius = e.accuracy;
-    });
-  }, [mapLocation, map, handleMapClick]);
 
   return (
     <>
       <div className="absolute p-6 top-0 z-[1000] right-0">
-        <BarButton handleClick={() => map.locate()}>Ubicarme</BarButton>
+        <BarButton handleClick={() => map.locate()}>
+          <Gps />
+        </BarButton>
       </div>
       <Marker position={markerPosition} />;
     </>

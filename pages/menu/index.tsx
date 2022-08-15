@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Layout } from "../../components/layouts";
 import ProductModal from "../../components/product/ProductModal";
 import { ListTile } from "../../components/ui";
@@ -12,7 +13,7 @@ import ListButtonsPlaceholder from "../../components/ui/placeholders/ListButtons
 import { Category } from "../../interfaces";
 import {
   useGetCategoriesListQuery,
-  useGetCategoryProductsQuery,
+  useGetProductsByCategoryMutation,
 } from "../../services/api";
 
 const MenuPage: NextPage = () => {
@@ -28,12 +29,14 @@ const MenuPage: NextPage = () => {
     isLoading: isLoadingCategories,
   } = useGetCategoriesListQuery();
 
-  const {
-    data: products,
-    isError: isErrorProducts,
-    isSuccess: isSuccessProducts,
-    isLoading: isLoadingProducts,
-  } = useGetCategoryProductsQuery(currentCategory || 100000);
+  const [getProducts, products] = useGetProductsByCategoryMutation();
+
+  useEffect(() => {
+    if (currentCategory) {
+      getProducts(currentCategory);
+    }
+    //eslint-disable-next-line
+  }, [currentCategory]);
 
   const onSelect = (category: number) => {
     router.push(`/menu?category=${category}`);
@@ -53,37 +56,41 @@ const MenuPage: NextPage = () => {
             />
           ))}
       </CardsSlider>
-      {isLoadingProducts && (
+      {products.isLoading && (
         <div className="pt-8">
           <Loading />
         </div>
       )}
-      {isSuccessProducts && products !== undefined && (
-        <div className="xs:flex md:grid md:grid-cols-3 flex-col pt-8 space-y-4 md:space-y-0 md:gap-4">
-          {(products! as Category).productsList.map((product) => (
-            <Link
-              key={product.id}
-              href={`/menu/?category=${currentCategory}&producto=${product.id}`}
-              passHref
-              prefetch={false}
-            >
-              <a className="block">
-                <ListTile {...product} src={product.image} key={product.id} />
-              </a>
-            </Link>
-          ))}
-          {isErrorProducts &&
-            "No se pudieron cargar los productos, recarga la página"}
-        </div>
+      {products.isSuccess &&
+        products.data !== undefined &&
+        !products.isLoading && (
+          <div className="xs:flex md:grid md:grid-cols-3 flex-col pt-8 space-y-4 md:space-y-0 md:gap-4">
+            {(products.data! as Category).productsList.map((product) => (
+              <Link
+                key={product.id}
+                href={`/menu/?category=${currentCategory}&producto=${product.id}`}
+                passHref
+                prefetch={false}
+              >
+                <a className="block">
+                  <ListTile {...product} src={product.image} key={product.id} />
+                </a>
+              </Link>
+            ))}
+            {products.isError &&
+              "No se pudieron cargar los productos, recarga la página"}
+          </div>
+        )}
+      {!!router.query.producto && (
+        <ProductModal
+          show={!!router.query.producto}
+          onClose={() =>
+            router.push(`/menu?category=${currentCategory}`, undefined, {
+              scroll: false,
+            })
+          }
+        />
       )}
-      <ProductModal
-        show={!!router.query.producto}
-        onClose={() =>
-          router.push(`/menu?category=${currentCategory}`, undefined, {
-            scroll: false,
-          })
-        }
-      />
     </Layout>
   );
 };

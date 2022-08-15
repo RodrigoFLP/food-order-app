@@ -18,9 +18,8 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`sticky z-30 w-full lg:flex items-center justify-center ${
-        showFixed && "bg-background shadow-xs border-b "
-      } top-0 `}
+      className={` z-30 w-full lg:flex items-center transition-all justify-center 
+        `}
     >
       <div className="w-full lg:w-11/12 xl:w-8/12 2xl:6/12">
         <ul
@@ -29,7 +28,7 @@ export const Navbar = () => {
         >
           <Link href="/" passHref>
             <span className="font-bold text-lg cursor-pointer">
-              Panchos Villa
+              Pancho&apos;s Villa
             </span>
           </Link>
           <div className="flex space-x-2">

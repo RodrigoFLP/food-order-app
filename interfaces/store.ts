@@ -1,3 +1,5 @@
+import { Tag } from "./tag";
+
 export interface Store {
   id: number;
   name: string;
@@ -22,4 +24,7 @@ export interface Store {
   lon: number;
   deliveryCost: number | null | string;
   whatsapp: string | null;
+  headerImage: string | null;
+  headerUrl: string | null;
+  defaultHomeTagCategory: Tag | null;
 }

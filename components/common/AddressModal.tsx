@@ -22,8 +22,6 @@ export const AddressModal: FC<Props> = ({
   handleClose,
   address,
 }) => {
-  console.log(address.lat, address.lon);
-
   const [coordinate, setCoordinate] = useState<Coordinate | null>({
     lat: address.lat,
     lon: address.lon,

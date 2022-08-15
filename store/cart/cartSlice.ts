@@ -19,7 +19,6 @@ export const loadCart = createAsyncThunk("cart/loadCart", async (thunkApi) => {
   if (serializedCart === null) {
     return undefined;
   }
-  console.log(serializedCart);
   return JSON.parse(serializedCart);
 });
 
@@ -54,8 +53,6 @@ export const cartSlice = createSlice({
           JSON.stringify({ ...item, orderItemId: 0, quantity: 0, price: 0 }) ===
           productStringified
       );
-
-      console.log(itemId);
 
       if (itemId !== -1) {
         state.items[itemId].quantity += action.payload.quantity;

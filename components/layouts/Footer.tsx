@@ -12,7 +12,7 @@ interface Props {
 
 export const Footer: FC<Props> = ({ margin = false, store }) => {
   return (
-    <footer className={`h-20 ${margin ? "mb-32" : ""}`}>
+    <footer className={`h-20  w-full ${margin ? "mb-32" : ""}`}>
       <ul className="flex justify-center space-x-4 items-center h-full">
         {store.facebook && (
           <a href={store.facebook}>
@@ -45,7 +45,7 @@ export const Footer: FC<Props> = ({ margin = false, store }) => {
           </a>
         )}
       </ul>
-      <div className="text-center pb-6 text-xs">© 2022 Pancho&apos;s Villa</div>
+      {/* <div className="text-center mb-6 text-xs">© 2022 Pancho&apos;s Villa</div> */}
     </footer>
   );
 };

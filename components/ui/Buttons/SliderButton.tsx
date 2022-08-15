@@ -21,7 +21,11 @@ export const SliderButton: FC<Props> = ({
          h-10 px-4 py-2 rounded-full transition-all
         hover:bg-primary hover:text-white
         active:bg-secondary
-         ${selected ? "bg-primary text-white" : "bg-white text-black"}`}
+         ${
+           selected
+             ? "bg-primary text-white border-white"
+             : "bg-white text-black"
+         }`}
       ref={ref}
       onClick={() => onSelect(category.id)}
     >

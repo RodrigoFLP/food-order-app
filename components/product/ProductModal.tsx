@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { ArrowLeft } from "react-feather";
-import { IProduct } from "../../interfaces";
+import { useGetProductByIdMutation } from "../../services/api";
 import { ButtonIcon } from "../ui/Buttons";
 import Loading from "../ui/Loading";
 import ModalContainer from "../ui/Modals/ModalContainer";
-import RightModal from "../ui/Modals/RightModal";
 import Product from "./Product";
 
 interface Props {
@@ -16,23 +15,9 @@ interface Props {
 export const ProductModal: FC<Props> = ({ show, onClose }) => {
   const router = useRouter();
 
-  const [product, setProduct] = useState<IProduct | null>(null);
-
   const [closing, setClosing] = useState(false);
 
-  const [isTransitionDone, setIsTransitionDone] = useState(false);
-
-  const fetchProduct = async () => {
-    if (router.query.producto) {
-      const data = await (
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/products/${router.query.producto}`
-        )
-      ).json();
-
-      setProduct(data);
-    }
-  };
+  const [getProduct, product] = useGetProductByIdMutation();
 
   const handleClose = () => {
     setClosing(true);
@@ -42,16 +27,12 @@ export const ProductModal: FC<Props> = ({ show, onClose }) => {
   };
 
   useEffect(() => {
+    if (!closing && router.query.producto) {
+      getProduct(+router.query.producto);
+    }
     setClosing(false);
-    setProduct(null);
-    setTimeout(() => setIsTransitionDone(true), 1000);
-    setIsTransitionDone(false);
-    fetchProduct();
-
     //eslint-disable-next-line
   }, [router.query.producto]);
-
-  console.log(product);
 
   return show ? (
     <ModalContainer>
@@ -61,15 +42,16 @@ export const ProductModal: FC<Props> = ({ show, onClose }) => {
         }
       h-screen fixed top-0 z-40 overflow-y-scroll`}
       >
-        {!product && <Loading />}
-        {product && <Product product={product} onAdd={handleClose} />}
+        {product.isLoading || (product.isUninitialized && <Loading />)}
+        {product.isSuccess && (
+          <Product product={product.data} onAdd={handleClose} />
+        )}
         <div className="z-50 top-0 absolute m-4">
           <ButtonIcon onClick={handleClose}>
             <ArrowLeft />
           </ButtonIcon>
         </div>
       </div>
-
       <div
         onClick={handleClose}
         className={`z-30 bg-black w-full h-screen fixed 

@@ -93,7 +93,6 @@ const SignupPage: NextPage = () => {
           }),
         500
       );
-      console.log("try");
     }
   };
 

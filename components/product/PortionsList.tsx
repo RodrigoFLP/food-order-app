@@ -16,7 +16,7 @@ export const PortionsList: FC<Props> = ({
     <section className="space-y-0">
       <h2 className="font-semibold text-lg">Porciones</h2>
       <p className="text-sm text-gray-700">Selecciona el tamaño del platillo</p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 justify-between text-sm pt-4">
+      <div className="flex gap-2 flex-wrap text-sm pt-4">
         {portions.map((portion) => (
           <button
             key={portion.name}
