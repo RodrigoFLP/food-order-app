@@ -45,7 +45,9 @@ const SignupPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const [signUp] = useSignUpMutation();
 
+  console.log(errors);
   const onSubmit: SubmitHandler<SignupForm> = async (data) => {
+    alert("submit");
     try {
       toast("Registrando...", {
         toastId: "signup",
@@ -118,7 +120,7 @@ const SignupPage: NextPage = () => {
           direcciones de entrega. ¡Así agilizarás el proceso de compra y estarás
           comiendo tus tacos antes de lo esperado!
         </p>
-        <form className="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="font-semibold text-center pb-4 uppercase">
             Información personal
           </h2>
@@ -176,7 +178,6 @@ const SignupPage: NextPage = () => {
           <hr />
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 items-center ">
             <SelectInput
-              hidden
               label="Departamento"
               register={register("state", { required: true })}
               errorMessage={errors.state?.message}
@@ -186,7 +187,6 @@ const SignupPage: NextPage = () => {
               setValue={() => {}}
             />
             <SelectInput
-              hidden
               label="Municipio"
               register={register("city", { required: true })}
               errorMessage={errors.city?.message}
