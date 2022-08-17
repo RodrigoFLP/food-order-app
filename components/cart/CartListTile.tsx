@@ -30,12 +30,14 @@ export const CartListTile: FC<Props> = ({ order }) => {
         id="image"
         className="bg-slate-50 relative overflow-hidden aspect-square w-30 h-30 flex-shrink flex justify-center items-center"
       >
-        <Image
-          src={order.image}
-          layout="fill"
-          alt={order.productName}
-          className="object-cover"
-        />
+        {order.image && (
+          <Image
+            src={order.image}
+            layout="fill"
+            alt={order.productName}
+            className="object-cover"
+          />
+        )}
         <Image
           src="/card-placeholder.svg"
           width="80%"

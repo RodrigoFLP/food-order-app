@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Minus, Plus } from "tabler-icons-react";
 import { useTagList } from "../../hooks";
 import { TagGroup, TagGroupState } from "../../interfaces";
 import initialToUpperCase from "../../utils/initialToUpperCase";
@@ -14,7 +15,11 @@ export const TagsList: FC<Props> = ({
   handleChange,
   tagsInitialState,
 }) => {
-  const [handleClick] = useTagList(tagGroup, handleChange, tagsInitialState);
+  const { handleAdd, handleRemove } = useTagList(
+    tagGroup,
+    handleChange,
+    tagsInitialState
+  );
 
   return (
     <section className="space-y-4">
@@ -27,7 +32,7 @@ export const TagsList: FC<Props> = ({
         </div>
       </div>
       <div className="text-sm">{tagGroup.description}</div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-between text-sm">
+      <div className="flex flex-wrap gap-2 justify-between text-sm">
         {tagGroup.tags.map((tag) => {
           const tagIndex = tagsInitialState.tags.findIndex(
             (t) => t.value === tag.value
@@ -38,28 +43,39 @@ export const TagsList: FC<Props> = ({
             : 0;
 
           return (
-            <button
+            <div
               key={tag.value}
               className={`${
                 tagExists && tagQty !== 0
-                  ? "bg-primary text-white"
+                  ? "bg-secondary text-white"
                   : "bg-shade text-black"
               } 
-                    p-2 px-4 rounded-xl border border-dashed border-gray-300 hover:bg-secondary 
-                    hover:text-white active:scale-95 active:bg-secondary shadow-sm cursor-pointer`}
-              onClick={() => {
-                handleClick(tag);
-              }}
+                    p-2 px-4 rounded-xl border border-dashed border-gray-300  
+                      shadow-sm flex space-x-2 items-center select-none`}
             >
-              <div className="font-semibold">
-                {(tagExists &&
-                  tagsInitialState.tags.find((t) => t.value === tag.value)
-                    ?.quantity) ||
-                  0}{" "}
-                x ${tag.price?.toFixed(2)}
-              </div>{" "}
-              {initialToUpperCase(tag.value)}
-            </button>
+              <div
+                className="bg-white w-6 h-6 rounded-full flex justify-center items-center cursor-pointer hover:scale-95"
+                onClick={() => handleRemove(tag)}
+              >
+                <Minus size={16} color="black" />
+              </div>
+              <div>
+                <div>{initialToUpperCase(tag.value)}</div>
+                <div className="font-semibold">
+                  {(tagExists &&
+                    tagsInitialState.tags.find((t) => t.value === tag.value)
+                      ?.quantity) ||
+                    0}{" "}
+                  x ${tag.price?.toFixed(2)}
+                </div>
+              </div>
+              <div
+                className="bg-primary w-6 h-6 rounded-full flex justify-center items-center cursor-pointer hover:scale-95"
+                onClick={() => handleAdd(tag)}
+              >
+                <Plus size={16} color="white" />
+              </div>
+            </div>
           );
         })}
       </div>

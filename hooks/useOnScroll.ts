@@ -6,7 +6,7 @@ export const useOnScroll = ({ margin = 200 }) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToLeft = () => {
-    elementRef.current?.scrollTo({ left: 100, behavior: "smooth" });
+    elementRef.current?.scrollTo({ left: 1000, behavior: "smooth" });
   };
 
   useEffect(() => {

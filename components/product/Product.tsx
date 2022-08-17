@@ -116,26 +116,28 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
   };
 
   const handlePortionChange = (portion: Portion) => {
+    const initialTagGroups = product.portionsTagGroups
+      .filter((tg) => tg.portions.includes(portion.id))
+      .map((tagGroup) => ({
+        name: tagGroup.name,
+        quantity: 0,
+        tags: [
+          {
+            id: null,
+            name: "",
+            value: "",
+            quantity: 0,
+            price: 0,
+          },
+        ],
+      }));
+
     return setOrder((prevOrder) => ({
       ...prevOrder,
-      tagsGroups: product.portionsTagGroups
-        .filter((tg) => tg.portions.includes(portion.id))
-        .map((tagGroup) => ({
-          name: tagGroup.name,
-          quantity: 0,
-          tags: [
-            {
-              id: null,
-              name: "",
-              value: "",
-              quantity: 0,
-              price: 0,
-            },
-          ],
-        })),
+      tagsGroups: initialTagGroups,
       portion: { id: portion.id, name: portion.name, price: portion.price },
-      price: calculateTotal(portion, prevOrder.tagsGroups, prevOrder.quantity),
-      unitPrice: calculateUnitTotal(portion, prevOrder.tagsGroups),
+      price: calculateTotal(portion, initialTagGroups, prevOrder.quantity),
+      unitPrice: calculateUnitTotal(portion, initialTagGroups),
     }));
   };
 
@@ -198,14 +200,14 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     <div>
       <div className="flex flex-col w-full items-center mb-20 animate-opacityin">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-gray-100 p-8 h-56 space-y-4 pb-14 flex justify-center items-center">
+          <div className="relative overflow-hidden bg-shade p-8 h-56 space-y-4 pb-14">
             <div className="block">
               {product.image && (
                 <Image
                   src={product.image}
                   alt={product.name}
                   layout="fill"
-                  className="object-cover bg-gradient-to-l from-slate-50 z-[1]"
+                  className="object-cover bg-gradient-to-l from-slate-50 z-0"
                 ></Image>
               )}
               <Image
@@ -217,7 +219,7 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
               />
             </div>
           </div>
-          <div className="w-full bg-white rounded-t-lg relative -top-6 z-10">
+          <div className="w-full bg-white rounded-t-lg relative -top-6">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
               <h1 className="font-semibold text-xl sm:text-xl text-black z-10">
                 {product.name}
