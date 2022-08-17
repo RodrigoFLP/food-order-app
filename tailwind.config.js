@@ -91,6 +91,10 @@ module.exports = {
               height: "16px",
             },
 
+            ".center-div": {
+              margin: "0 auto",
+            },
+
             /* Track */
             "::-webkit-scrollbar-track": {
               "border-radius": "100vh;",
@@ -108,6 +112,11 @@ module.exports = {
             "::-webkit-scrollbar-thumb:hover": {
               background: "#a0aec0",
             },
+          },
+          ".opacity-gradient": {
+            // "background-color": "black",
+            "-webkit-mask-image":
+              "-webkit-gradient(linear, 70% 50%, 99% 50%, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))",
           },
           ".scrollbar-hide": {
             /* IE and Edge */

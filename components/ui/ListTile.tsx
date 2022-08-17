@@ -14,11 +14,18 @@ export const ListTile: FC<Props> = ({ id, name, description, src, price }) => {
     >
       <div
         id="image"
-        className="w-28 bg-slate-50 rounded-r-lg relative overflow-hidden"
+        className="w-28 bg-slate-50 rounded-r-lg relative overflow-hidden flex justify-center"
       >
         {src && (
           <Image src={src} layout="fill" alt={name} className="object-cover" />
         )}
+        <Image
+          src="/card-placeholder.svg"
+          height="100px"
+          width="60%"
+          alt="placeholder"
+          className="opacity-5 text-center"
+        />
       </div>
       <div className="flex flex-col justify-around center pr-2 flex-1 py-2">
         <div className="font-semibold flex-none text-base">{name}</div>

@@ -26,4 +26,5 @@ export interface OrderItemState {
   tagsGroups: TagGroupState[];
   unitPrice: number;
   price: number;
+  image: string;
 }

@@ -59,7 +59,8 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     unitPrice: product.portions[0].price,
   };
 
-  const [order, setOrder] = useState<OrderItemState>(initialOrderState);
+  const [order, setOrder] =
+    useState<Omit<OrderItemState, "image">>(initialOrderState);
 
   const handleAddClick = () => {
     toast("Agregado al carrito", {
@@ -67,7 +68,7 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
 
       autoClose: 300,
     });
-    dispatch(add({ ...order, orderItemId: nanoid() }));
+    dispatch(add({ ...order, orderItemId: nanoid(), image: product.image }));
     setOrder(initialOrderState);
     onAdd();
   };
@@ -197,19 +198,26 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     <div>
       <div className="flex flex-col w-full items-center mb-20 animate-opacityin">
         <div className="w-full">
-          <div className="relative overflow-hidden bg-shade p-8 h-56 space-y-4 pb-14">
+          <div className="relative overflow-hidden bg-gray-100 p-8 h-56 space-y-4 pb-14 flex justify-center items-center">
             <div className="block">
               {product.image && (
                 <Image
                   src={product.image}
                   alt={product.name}
                   layout="fill"
-                  className="object-cover bg-gradient-to-l from-slate-50 z-0"
+                  className="object-cover bg-gradient-to-l from-slate-50 z-[1]"
                 ></Image>
               )}
+              <Image
+                src="/card-placeholder.svg"
+                height="200px"
+                width="100%"
+                alt="placeholder"
+                className="opacity-5 text-center z-[0]"
+              />
             </div>
           </div>
-          <div className="w-full bg-white rounded-t-lg relative -top-6">
+          <div className="w-full bg-white rounded-t-lg relative -top-6 z-10">
             <section className=" z-10 rounded-2xl p-6 pb-3 space-y-2">
               <h1 className="font-semibold text-xl sm:text-xl text-black z-10">
                 {product.name}

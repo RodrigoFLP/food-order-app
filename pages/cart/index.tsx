@@ -39,13 +39,7 @@ const CartPage: NextPage = () => {
           <section className="w-full md:flex-1 space-y-2">
             {items.length > 0 ? (
               items.map((item) => {
-                return (
-                  <CartListTile
-                    key={item.orderItemId}
-                    order={item}
-                    src="http://dummyimage.com/175x100.png/cc0000/ffffff"
-                  />
-                );
+                return <CartListTile key={item.orderItemId} order={item} />;
               })
             ) : (
               <h1 className="text-center text-md">El carrito está vacío</h1>

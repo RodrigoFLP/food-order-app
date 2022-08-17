@@ -17,8 +17,9 @@ export const CategoriesSlider = () => {
   return (
     <SectionContainer title="Categorías">
       <CardsSlider>
-        {isLoadingCategories ||
-          (isUninitializedCategories && <ListButtonsPlaceholder />)}
+        {(isLoadingCategories || isUninitializedCategories) && (
+          <ListButtonsPlaceholder />
+        )}
         {isSuccessCategories &&
           categories.map((category) => (
             <SliderButton
