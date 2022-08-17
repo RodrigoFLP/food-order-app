@@ -32,7 +32,7 @@ export const ProductCard: FC<Props> = ({
         "
       onClick={onClick}
     >
-      <div className="h-3/5 relative w-full overflow-hidden rounded-b-md">
+      <div className="h-3/5 relative w-full overflow-hidden rounded-b-md bg-gray-100 flex text-center justify-center">
         {image && (
           <Image
             src={image}
@@ -41,9 +41,13 @@ export const ProductCard: FC<Props> = ({
             className="object-cover"
           />
         )}
-        {/* <div className="bg-shade bg-gradient-to-br from-gray-200 to-shade w-full h-full flex items-center justify-center">
-          <Coffee size={50} color="gray" />
-        </div> */}
+        <Image
+          src="/card-placeholder.svg"
+          height="100px"
+          width="60%"
+          alt="placeholder"
+          className="opacity-5 text-center"
+        />
       </div>
       <div className="h-2/5 text-left px-4 pt-1">
         <span className="text-sm font-bold">{title}</span>

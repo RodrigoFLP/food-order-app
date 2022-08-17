@@ -42,7 +42,7 @@ export const ProductModal: FC<Props> = ({ show, onClose }) => {
         }
       h-screen fixed top-0 z-40 overflow-y-scroll`}
       >
-        {product.isLoading || (product.isUninitialized && <Loading />)}
+        {(product.isLoading || product.isUninitialized) && <Loading />}
         {product.isSuccess && (
           <Product product={product.data} onAdd={handleClose} />
         )}

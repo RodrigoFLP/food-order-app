@@ -49,7 +49,7 @@ export const Layout: FC<Props> = ({ children, title, margin = false }) => {
       </div>
       <Navbar />
       <main className={`lg:flex p-6 pt-2 px-6 justify-center w-full`}>
-        <div className="lg:w-11/12 xl:w-8/12 2xl:6/12">{children}</div>
+        <div className="w-full center-div max-w-5xl">{children}</div>
       </main>
       {store && <Footer margin={margin} store={store} />}
     </>

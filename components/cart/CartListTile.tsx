@@ -8,10 +8,9 @@ import { useAppDispatch } from "../../store/hooks";
 
 interface Props {
   order: OrderItemState;
-  src: string;
 }
 
-export const CartListTile: FC<Props> = ({ order, src }) => {
+export const CartListTile: FC<Props> = ({ order }) => {
   const dispatch = useAppDispatch();
 
   const handleMinusClick = () => {
@@ -29,13 +28,20 @@ export const CartListTile: FC<Props> = ({ order, src }) => {
     >
       <div
         id="image"
-        className="bg-slate-50 relative overflow-hidden aspect-square w-30 h-30 flex-shrink hidden sm:block"
+        className="bg-slate-50 relative overflow-hidden aspect-square w-30 h-30 flex-shrink flex justify-center items-center"
       >
         <Image
-          src={src}
+          src={order.image}
           layout="fill"
           alt={order.productName}
           className="object-cover"
+        />
+        <Image
+          src="/card-placeholder.svg"
+          width="80%"
+          height="80%"
+          alt="placeholder"
+          className="opacity-5"
         />
       </div>
       <div className="flex flex-col pr-4 py-2 justify-between flex-1">

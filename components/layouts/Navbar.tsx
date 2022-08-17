@@ -1,13 +1,12 @@
 import { ShoppingCart } from "react-feather";
 import Link from "next/link";
-import { useOnScroll } from "../../hooks";
 import { useAppSelector } from "../../store/hooks";
 import { selectItemsCount } from "../../store";
 import { useEffect, useState } from "react";
 import { ProfileButton, ButtonIcon } from "../ui/Buttons";
+import Image from "next/image";
 
 export const Navbar = () => {
-  const { showFixed } = useOnScroll();
   const itemsCount = useAppSelector(selectItemsCount);
 
   const [showCartCount, setShowCartCount] = useState(false);
@@ -21,15 +20,22 @@ export const Navbar = () => {
       className={` z-30 w-full lg:flex items-center transition-all justify-center 
         `}
     >
-      <div className="w-full lg:w-11/12 xl:w-8/12 2xl:6/12">
+      <div className="w-full max-w-5xl">
         <ul
           className="flex justify-between items-center
-            px-6 h-16 "
+            px-6 h-16"
         >
           <Link href="/" passHref>
-            <span className="font-bold text-lg cursor-pointer">
+            {/* <span className="font-bold text-lg cursor-pointer">
               Pancho&apos;s Villa
-            </span>
+            </span> */}
+            <Image
+              className="cursor-pointer"
+              src="/logo.svg"
+              width="146.25px"
+              height="23.25px"
+              alt="Panchos Villa logo"
+            />
           </Link>
           <div className="flex space-x-2">
             <li>
