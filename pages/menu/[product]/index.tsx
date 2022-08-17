@@ -58,6 +58,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     tagsGroups: defaultTags,
     price: product.portions[0].price,
     unitPrice: product.portions[0].price,
+    image: product.image,
   };
 
   const [order, setOrder] = useState<OrderItemState>(initialOrderState);
