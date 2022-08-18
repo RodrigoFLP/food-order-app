@@ -46,6 +46,7 @@ const SignupPage: NextPage = () => {
   const [signUp] = useSignUpMutation();
 
   const onSubmit: SubmitHandler<SignupForm> = async (data) => {
+    alert("submit");
     try {
       toast("Registrando...", {
         toastId: "signup",
@@ -118,7 +119,7 @@ const SignupPage: NextPage = () => {
           direcciones de entrega. ¡Así agilizarás el proceso de compra y estarás
           comiendo tus tacos antes de lo esperado!
         </p>
-        <form className="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="font-semibold text-center pb-4 uppercase">
             Información personal
           </h2>

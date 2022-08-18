@@ -1,5 +1,7 @@
 export interface TagGroupState {
   name: string;
+  max: number;
+  min: number;
   quantity: number;
   tags: TagState[];
 }

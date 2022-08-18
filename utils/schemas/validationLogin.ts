@@ -4,7 +4,7 @@ import { string } from "yup";
 const requiredMessage = "Campo requerido";
 
 export const validationLogin = yup.object({
-  username: yup.string().email().required(requiredMessage),
+  username: yup.string().email("Correo no válido").required(requiredMessage),
   password: yup
     .string()
     .min(8, "Contraseña no válida")

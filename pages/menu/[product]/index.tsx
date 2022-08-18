@@ -34,6 +34,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   const defaultTags = product.portions[0].tagGroups.map((tagGroup) => ({
     name: tagGroup.name,
     quantity: 0,
+    max: tagGroup.max,
+    min: tagGroup.min,
     tags: [
       {
         id: null,
@@ -122,6 +124,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       tagsGroups: product.portions
         .find((p) => p.id === portion.id)!
         .tagGroups.map((tagGroup) => ({
+          min: tagGroup.min,
+          max: tagGroup.max,
           name: tagGroup.name,
           quantity: 0,
           tags: [

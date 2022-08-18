@@ -33,6 +33,8 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     .map((tagGroup) => ({
       name: tagGroup.name,
       quantity: 0,
+      min: tagGroup.min,
+      max: tagGroup.max,
       tags: [
         {
           id: null,
@@ -63,11 +65,26 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
     useState<Omit<OrderItemState, "image">>(initialOrderState);
 
   const handleAddClick = () => {
+    const portionsWithoutMin = order.tagsGroups.filter(
+      (tagGroup) => tagGroup.quantity < tagGroup.min
+    );
+
+    if (portionsWithoutMin.length > 0) {
+      return toast(
+        `Tienes que elegir al menos ${portionsWithoutMin[0].min} ${portionsWithoutMin[0].name}`,
+        {
+          toastId: "error",
+          type: "error",
+          autoClose: 1000,
+        }
+      );
+    }
+
     toast("Agregado al carrito", {
       type: "success",
-
       autoClose: 300,
     });
+
     dispatch(add({ ...order, orderItemId: nanoid(), image: product.image }));
     setOrder(initialOrderState);
     onAdd();
@@ -121,6 +138,8 @@ export const Product: FC<Props> = ({ product, onAdd }) => {
       .map((tagGroup) => ({
         name: tagGroup.name,
         quantity: 0,
+        max: tagGroup.max,
+        min: tagGroup.min,
         tags: [
           {
             id: null,
