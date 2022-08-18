@@ -46,7 +46,6 @@ const SignupPage: NextPage = () => {
   const [signUp] = useSignUpMutation();
 
   const onSubmit: SubmitHandler<SignupForm> = async (data) => {
-    alert("submit");
     try {
       toast("Registrando...", {
         toastId: "signup",
