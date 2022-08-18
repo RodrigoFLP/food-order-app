@@ -15,6 +15,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: 'Create env file'
+        run: |
+          touch .env.local
+          echo URL=${{ secrets.URL }} >> .env.local
+          echo API_URL=${{ secrets.API_URL }} >> .env.local
+          echo NEXT_PUBLIC_URL=${{ secrets.URL }} >> .env.local
+          echo NEXT_PUBLIC_API_URL=${{ secrets.API_URL }} >> .env.local
+          cat .env.local
+          
       - run: yarn install
       - run: yarn build
 
