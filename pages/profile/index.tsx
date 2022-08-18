@@ -43,11 +43,11 @@ const ProfilePage: NextPage = () => {
         <section className="flex-1">
           <div className="pb-4 mt-6 flex justify-between">
             <h1 className="font-semibold">Direcciones</h1>
-            {isAddressSuccess && data.length < 3 && (
+            {/* {isAddressSuccess && data.length < 3 && (
               <h1 className="font-semibold text-sm text-primary">
                 Añadir Dirección
               </h1>
-            )}
+            )} */}
           </div>
           <div className="space-y-2">
             {isAddressLoading && <Loading />}

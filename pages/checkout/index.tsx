@@ -128,7 +128,7 @@ const CheckoutPage: NextPage = () => {
       }
 
       if (orderInfo.deliveryType === "inplace") {
-        router.push("/");
+        router.push(`profile/orders/${res.orderId}`);
       }
     } catch (err) {
       toast.dismiss("payment");
@@ -258,9 +258,9 @@ const CheckoutPage: NextPage = () => {
               className={`${
                 stepsState.isStepThreeDone
                   ? "bg-primary text-white"
-                  : "bg-shade"
-              } p-2 flex-1 rounded-lg
-                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
+                  : "grayscale opacity-30 pointer-events-none"
+              }  mt-2 w-full p-2 flex-1 rounded-lg
+                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center}`}
               onClick={handleTicketCreation}
             >
               <div className="flex items-center">

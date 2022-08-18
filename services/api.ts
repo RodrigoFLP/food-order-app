@@ -172,6 +172,7 @@ export const api = createApi({
         method: "POST",
         body: {
           orderType: "pickup",
+          paymentType: "inplace",
           customerAddressId: null,
           storeId: 1,
           ticketItems: [

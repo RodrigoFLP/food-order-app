@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X } from "react-feather";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useResendConfirmationMutation } from "../../../services/api";
 import { ButtonIcon } from "../Buttons";
 
@@ -27,24 +27,27 @@ export const EmailAlert = () => {
   };
 
   return show ? (
-    <div
-      className="p-4 text-white m-4 rounded-lg r-0
+    <>
+      <div
+        className="p-4 text-white m-4 rounded-lg r-0
   text-sm animate-opacityin animate-bouncein clip-rect bg-primary shadow-md backdrop-blur-md
   "
-    >
-      Tú email no ha sido confirmado. Revisa tu correo o{" "}
-      <span
-        onClick={handleResendConfirmation}
-        className="underline font-semibold cursor-pointer"
       >
-        reenvía la confirmación
-      </span>
-      <div className="absolute -top-3 -right-3">
-        <ButtonIcon onClick={() => setShow(false)}>
-          <X color="black" />
-        </ButtonIcon>
+        Tú email no ha sido confirmado. Revisa tu correo o{" "}
+        <span
+          onClick={handleResendConfirmation}
+          className="underline font-semibold cursor-pointer"
+        >
+          reenvía la confirmación
+        </span>
+        <div className="absolute -top-3 -right-3">
+          <ButtonIcon onClick={() => setShow(false)}>
+            <X color="black" />
+          </ButtonIcon>
+        </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   ) : null;
 };
 
