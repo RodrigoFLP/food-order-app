@@ -1,9 +1,30 @@
 import { useState } from "react";
 import { X } from "react-feather";
+import { toast } from "react-toastify";
+import { useResendConfirmationMutation } from "../../../services/api";
 import { ButtonIcon } from "../Buttons";
 
 export const EmailAlert = () => {
   const [show, setShow] = useState(true);
+
+  const [resendConfirmation, result] = useResendConfirmationMutation();
+
+  const handleResendConfirmation = async () => {
+    try {
+      await resendConfirmation().unwrap();
+      toast("Se ha enviado el correo", {
+        toastId: "confirmation",
+        type: "success",
+        position: "top-right",
+      });
+    } catch (err) {
+      toast("No se ha podido reenviar, intenta en 30 segundos", {
+        toastId: "confirmation",
+        type: "error",
+        position: "top-right",
+      });
+    }
+  };
 
   return show ? (
     <div
@@ -12,7 +33,12 @@ export const EmailAlert = () => {
   "
     >
       Tú email no ha sido confirmado. Revisa tu correo o{" "}
-      <span className="underline font-semibold">reenvía la confirmación</span>
+      <span
+        onClick={handleResendConfirmation}
+        className="underline font-semibold cursor-pointer"
+      >
+        reenvía la confirmación
+      </span>
       <div className="absolute -top-3 -right-3">
         <ButtonIcon onClick={() => setShow(false)}>
           <X color="black" />

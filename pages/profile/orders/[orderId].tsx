@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Layout } from "../../../components/layouts";
-import { StepSeparator } from "../../../components/ui";
 import Loading from "../../../components/ui/Loading";
 import StatusStepContainer from "../../../components/ui/StatusStepContainer";
 import {
@@ -13,6 +12,7 @@ import initialToUpperCase from "../../../utils/initialToUpperCase";
 import { BrandWhatsapp } from "tabler-icons-react";
 import { PhoneCall } from "react-feather";
 import { getWhatsappText } from "../../../utils/getWhatsappText";
+import { getStatus } from "../../../utils/getStatus";
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
@@ -51,7 +51,7 @@ const OrderPage: NextPage = () => {
                   #{result.data.id.split("-")[0]}
                 </h1>
                 <div className="bg-secondary text-white p-1 px-2 rounded-full text-xs font-bold">
-                  {"status"}
+                  {getStatus(result.data.status)}
                 </div>
               </div>
               <div className="text-xs">{result.data.createdAt}</div>

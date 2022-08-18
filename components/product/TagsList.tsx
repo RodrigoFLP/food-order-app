@@ -15,7 +15,7 @@ export const TagsList: FC<Props> = ({
   handleChange,
   tagsInitialState,
 }) => {
-  const { handleAdd, handleRemove } = useTagList(
+  const { handleAdd, handleRemove, handleClick } = useTagList(
     tagGroup,
     handleChange,
     tagsInitialState
@@ -42,7 +42,7 @@ export const TagsList: FC<Props> = ({
             ? tagsInitialState.tags[tagIndex].quantity
             : 0;
 
-          return (
+          return tagGroup.max > 1 ? (
             <div
               key={tag.value}
               className={`${
@@ -76,6 +76,23 @@ export const TagsList: FC<Props> = ({
                 <Plus size={16} color="white" />
               </div>
             </div>
+          ) : (
+            <button
+              key={tag.value}
+              className={`${
+                tagExists && tagQty !== 0
+                  ? "bg-primary text-white"
+                  : "bg-shade text-black"
+              } 
+                p-2 px-4 rounded-xl flex-grow border border-dashed border-gray-300 hover:bg-secondary 
+                hover:text-white active:scale-95 active:bg-secondary shadow-sm cursor-pointer`}
+              onClick={() => {
+                handleClick(tag);
+              }}
+            >
+              {initialToUpperCase(tag.value)}
+              <div className="font-semibold">${tag.price?.toFixed(2)}</div>{" "}
+            </button>
           );
         })}
       </div>

@@ -33,9 +33,7 @@ startAppListening({
       const cart = JSON.stringify(listenerApi.getState().cart);
 
       localStorage.setItem("cart", cart);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   },
 });
 

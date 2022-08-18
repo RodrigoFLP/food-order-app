@@ -208,6 +208,13 @@ export const api = createApi({
         },
       }),
     }),
+    resendConfirmation: builder.mutation<IUser, void>({
+      query: () => ({
+        url: "auth/resend-email-confirmation",
+        method: "POST",
+        credentials: "include",
+      }),
+    }),
     searchProduct: builder.mutation<SearchResponse, SearchQuery>({
       query: (query) => ({
         url: `products/search?keyword=${query.keyword}&take=5&skip=${
@@ -246,4 +253,5 @@ export const {
   useGetOneStoreQuery,
   useGetProductByIdMutation,
   useGetTagProductsQuery,
+  useResendConfirmationMutation,
 } = api;

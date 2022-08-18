@@ -23,8 +23,8 @@ export const SelectInput: FC<Props> = ({
   register,
   hidden = false,
 }) => {
-  return !hidden ? (
-    <div className="relative">
+  return (
+    <div className={`relative ${hidden && "hidden"}`}>
       {error && (
         <label className="block text-xs right-0 self-center text-right pb-1 rounded-md text-red-500">
           {errorMessage}
@@ -34,11 +34,10 @@ export const SelectInput: FC<Props> = ({
       <div id="select-container" className="relative flex-grow">
         <select
           hidden={hidden}
-          disabled={hidden}
           {...register}
           className={`relative form-select form-select-lg appearance-none block pl-4 pr-12 pt-6 pb-1 text-base font-normal text-gray-700 
         bg-white bg-clip-padding bg-no-repeat rounded-lg transition ease-in-out m-0
-        focus:text-gray-700 focus:bg-white ${
+        focus:text-gray-700 focus:bg-white  ${
           error
             ? "focus:outline-red-500 border-2 border-red-500"
             : "focus:outline-blue-400 border-gray-300 border border-solid "
@@ -70,7 +69,7 @@ export const SelectInput: FC<Props> = ({
         />
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default SelectInput;
