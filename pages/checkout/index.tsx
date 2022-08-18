@@ -7,14 +7,12 @@ import { CheckoutStepContainer } from "../../components/ui";
 import { BarButton } from "../../components/ui/Buttons";
 import PickupForm from "../../components/checkout/PickupForm";
 import DeliveryForm from "../../components/checkout/DeliveryForm";
-import { OrderCard, OrderSummaryCard } from "../../components/ui/Cards";
 
 import {
   useCalculateTotalQuery,
   useGetAddressQuery,
   useGetOneStoreQuery,
-  useGetStoresQuery,
-  usePayWithWompiMutation,
+  useCreateTicketMutation,
 } from "../../services/api";
 import { clearCart, selectItems } from "../../store";
 import { useAppSelector } from "../../store/hooks";
@@ -28,9 +26,11 @@ import SummaryCard from "../../components/checkout/SummaryCard";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import Loading from "../../components/ui/Loading";
+import { ReportMoney } from "tabler-icons-react";
 
 interface OrderInfo {
   deliveryType: string;
+  paymentType: "inplace" | "wompi" | "";
   clientName: string;
   storeId: number;
   addressId: string | undefined;
@@ -44,13 +44,14 @@ const CheckoutPage: NextPage = () => {
 
   const [showWompiModal, setShowWompiModal] = useState(false);
 
-  const [payWithWompi, result] = usePayWithWompiMutation();
+  const [createTicket, result] = useCreateTicketMutation();
   const { data, isError, isLoading, isUninitialized } =
     useCalculateTotalQuery(items);
   const { isSuccess, data: addressResult } = useGetAddressQuery();
 
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     deliveryType: "",
+    paymentType: "",
     clientName: "",
     storeId: 0,
     addressId: undefined,
@@ -90,39 +91,51 @@ const CheckoutPage: NextPage = () => {
     setOrderInfo((currentState) => ({ ...currentState, deliveryType }));
   };
 
+  const handlePaymentTypeChange = (paymentType: "inplace" | "wompi") => {
+    setStepsState((currentState) => ({
+      ...currentState,
+      isStepThreeDone: true,
+    }));
+    setOrderInfo((currentState) => ({ ...currentState, paymentType }));
+  };
+
   const handleSecondStepChange = () => {
     setStepsState((currentState) => ({ ...currentState, isStepTwoDone: true }));
   };
 
-  const handleWompiPayment = async () => {
+  const handleTicketCreation = async () => {
     try {
-      toast("Creando pago...", {
-        toastId: "payment",
+      toast("Creando orden...", {
+        toastId: "ticket",
         isLoading: true,
         position: "bottom-right",
       });
 
-      const res = (await payWithWompi({
+      const res = await createTicket({
         info: {
           orderType: orderInfo.deliveryType,
+          paymentType: orderInfo.paymentType,
           storeId: orderInfo.storeId,
           customerAddressId: orderInfo.addressId,
         },
         items,
-      })) as any;
+      }).unwrap();
 
-      if (res.error) {
-        throw new Error("No se ha podido generar el pago");
+      toast.dismiss("ticket");
+
+      if (orderInfo.deliveryType === "wompi") {
+        setShowWompiModal(true);
       }
-      toast.dismiss("payment");
 
-      setShowWompiModal(true);
-    } catch (err: any) {
+      if (orderInfo.deliveryType === "inplace") {
+        router.push("/");
+      }
+    } catch (err) {
       toast.dismiss("payment");
       toast.dismiss("error");
       setTimeout(
         () =>
-          toast(`${err.data ? err.data.message : err} `, {
+          toast(`${err ? err : err} `, {
             type: "error",
             toastId: "error",
             autoClose: 1000,
@@ -209,10 +222,52 @@ const CheckoutPage: NextPage = () => {
               stepNumber={3}
               disabled={!stepsState.isStepTwoDone}
             >
-              <BarButton Icon={CreditCard} handleClick={handleWompiPayment}>
-                Pagar con tarjeta de crédito/débito
-              </BarButton>
+              <div className="flex flex-col space-y-2 lg:space-y-0 lg:flex-row lg:space-x-4 w-full">
+                <button
+                  className={`${
+                    orderInfo.paymentType === "wompi"
+                      ? "bg-primary text-white"
+                      : "bg-shade"
+                  } p-2 flex-1 rounded-lg
+              hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
+                  onClick={() => handlePaymentTypeChange("wompi")}
+                >
+                  <div className="flex items-center">
+                    <CreditCard size={14} />
+                    <div className="pl-4">Pagar con Wompi</div>
+                  </div>
+                </button>
+                <button
+                  className={`${
+                    orderInfo.paymentType === "inplace"
+                      ? "bg-primary text-white"
+                      : "bg-shade"
+                  } p-2 flex-1 rounded-lg
+                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
+                  onClick={() => handlePaymentTypeChange("inplace")}
+                >
+                  <div className="flex items-center">
+                    <ReportMoney size={14} />
+                    <div className="pl-4">Pagar en entrega</div>
+                  </div>
+                </button>
+              </div>
             </CheckoutStepContainer>
+            <button
+              disabled={!stepsState.isStepThreeDone}
+              className={`${
+                stepsState.isStepThreeDone
+                  ? "bg-primary text-white"
+                  : "bg-shade"
+              } p-2 flex-1 rounded-lg
+                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center`}
+              onClick={handleTicketCreation}
+            >
+              <div className="flex items-center">
+                <ReportMoney size={14} />
+                <div className="pl-4">Realizar orden</div>
+              </div>
+            </button>
           </div>
           {data && store && (
             <SummaryCard

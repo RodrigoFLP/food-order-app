@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, ReactNode } from "react";
+import { FC, HTMLAttributes, MouseEventHandler, ReactNode } from "react";
 import { Icon } from "react-feather";
 
 interface Props {
@@ -7,7 +7,13 @@ interface Props {
   handleClick?: MouseEventHandler<HTMLButtonElement>;
   Icon?: Icon;
   disabled?: boolean;
+  size?: "sm" | "base";
 }
+
+const styles = {
+  sm: "h-10",
+  base: "h-12",
+};
 
 export const BarButton: FC<Props> = ({
   children,
@@ -15,14 +21,15 @@ export const BarButton: FC<Props> = ({
   handleClick,
   Icon,
   disabled = false,
+  size = "base",
 }) => {
   return (
     <button
       type={type}
-      className="bg-primary relative w-full text-white font-semibold h-12  
+      className={`bg-primary relative w-full text-white font-semibold ${styles[size]}  
         rounded-lg flex items-center justify-between space-x-4 px-4
         active:scale-95 transition-all active:bg-secondary hover:opacity-80
-        disabled:grayscale disabled:opacity-20 disabled:pointer-events-none"
+        disabled:grayscale disabled:opacity-20 disabled:pointer-events-none`}
       onClick={handleClick}
       disabled={disabled}
     >

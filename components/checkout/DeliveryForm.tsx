@@ -5,6 +5,7 @@ import { SelectAddressInput } from "../ui/Inputs";
 
 interface OrderInfo {
   deliveryType: string;
+  paymentType: "inplace" | "wompi" | "";
   clientName: string;
   storeId: number;
   addressId: string | undefined;

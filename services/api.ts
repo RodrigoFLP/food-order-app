@@ -185,7 +185,7 @@ export const api = createApi({
         },
       }),
     }),
-    payWithWompi: builder.mutation<
+    createTicket: builder.mutation<
       IPaymentLink,
       { info: TicketMutation; items: OrderItemState[] }
     >({
@@ -194,6 +194,7 @@ export const api = createApi({
         method: "POST",
         body: {
           orderType: order.info.orderType, //TODO: modify hardcoded properties
+          paymentType: order.info.paymentType,
           customerAddressId: order.info.customerAddressId || null,
           scheduledDate: order.info.scheduledDate || null, //TODO: modify hardcoded properties
           storeId: order.info.storeId,
@@ -240,7 +241,7 @@ export const {
   useGetCategoryProductsQuery,
   useGetProductsByCategoryMutation,
   useCalculateTotalQuery,
-  usePayWithWompiMutation,
+  useCreateTicketMutation,
   useGetAddressQuery,
   useGetDeliveryAreasQuery,
   useGetCustomerProfileQuery,

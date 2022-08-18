@@ -146,8 +146,20 @@ export const useTagList = (
                 ),
               ],
             }
-          : tagsInitialState;
-
+          : {
+              ...tagsInitialState,
+              quantity: 1,
+              tags: [
+                {
+                  id: tag.id,
+                  name: tag.name,
+                  value: tag.value,
+                  quantity: 1,
+                  price: tag.price,
+                  rate: tag.rate,
+                },
+              ],
+            };
         break;
       default:
         tagPayload = tagExists
