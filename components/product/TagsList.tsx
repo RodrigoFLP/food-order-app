@@ -42,7 +42,7 @@ export const TagsList: FC<Props> = ({
             ? tagsInitialState.tags[tagIndex].quantity
             : 0;
 
-          return tagGroup.max > 1 ? (
+          return tagGroup.max !== 1 ? (
             <div
               key={tag.value}
               className={`${
