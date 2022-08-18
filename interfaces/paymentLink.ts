@@ -3,4 +3,5 @@ export interface IPaymentLink {
   urlQrCodeEnlace: string;
   urlEnlace: string;
   estaProductivo: boolean;
+  orderId: string;
 }
