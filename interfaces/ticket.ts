@@ -46,6 +46,7 @@ export interface TicketMutation {
   couponId?: string;
   totalAmount?: string;
   orderType: string;
+  paymentType: "inplace" | "wompi" | "";
   status?: string;
   storeId: number;
   scheduledDate?: string;
