@@ -28,7 +28,7 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz ./.next/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/client/
+        run: rsync -avz ./.next/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/client/.next
 
       - name: Deploy Nextjs client
         uses: appleboy/ssh-action@master
