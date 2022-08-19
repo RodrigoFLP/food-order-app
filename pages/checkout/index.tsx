@@ -217,9 +217,9 @@ const CheckoutPage: NextPage = () => {
               )}
               <button
                 className={`
-                       bg-primary text-white p-2 flex-1 rounded-lg hover:scale-95
+                       bg-primary text-white p-2 flex-1 rounded-lg hover:scale-95 w-full
                         active:bg-secondary active:text-white transition-all flex justify-center`}
-                onClick={() => handleSecondStepChange}
+                onClick={handleSecondStepChange}
               >
                 <div className="flex items-center">
                   <Check size={14} />
@@ -296,7 +296,9 @@ const CheckoutPage: NextPage = () => {
         show={showWompiModal}
         handleClose={() => {
           setShowWompiModal(false);
-          dispatch(clearCart());
+          router
+            .push(`/profile/orders/${result.data?.orderId}`)
+            .then(() => dispatch(clearCart()));
         }}
         src={result.data?.urlQrCodeEnlace!}
       />
