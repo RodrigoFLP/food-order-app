@@ -46,7 +46,6 @@ export const EmailAlert = () => {
           </ButtonIcon>
         </div>
       </div>
-      <ToastContainer />
     </>
   ) : null;
 };
