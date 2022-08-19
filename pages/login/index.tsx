@@ -111,7 +111,6 @@ const LoginPage: NextPage = () => {
           </Link>
         </form>
       </div>
-      <ToastContainer />
     </Layout>
   );
 };

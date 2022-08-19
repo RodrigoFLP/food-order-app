@@ -289,7 +289,6 @@ const CheckoutPage: NextPage = () => {
         }}
         src={result.data?.urlQrCodeEnlace!}
       />
-      <ToastContainer />
     </Layout>
   );
 };

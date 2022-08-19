@@ -227,7 +227,6 @@ const SignupPage: NextPage = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </Layout>
   );
 };

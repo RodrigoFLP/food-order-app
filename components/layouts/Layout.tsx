@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import { useGetIsOpenQuery, useGetOneStoreQuery } from "../../services/api";
 import { selectIsLoggedIn, selectUser } from "../../store";
 import { useAppSelector } from "../../store/hooks";
@@ -51,6 +52,7 @@ export const Layout: FC<Props> = ({ children, title, margin = false }) => {
       <main className={`lg:flex p-6 pt-2 px-6 justify-center w-full`}>
         <div className="w-full center-div max-w-5xl">{children}</div>
       </main>
+      <ToastContainer />
       {store && <Footer margin={margin} store={store} />}
     </>
   );
