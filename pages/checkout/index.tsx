@@ -26,7 +26,7 @@ import SummaryCard from "../../components/checkout/SummaryCard";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import Loading from "../../components/ui/Loading";
-import { ReportMoney } from "tabler-icons-react";
+import { Checks, ReportMoney } from "tabler-icons-react";
 
 interface OrderInfo {
   deliveryType: string;
@@ -259,12 +259,12 @@ const CheckoutPage: NextPage = () => {
                 stepsState.isStepThreeDone
                   ? "bg-primary text-white"
                   : "grayscale opacity-30 pointer-events-none"
-              }  mt-2 w-full p-2 flex-1 rounded-lg
-                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center}`}
+              }  mt-6 w-full p-2 flex-1 rounded-lg
+                hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center h-12}`}
               onClick={handleTicketCreation}
             >
               <div className="flex items-center">
-                <ReportMoney size={14} />
+                <Checks size={14} />
                 <div className="pl-4">Realizar orden</div>
               </div>
             </button>
