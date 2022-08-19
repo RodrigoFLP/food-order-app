@@ -26,7 +26,7 @@ import SummaryCard from "../../components/checkout/SummaryCard";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import Loading from "../../components/ui/Loading";
-import { Checks, ReportMoney } from "tabler-icons-react";
+import { Check, Checks, ReportMoney } from "tabler-icons-react";
 
 interface OrderInfo {
   deliveryType: string;
@@ -123,19 +123,22 @@ const CheckoutPage: NextPage = () => {
 
       toast.dismiss("ticket");
 
-      if (orderInfo.deliveryType === "wompi") {
+      if (orderInfo.paymentType === "wompi") {
+        console.log("");
         setShowWompiModal(true);
       }
 
-      if (orderInfo.deliveryType === "inplace") {
-        router.push(`profile/orders/${res.orderId}`);
+      if (orderInfo.paymentType === "inplace") {
+        router
+          .push(`/profile/orders/${res.orderId}`)
+          .then(() => dispatch(clearCart()));
       }
     } catch (err) {
       toast.dismiss("payment");
       toast.dismiss("error");
       setTimeout(
         () =>
-          toast(`${err ? err : err} `, {
+          toast(`${err ? err : "No se ha podido realizar la orden"} `, {
             type: "error",
             toastId: "error",
             autoClose: 1000,
@@ -212,9 +215,17 @@ const CheckoutPage: NextPage = () => {
                   />
                 )
               )}
-              <BarButton handleClick={handleSecondStepChange}>
-                Confirmar información
-              </BarButton>
+              <button
+                className={`
+                       bg-primary text-white p-2 flex-1 rounded-lg hover:scale-95
+                        active:bg-secondary active:text-white transition-all flex justify-center`}
+                onClick={() => handleSecondStepChange}
+              >
+                <div className="flex items-center">
+                  <Check size={14} />
+                  <div className="pl-4">Confirmar información</div>
+                </div>
+              </button>
             </CheckoutStepContainer>
             <StepSeparator isActivated={stepsState.isStepTwoDone} />
             <CheckoutStepContainer
