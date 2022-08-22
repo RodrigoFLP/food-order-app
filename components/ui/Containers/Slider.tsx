@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const CardsSlider: FC<Props> = ({ children }) => {
+export const Slider: FC<Props> = ({ children }) => {
   const { elementRef, showFixed, scrollToLeft } = useOnScroll({ margin: 0 });
 
   return (
@@ -35,4 +35,4 @@ export const CardsSlider: FC<Props> = ({ children }) => {
   );
 };
 
-export default CardsSlider;
+export default Slider;

@@ -1,108 +1,30 @@
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useState } from "react";
+
 import { Lock, Mail, Map, MapPin, Smartphone, User } from "react-feather";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Layout } from "../../components/layouts";
 import { BarButton, LocationButton } from "../../components/ui/Buttons";
 import { DateInput, Input, SelectInput } from "../../components/ui/Inputs";
-
-import { validationSignup } from "../../utils/schemas";
-import { SignupForm } from "../../interfaces";
-
-import "react-toastify/dist/ReactToastify.css";
-import { useSignUpMutation } from "../../services/api";
-import { useAppDispatch } from "../../store/hooks";
-import { setCredentials } from "../../store";
-
-interface Coordinate {
-  lat: number;
-  lon: number;
-}
+import { useSignUp } from "../../hooks/useSignUp";
 
 const SignupPage: NextPage = () => {
   const LocationModal = dynamic(
-    () => import("../../components/signup/LocationModal"), // replace '@components/map' with your component's location
-    { ssr: false } // This line is important. It's what prevents server-side render
+    () => import("../../components/signup/LocationModal"),
+    { ssr: false }
   );
 
-  const router = useRouter();
-
   const {
+    showModal,
+    handleCloseModal,
+    coordinate,
+    setCoordinate,
     register,
-    formState: { errors },
+    errors,
+    onSubmit,
     handleSubmit,
-  } = useForm<SignupForm>({ resolver: yupResolver(validationSignup) });
-
-  const [showModal, setShowModal] = useState(false);
-
-  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
-
-  const dispatch = useAppDispatch();
-  const [signUp] = useSignUpMutation();
-
-  const onSubmit: SubmitHandler<SignupForm> = async (data) => {
-    try {
-      toast("Registrando...", {
-        toastId: "signup",
-        isLoading: true,
-        position: "bottom-right",
-      });
-      if (!coordinate) {
-        throw new Error("No has seleccionado la ubicación");
-      }
-      const payload = await signUp({
-        email: data.email,
-        password: data.password,
-        customer: {
-          firstName: data.firstName,
-          lastName: data.lastname,
-          phoneNumber: data.phoneNumber,
-          receiveAds: false,
-          birthDate: data.birthDate,
-          address: {
-            addressLine1: data.addressLine1,
-            addressLine2: data.addressLine2,
-            city: data.city,
-            state: data.state,
-            addressReference: data.addressReference,
-            lat: coordinate?.lat,
-            lon: coordinate?.lon,
-          },
-        },
-      }).unwrap();
-      dispatch(setCredentials(payload));
-
-      router.replace(
-        router.query.p
-          ? `/signup/successful/p=${router.query.p as string}`
-          : "/signup/successful"
-      );
-    } catch (err: any) {
-      toast.dismiss("signup");
-      setTimeout(
-        () =>
-          toast(`${err.data ? err.data.message : err} `, {
-            type: "error",
-            autoClose: 2000,
-            position: "bottom-right",
-          }),
-        500
-      );
-    }
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleClick = () => {
-    setShowModal(true);
-  };
+    handleClick,
+  } = useSignUp();
 
   return (
     <Layout title="Registro">

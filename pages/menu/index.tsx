@@ -6,7 +6,7 @@ import { Layout } from "../../components/layouts";
 import ProductModal from "../../components/product/ProductModal";
 import { ListTile } from "../../components/ui";
 import { SliderButton } from "../../components/ui/Buttons";
-import { CardsSlider } from "../../components/ui/Cards";
+import Slider from "../../components/ui/Containers/Slider";
 import Loading from "../../components/ui/Loading";
 import ListButtonsPlaceholder from "../../components/ui/placeholders/ListButtonsPlaceholder";
 
@@ -44,7 +44,7 @@ const MenuPage: NextPage = () => {
 
   return (
     <Layout title="Menú">
-      <CardsSlider>
+      <Slider>
         {isLoadingCategories && <ListButtonsPlaceholder />}
         {isSuccessCategories &&
           categories!.map((category) => (
@@ -55,7 +55,7 @@ const MenuPage: NextPage = () => {
               onSelect={onSelect}
             />
           ))}
-      </CardsSlider>
+      </Slider>
       {products.isLoading && (
         <div className="pt-8">
           <Loading />
@@ -77,10 +77,10 @@ const MenuPage: NextPage = () => {
                 </a>
               </Link>
             ))}
-            {products.isError &&
-              "No se pudieron cargar los productos, recarga la página"}
           </div>
         )}
+      {products.isError &&
+        "No se pudieron cargar los productos, recarga la página"}
       {!!router.query.producto && (
         <ProductModal
           show={!!router.query.producto}

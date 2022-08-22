@@ -1,16 +1,19 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+
 import { Layout } from "../../../components/layouts";
 import Loading from "../../../components/ui/Loading";
-import StatusStepContainer from "../../../components/ui/StatusStepContainer";
+import StatusStepContainer from "../../../components/profile/StatusStepContainer";
+
 import {
   useGetCustomerOrderMutation,
   useGetOneStoreQuery,
 } from "../../../services/api";
+
+import { BrandWhatsapp, PhoneCall } from "tabler-icons-react";
+
 import initialToUpperCase from "../../../utils/initialToUpperCase";
-import { BrandWhatsapp } from "tabler-icons-react";
-import { PhoneCall } from "react-feather";
 import { getWhatsappText } from "../../../utils/getWhatsappText";
 import { getStatus } from "../../../utils/getStatus";
 

@@ -1,44 +1,11 @@
-import Link from "next/link";
-import React, { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Search as SearchIcon, X } from "react-feather";
 import { useDebounce } from "../../hooks";
-import { Product } from "../../interfaces";
 import { useSearchProductMutation } from "../../services/api";
-import ProductCard from "../product/ProductCard";
-import { BarButton, ButtonIcon, TagButton } from "../ui/Buttons";
+import { ButtonIcon } from "../ui/Buttons";
 import { SearchInput } from "../ui/Inputs";
 import Loading from "../ui/Loading";
-
-const ProductsContainer = ({
-  products,
-}: {
-  products: Product[] | undefined;
-}) => {
-  return (
-    <div
-      className={`pt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-5 gap-x-4 top-0 gap-y-4`}
-    >
-      {products &&
-        products.map((product) => (
-          <Link
-            scroll={false}
-            key={product.id}
-            href={`/?producto=${product.id}`}
-          >
-            <a>
-              <ProductCard
-                id={product.id}
-                title={product.name}
-                image={product.image}
-                price={parseFloat(product.price)}
-                onClick={() => {}}
-              />
-            </a>
-          </Link>
-        ))}
-    </div>
-  );
-};
+import ProductsContainer from "./SearchProductsContainer";
 
 export const Search = () => {
   const [keyword, setKeyword] = useState("");
@@ -79,9 +46,8 @@ export const Search = () => {
 
   return (
     <>
-      <div className="">
+      <div>
         <SearchInput
-          // type={"search"}
           error={false}
           label="Buscar"
           Icon={keyword.length > 0 ? X : SearchIcon}

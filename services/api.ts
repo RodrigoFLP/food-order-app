@@ -11,7 +11,6 @@ import {
   SignUpBody,
   Ticket,
   TicketMutation,
-  Product,
   SearchQuery,
   SearchResponse,
   TicketCalculation,

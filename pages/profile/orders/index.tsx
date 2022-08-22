@@ -1,6 +1,6 @@
 import { NextPage } from "next";
+import OrderCard from "../../../components/common/OrderCard";
 import { Layout } from "../../../components/layouts";
-import { OrderCard } from "../../../components/ui/Cards";
 import Loading from "../../../components/ui/Loading";
 import { useGetCustomerOrdersQuery } from "../../../services/api";
 import { getStatus } from "../../../utils/getStatus";

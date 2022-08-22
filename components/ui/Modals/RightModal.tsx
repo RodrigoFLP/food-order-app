@@ -1,6 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import { IProduct } from "../../../interfaces";
-import Product from "../../product/Product";
+
 import ModalContainer from "./ModalContainer";
 
 interface Props {
