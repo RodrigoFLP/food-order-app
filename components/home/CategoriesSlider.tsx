@@ -2,7 +2,7 @@ import Router from "next/router";
 import { useGetCategoriesListQuery } from "../../services/api";
 import { SectionContainer } from "../ui";
 import { SliderButton } from "../ui/Buttons";
-import { CardsSlider } from "../ui/Cards";
+import Slider from "../ui/Containers/Slider";
 import ListButtonsPlaceholder from "../ui/placeholders/ListButtonsPlaceholder";
 
 export const CategoriesSlider = () => {
@@ -16,7 +16,7 @@ export const CategoriesSlider = () => {
 
   return (
     <SectionContainer title="Categorías">
-      <CardsSlider>
+      <Slider>
         {(isLoadingCategories || isUninitializedCategories) && (
           <ListButtonsPlaceholder />
         )}
@@ -29,7 +29,7 @@ export const CategoriesSlider = () => {
               selected={false}
             />
           ))}
-      </CardsSlider>
+      </Slider>
     </SectionContainer>
   );
 };

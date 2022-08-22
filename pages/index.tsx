@@ -16,6 +16,7 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ defaultHomeTagCategory }) => {
   const router = useRouter();
+  const showProductModal = !!router.query.producto;
 
   return (
     <Layout title="Pancho's Villa">
@@ -25,9 +26,9 @@ const Home: NextPage<HomeProps> = ({ defaultHomeTagCategory }) => {
         <CategoriesSlider />
         <FeaturedProducts defaultHomeTagCategory={defaultHomeTagCategory} />
       </div>
-      {!!router.query.producto && (
+      {showProductModal && (
         <ProductModal
-          show={!!router.query.producto}
+          show={showProductModal}
           onClose={() => router.push("/", undefined, { scroll: false })}
         />
       )}

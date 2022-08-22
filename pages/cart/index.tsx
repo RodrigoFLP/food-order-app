@@ -6,11 +6,12 @@ import { ShoppingCart } from "react-feather";
 
 import { Layout } from "../../components/layouts";
 import { BarButton } from "../../components/ui/Buttons";
-import { CartListTile } from "../../components/ui/Cards";
+
+import CartListTile from "../../components/cart/CartListTile";
 
 import { selectItems, selectTotal } from "../../store";
-import { useAppSelector } from "../../store/hooks";
 import { useGetIsOpenQuery } from "../../services/api";
+import { useAppSelector } from "../../store/hooks";
 
 const CartPage: NextPage = () => {
   const items = useAppSelector(selectItems);
@@ -19,12 +20,7 @@ const CartPage: NextPage = () => {
   const [showCart, setShowCart] = useState(false);
   const router = useRouter();
 
-  const {
-    data: scheduling,
-    isLoading,
-    isError,
-    isUninitialized,
-  } = useGetIsOpenQuery();
+  const { data: scheduling } = useGetIsOpenQuery();
 
   useEffect(() => {
     setShowCart(true);

@@ -1,69 +1,20 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useCallback } from "react";
-
 import { User, Lock } from "react-feather";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
-
 import { Layout } from "../../components/layouts";
 import { Input } from "../../components/ui/Inputs";
 import { BarButton } from "../../components/ui/Buttons";
 
-import { validationLogin } from "../../utils/schemas";
-
-import { useAppDispatch } from "../../store/hooks";
-import { setCredentials } from "../../store/auth/authSlice";
-
 import "react-toastify/dist/ReactToastify.css";
-import { useLoginMutation } from "../../services/api";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-interface IFormInput {
-  username: string;
-  password: string;
-}
+import { useLogin } from "../../hooks/useLogin";
 
 const LoginPage: NextPage = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
-    setError,
-  } = useForm<IFormInput>({ resolver: yupResolver(validationLogin) });
-
-  const router = useRouter();
-
-  const dispatch = useAppDispatch();
-
-  const [login] = useLoginMutation();
-
-  const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-    try {
-      toast("Ingresando...", {
-        toastId: "login",
-        isLoading: true,
-        position: "bottom-right",
-      });
-      const payload = await login(data).unwrap();
-      dispatch(setCredentials(payload));
-      router.replace(router.query.p ? (router.query.p as string) : "/");
-    } catch (err: any) {
-      reset({ password: "" });
-      toast.dismiss("login");
-      toast(
-        `${err.data ? err.data.message : "No se ha podido iniciar sesión"} `,
-        {
-          type: "error",
-          autoClose: 2000,
-          delay: 500,
-          position: "bottom-right",
-        }
-      );
-    }
-  };
+    onSubmit,
+  } = useLogin();
 
   return (
     <Layout title="Ingresar">

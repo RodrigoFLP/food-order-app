@@ -7,6 +7,8 @@ import { useAppSelector } from "../../store/hooks";
 import { EmailAlert, Footer, Navbar } from "../ui";
 import ScheduleAlert from "../ui/Alerts/ScheduleAlert";
 
+import "react-toastify/dist/ReactToastify.css";
+
 interface Props {
   children: ReactNode;
   title?: string;

@@ -1,8 +1,10 @@
 import { NextPage } from "next";
-import { Mail, Phone, Calendar } from "react-feather";
+
 import { Layout } from "../../components/layouts";
-import { AddressCard, ProfileCard } from "../../components/ui/Cards";
+import AddressCard from "../../components/common/AddressCard";
+import ProfileCard from "../../components/profile/ProfileCard";
 import Loading from "../../components/ui/Loading";
+
 import {
   useGetAddressQuery,
   useGetCustomerProfileQuery,
@@ -11,14 +13,12 @@ import {
 const ProfilePage: NextPage = () => {
   const {
     isLoading: isAddressLoading,
-    isFetching: isAddressFetching,
     isError: isAddressError,
     data,
     isSuccess: isAddressSuccess,
   } = useGetAddressQuery();
   const {
     isLoading: isProfileLoading,
-    isFetching: isProfileFetching,
     data: profileData,
     isSuccess: isProfileSuccess,
     isError: isProfileError,
@@ -43,11 +43,6 @@ const ProfilePage: NextPage = () => {
         <section className="flex-1">
           <div className="pb-4 mt-6 flex justify-between">
             <h1 className="font-semibold">Direcciones</h1>
-            {/* {isAddressSuccess && data.length < 3 && (
-              <h1 className="font-semibold text-sm text-primary">
-                Añadir Dirección
-              </h1>
-            )} */}
           </div>
           <div className="space-y-2">
             {isAddressLoading && <Loading />}

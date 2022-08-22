@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 import { Address } from "../../interfaces";
-import { AddressCard } from "../ui/Cards";
+import AddressCard from "../common/AddressCard";
 import { SelectAddressInput } from "../ui/Inputs";
 
 interface OrderInfo {

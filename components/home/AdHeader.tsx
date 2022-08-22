@@ -21,21 +21,12 @@ export const AdHeader = () => {
       {isSuccess && store.headerImage && (
         <Image
           src={store.headerImage}
-          // src="/header.jpeg"
           priority
           alt="header"
           layout="fill"
           className="object-cover"
         />
       )}
-
-      {/* {isSuccess && store.headerImage && (
-        <img
-          src="/header.jpeg"
-          alt="header"
-          className="object-cover text-center w-full"
-        />
-      )} */}
     </div>
   );
 };

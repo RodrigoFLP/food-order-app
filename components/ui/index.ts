@@ -12,6 +12,6 @@ export * from "../checkout/CheckoutStepContainer";
 export * from "../checkout/StepSeparator";
 // export * from "./SelectAddressInput";
 
-export * from "./StatusStepContainer";
+export * from "../profile/StatusStepContainer";
 export * from "../home/Search";
 export * from "./Alerts/EmailAlert";

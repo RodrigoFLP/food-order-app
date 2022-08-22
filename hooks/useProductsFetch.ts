@@ -4,7 +4,7 @@ import { Category } from "../interfaces";
 // const fetcher = (...args: [key: string]) =>
 //   fetch(...args).then((res) => res.json());
 
-export const useProducts = (
+export const useProductsFetch = (
   baseUrl: string,
   url: string,
   config: SWRConfiguration = {}
