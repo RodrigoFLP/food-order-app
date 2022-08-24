@@ -15,9 +15,9 @@ export const StepButton = ({
     <button
       // disabled={disabled}
       className={`${
-        !disabled ? "bg-primary text-white" : "bg-shade pointer-events-none"
+        !disabled ? "bg-primary text-white" : "bg-shade"
       } p-2 flex-1 rounded-lg
-      hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center h-12 w-full`}
+      hover:scale-95 active:bg-secondary active:text-white transition-all flex justify-center items-center h-12 w-full`}
       onClick={onClick}
     >
       <div className="flex items-center">
