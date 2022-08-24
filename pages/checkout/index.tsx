@@ -118,9 +118,14 @@ const CheckoutPage: NextPage = () => {
                 />
               </div>
             </CheckoutStepContainer>
-            <div className="mt-6">
+            <div
+              className={`mt-6 ${
+                !stepsState.isStepThreeDone &&
+                "grayscale opacity-30 pointer-events-none"
+              }`}
+            >
               <StepButton
-                disabled={!stepsState.isStepThreeDone}
+                disabled={false}
                 title="Realizar orden"
                 onClick={handleTicketCreation}
                 icon={<Checks size={14} />}
