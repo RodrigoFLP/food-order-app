@@ -118,7 +118,12 @@ const CheckoutPage: NextPage = () => {
                 />
               </div>
             </CheckoutStepContainer>
-            <div className="mt-6">
+            <div
+              className={`mt-6 ${
+                !stepsState.isStepThreeDone &&
+                "grayscale opacity-30 pointer-events-none"
+              }`}
+            >
               <StepButton
                 disabled={!stepsState.isStepThreeDone}
                 title="Realizar orden"

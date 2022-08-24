@@ -13,7 +13,7 @@ export const StepButton = ({
 }) => {
   return (
     <button
-      disabled={disabled}
+      // disabled={disabled}
       className={`${
         !disabled ? "bg-primary text-white" : "bg-shade pointer-events-none"
       } p-2 flex-1 rounded-lg
