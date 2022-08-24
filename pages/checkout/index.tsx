@@ -125,7 +125,7 @@ const CheckoutPage: NextPage = () => {
               }`}
             >
               <StepButton
-                disabled={false}
+                disabled={!stepsState.isStepThreeDone}
                 title="Realizar orden"
                 onClick={handleTicketCreation}
                 icon={<Checks size={14} />}
