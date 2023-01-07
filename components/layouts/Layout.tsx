@@ -42,7 +42,7 @@ export const Layout: FC<Props> = ({ children, title, margin = false }) => {
     <>
       <Head>
         <title>{title || "Shop"}</title>
-        <meta name="description" content="This is a shop" />
+        <meta name="description" content="Somos un restaurante mexicano que ofrece una amplia selección de deliciosos y tradicionales platillos elaborados con los ingredientes más frescos. Desde deliciosos tacos y enchiladas hasta sabrosos burritos y quesadillas, nuestro menú tiene algo para cada antojo." />
       </Head>
       <div className=" fixed bottom-0 z-40">
         {isClient && isLoggedIn && !isEmailConfirmed && <EmailAlert />}
